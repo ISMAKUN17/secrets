@@ -1,225 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trabajo del Día</title>
+    <title>Reporte Diario</title>
     <style>
+        /* Estilos generales */
         body {
             font-family: 'Poppins', sans-serif;
             margin: 20px;
-            background-color: #f4f6f9;
-            color: #333;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
         h1 {
             text-align: center;
-            font-size: 3em;
-            margin-bottom: 10px;
-            color: #2c7a7b;
-            font-weight: bold;
-            text-transform: uppercase;
+            font-size: 36px;
         }
-        .date {
-            text-align: right;
-            font-style: italic;
-            font-size: 1.2em;
-            color: #2c5282;
-        }
-        .section {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .section-title {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #4caf50;
         }
         .field-label {
+            font-size: 16px;
             font-weight: bold;
-            color: #2c7a7b;
-            margin-right: 10px;
         }
         .input-field {
-            padding: 8px;
-            margin: 5px 0;
-            width: 60%;
-            border-radius: 5px;
-            border: 1px solid #cbd5e0;
-        }
-        .vip-section, .repeater-section, .extra-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .vip-container, .repeater-container, .extension-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: #edf2f7;
             padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            border: 1px solid #ccc;
             margin-bottom: 10px;
-        }
-        .vip-fields, .repeater-fields, .extension-fields {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .button-section {
-            margin-top: 30px;
-            text-align: center;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 1em;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            background-color: #2c7a7b;
-            color: white;
-            margin-right: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #285e61;
-        }
-        .table-section {
-            margin-top: 20px;
-        }
-        table {
             width: 100%;
-            border-collapse: collapse;
         }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        .input-container {
+            margin-bottom: 20px;
         }
-        th {
-            background-color: #2c7a7b;
-            color: white;
-        }
-        td {
-            background-color: #f9fafb;
+        footer {
+            margin-top: 40px;
         }
     </style>
 </head>
 <body>
 
+    <!-- Título principal -->
     <h1>Trabajo del Día</h1>
-    <p class="date">Fecha: <span id="currentDate"></span></p>
+    <p style="font-size:14px; font-style:italic;" id="currentDate"></p>
 
-    <div class="section">
-        <p><strong>¡BUENOS DÍAS! 🌷🌷🌷🌷🌷🌷🌷🌷</strong></p>
-        <p>✨ Para hoy tenemos:✨</p>
+    <!-- Saludo inicial -->
+    <div class="input-container">
+        <p style="font-size:18px;">¡BUENOS DÍAS! 🌷🌷🌷🌷🌷🌷🌷🌷</p>
+        <p style="font-size:18px;">✨ Para hoy tenemos:✨</p>
     </div>
 
-    <!-- Información General -->
-    <div class="section">
-        <label class="field-label">🌟 Ocupación:</label>
-        <input type="number" step="0.01" min="0" max="100" class="input-field" placeholder="Porcentaje" />%<br><br>
+    <!-- Sección: Información General -->
+    <div class="input-container">
+        <h2 class="section-title">🌟 Información General</h2>
+        <label class="field-label">Ocupación:</label>
+        <input type="text" class="input-field" placeholder="Porcentaje de ocupación" /><br><br>
 
-        <label class="field-label">🌹 HAB PREFERRED OCUPADAS:</label>
-        <input type="number" min="0" class="input-field" placeholder="Cantidad" /><br><br>
+        <label class="field-label">HAB PREFERRED OCUPADAS:</label>
+        <input type="text" class="input-field" placeholder="Número de habitaciones ocupadas" /><br><br>
 
-        <label class="field-label">🚪 Llegadas:</label>
-        <input type="number" min="0" class="input-field" placeholder="Cantidad" /><br><br>
-
-        <label class="field-label">🌟 Spc:</label>
-        <input type="number" min="0" class="input-field" placeholder="Cantidad" /><br><br>
+        <label class="field-label">Llegadas:</label>
+        <input type="text" class="input-field" placeholder="Llegadas programadas" /><br><br>
     </div>
 
-    <!-- VIPs -->
-    <div class="section">
-        <div class="vip-section">
-            <label class="field-label">💎 VIP 1:</label>
-            <input type="number" min="0" id="vip1Count" class="input-field" placeholder="Cantidad" onchange="generateVIPFields(1)" /><br><br>
+    <!-- Sección: VIPs -->
+    <div class="input-container">
+        <h2 class="section-title">💎 VIPs</h2>
 
-            <label class="field-label">💎 VIP 2:</label>
-            <input type="number" min="0" id="vip2Count" class="input-field" placeholder="Cantidad" onchange="generateVIPFields(2)" /><br><br>
+        <!-- Campos dinámicos de VIPs -->
+        <label class="field-label">VIP 1:</label>
+        <input type="text" class="input-field" placeholder="Número de habitación" />
+        <label class="field-label">Nombre:</label>
+        <input type="text" class="input-field" placeholder="Nombre" />
+        <label class="field-label">Motivo:</label>
+        <input type="text" class="input-field" placeholder="Motivo" /><br><br>
 
-            <label class="field-label">💎 VIP 3:</label>
-            <input type="number" min="0" id="vip3Count" class="input-field" placeholder="Cantidad" onchange="generateVIPFields(3)" /><br><br>
-        </div>
+        <label class="field-label">VIP 2:</label>
+        <input type="text" class="input-field" placeholder="Número de habitación" />
+        <label class="field-label">Nombre:</label>
+        <input type="text" class="input-field" placeholder="Nombre" />
+        <label class="field-label">Motivo:</label>
+        <input type="text" class="input-field" placeholder="Motivo" /><br><br>
 
-        <div id="vipFieldsContainer" class="vip-fields"></div>
+        <!-- Campos adicionales si hay más VIPs -->
+        <div id="vipFieldsContainer"></div>
     </div>
 
-    <!-- Repetidores -->
-    <div class="section">
-        <div class="repeater-section">
-            <label class="field-label">🔄 Repetidores (RE2):</label>
-            <input type="number" min="0" id="re2Count" class="input-field" placeholder="Cantidad" onchange="generateRepeaterFields(2)" /><br><br>
+    <!-- Sección: Repetidores -->
+    <div class="input-container">
+        <h2 class="section-title">🔄 Repetidores</h2>
 
-            <label class="field-label">🔄 Repetidores (RE3):</label>
-            <input type="number" min="0" id="re3Count" class="input-field" placeholder="Cantidad" onchange="generateRepeaterFields(3)" /><br><br>
+        <!-- Campos de repetidores -->
+        <label class="field-label">Repetidores (RE2):</label>
+        <input type="text" class="input-field" placeholder="Número de habitación" /><br><br>
 
-            <label class="field-label">🔄 Repetidores (RE4):</label>
-            <input type="number" min="0" id="re4Count" class="input-field" placeholder="Cantidad" onchange="generateRepeaterFields(4)" /><br><br>
-        </div>
+        <label class="field-label">Repetidores (RE3):</label>
+        <input type="text" class="input-field" placeholder="Número de habitación" /><br><br>
 
-        <div id="repeaterFieldsContainer" class="repeater-fields"></div>
+        <label class="field-label">Repetidores (RE4):</label>
+        <input type="text" class="input-field" placeholder="Número de habitación" /><br><br>
+
+        <!-- Campos adicionales si hay más repetidores -->
+        <div id="repeaterFieldsContainer"></div>
     </div>
 
-    <!-- Prolongaciones -->
-    <div class="section">
-        <label class="field-label">🔄 Prolongaciones:</label>
-        <input type="number" min="0" id="extensionCount" class="input-field" placeholder="Cantidad" onchange="generateExtensionFields()" /><br><br>
+    <!-- Sección: Prolongaciones -->
+    <div class="input-container">
+        <h2 class="section-title">🔄 Prolongaciones</h2>
+        <label class="field-label">Número de prolongaciones:</label>
+        <input type="number" id="extensionCount" class="input-field" placeholder="Cantidad de prolongaciones" oninput="generateExtensionFields()" /><br><br>
 
-        <div id="extensionFieldsContainer" class="extension-fields"></div>
+        <!-- Campos dinámicos de prolongaciones -->
+        <div id="extensionFieldsContainer"></div>
     </div>
 
-    <!-- Salidas esperadas -->
-    <div class="section">
-        <h3>Salidas esperadas</h3>
-        <table class="table-section">
-            <thead>
-                <tr>
-                    <th>Habitación</th>
-                    <th>Nombre</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>3367</td>
-                    <td>FRANKLIN, WINSTON</td>
-                </tr>
-                <!-- Agregar más filas según sea necesario -->
-            </tbody>
-        </table>
+    <!-- Sección: Salidas esperadas -->
+    <div class="input-container">
+        <h2 class="section-title">🚪 Salidas esperadas</h2>
+        <label class="field-label">3367 // FRANKLIN, WINSTON</label><br><br>
+
+        <label class="field-label">3457 - 3380 // CAMBIO POR RUIDO</label><br><br>
     </div>
 
-    <!-- Cambios programados -->
-    <div class="section">
-        <h3>Cambios programados</h3>
-        <table class="table-section">
-            <thead>
-                <tr>
-                    <th>Habitación Original</th>
-                    <th>Habitación Nueva</th>
-                    <th>Motivo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>3457</td>
-                    <td>3380</td>
-                    <td>Cambio por ruido</td>
-                </tr>
-                <!-- Agregar más filas según sea necesario -->
-            </tbody>
-        </table>
+    <!-- Sección: Eventos del día -->
+    <div class="input-container">
+        <h2 class="section-title">🎉 Eventos del Día</h2>
+        <label class="field-label">Restaurantes cerrados:</label>
+        <input type="text" class="input-field" placeholder="Restaurantes cerrados" /><br><br>
+
+        <!-- Campos para eventos adicionales -->
+        <label class="field-label">Otros eventos:</label>
+        <input type="text" class="input-field" placeholder="Descripción de otros eventos" /><br><br>
     </div>
 
-    <!-- Eventos del día -->
-    <div class="section">
-        <h3>Eventos del día</h3>
-        <input type="text" class="input-field" placeholder="Detalles del evento" /><br><br>
-    </div>
+    <!-- Sección: Ventas -->
+    <div class="input-container">
+        <h2 class="section-title">💰 Ventas del Día</h2>
 
-    <!-- Ventas del día -->
-    <div class="section">
-        <h3>Informe de ventas</h3>
         <label class="field-label">Upsell:</label>
         <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
 
@@ -285,11 +204,12 @@
             }
         }
 
-        // Funciones para generar campos dinámicos para Prolongaciones
+        // Función para generar campos de prolongaciones
         function generateExtensionFields() {
             const container = document.getElementById('extensionFieldsContainer');
+            const count = document.getElementById('extensionCount').value;
             container.innerHTML = ''; // Limpiar los campos generados previamente
-            for (let i = 1; i <= document.getElementById('extensionCount').value; i++) {
+            for (let i = 1; i <= count; i++) {
                 const fieldDiv = document.createElement('div');
                 fieldDiv.classList.add('extension-container');
                 fieldDiv.innerHTML = `
@@ -302,4 +222,3 @@
     </script>
 </body>
 </html>
-
