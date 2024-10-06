@@ -60,6 +60,18 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1f6d99;
+        }
     </style>
 </head>
 <body>
@@ -92,6 +104,7 @@
         <div class="campo">🔄 Prolongaciones: <input type="text" placeholder="Habitación" /></div>
         <div class="campo">Cambio no requerido: <input type="checkbox" /></div>
     </div>
+    <button id="add-prolongation">Agregar Prolongación</button>
 </div>
 
 <div class="informacion">
@@ -125,6 +138,17 @@
     // Script para mostrar la fecha actual
     const today = new Date();
     document.getElementById('fecha').innerText = today.toLocaleDateString('es-ES');
+
+    // Función para agregar nuevas prolongaciones
+    document.getElementById('add-prolongation').addEventListener('click', function() {
+        const prolongationSection = document.getElementById('prolongation-section');
+        const newProlongation = document.createElement('div');
+        newProlongation.classList.add('campo');
+        newProlongation.innerHTML = `
+            🔄 Prolongación: <input type="text" placeholder="Habitación" />
+        `;
+        prolongationSection.appendChild(newProlongation);
+    });
 </script>
 
 </body>
