@@ -1,221 +1,152 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trabajo del Día</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            margin: 20px;
         }
-
         h1 {
             text-align: center;
-            font-size: 36px;
+            font-size: 2.5em;
             margin-bottom: 10px;
         }
-
-        h2 {
-            font-size: 14px;
-            font-style: italic;
+        .date {
             text-align: right;
-            margin: 0;
-            padding: 10px 0;
+            font-style: italic;
+            font-size: 1.2em;
         }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
         .section {
-            background-color: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
-
-        .input-field {
-            margin: 10px 0;
+        .field-label {
+            font-weight: bold;
         }
-
-        .input-field label {
-            display: block;
-            margin-bottom: 5px;
+        .vip-section, .repeater-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-
-        .input-field input {
-            width: 100%;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
+        .vip-container, .repeater-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-
-        .output {
-            margin-top: 10px;
+        .vip-fields, .repeater-fields {
+            display: flex;
+            gap: 5px;
         }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #28a745;
-            color: white;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        .footer {
-            text-align: center;
+        .button-section {
             margin-top: 20px;
-        }
-
-        .vip-details {
-            margin-left: 20px;
-            padding: 10px;
-            border-left: 2px solid #ccc;
-        }
-
-        .vip-details .input-field {
-            margin: 5px 0;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div>
-            <h1>Trabajo del Día</h1>
-            <h2 id="fecha"></h2>
-        </div>
-        <div>
-            <h2>¡BUENOS DÍAS! 🌷🌷🌷🌷🌷🌷🌷🌷</h2>
-            <h3>✨ Para hoy tenemos:✨</h3>
-        </div>
+
+    <h1>Trabajo del Día</h1>
+    <p class="date">Fecha: <span id="currentDate"></span></p>
+
+    <div class="section">
+        <p>¡BUENOS DÍAS! 🌷🌷🌷🌷🌷🌷🌷🌷</p>
+        <p>✨ Para hoy tenemos:✨</p>
     </div>
 
     <div class="section">
-        <h3>Información General</h3>
-        <div class="input-field">
-            <label for="ocupacion">🌟 Ocupación:</label>
-            <input type="number" id="ocupacion" placeholder="Porcentaje" step="0.01">
-        </div>
-        <div class="input-field">
-            <label for="habitaciones">🌹 HAB PREFERRED OCUPADAS:</label>
-            <input type="number" id="habitaciones" placeholder="Cantidad de habitaciones ocupadas">
-        </div>
-        <div class="input-field">
-            <label for="llegadas">🚪 Llegadas:</label>
-            <input type="number" id="llegadas" placeholder="Cantidad de llegadas">
-        </div>
-        <div class="input-field">
-            <label for="spc">🌟 Spc:</label>
-            <input type="number" id="spc" placeholder="Cantidad de llegadas Preferred">
+        <label class="field-label">🌟 Ocupación:</label>
+        <input type="number" step="0.01" min="0" max="100" placeholder="Porcentaje" />%<br><br>
+
+        <label class="field-label">🌹 HAB PREFERRED OCUPADAS:</label>
+        <input type="number" min="0" placeholder="Cantidad" /><br><br>
+
+        <label class="field-label">🚪 Llegadas:</label>
+        <input type="number" min="0" placeholder="Cantidad" /><br><br>
+
+        <label class="field-label">🌟 Spc:</label>
+        <input type="number" min="0" placeholder="Cantidad" /><br><br>
+
+        <div class="vip-section">
+            <label class="field-label">💎 VIP 1:</label>
+            <input type="number" min="0" id="vip1Count" placeholder="Cantidad" onchange="generateVIPFields(1)" /><br><br>
+
+            <label class="field-label">💎 VIP 2:</label>
+            <input type="number" min="0" id="vip2Count" placeholder="Cantidad" onchange="generateVIPFields(2)" /><br><br>
+
+            <label class="field-label">💎 VIP 3:</label>
+            <input type="number" min="0" id="vip3Count" placeholder="Cantidad" onchange="generateVIPFields(3)" /><br><br>
         </div>
 
-        <!-- VIP 1 -->
-        <div class="input-field">
-            <label for="vip1">💎 VIP 1:</label>
-            <input type="number" id="vip1" placeholder="Cantidad de llegadas VIP 1" oninput="generateVIPFields('vip1')">
-        </div>
-        <div id="vip1-details" class="vip-details"></div>
+        <div id="vipFieldsContainer" class="vip-fields"></div>
 
-        <!-- VIP 2 -->
-        <div class="input-field">
-            <label for="vip2">💎 VIP 2:</label>
-            <input type="number" id="vip2" placeholder="Cantidad de llegadas VIP 2" oninput="generateVIPFields('vip2')">
-        </div>
-        <div id="vip2-details" class="vip-details"></div>
+        <div class="repeater-section">
+            <label class="field-label">🔄 Repetidores (RE2):</label>
+            <input type="number" min="0" id="re2Count" placeholder="Cantidad" onchange="generateRepeaterFields(2)" /><br><br>
 
-        <!-- VIP 3 -->
-        <div class="input-field">
-            <label for="vip3">💎 VIP 3:</label>
-            <input type="number" id="vip3" placeholder="Cantidad de llegadas VIP 3" oninput="generateVIPFields('vip3')">
-        </div>
-        <div id="vip3-details" class="vip-details"></div>
+            <label class="field-label">🔄 Repetidores (RE3):</label>
+            <input type="number" min="0" id="re3Count" placeholder="Cantidad" onchange="generateRepeaterFields(3)" /><br><br>
 
-        <!-- Repetidores -->
-        <div class="input-field">
-            <label for="repetidores2">🔄 Repetidores (RE2):</label>
-            <input type="number" id="repetidores2" placeholder="Cantidad de repetidores RE2">
+            <label class="field-label">🔄 Repetidores (RE4):</label>
+            <input type="number" min="0" id="re4Count" placeholder="Cantidad" onchange="generateRepeaterFields(4)" /><br><br>
         </div>
-        <div class="input-field">
-            <label for="repetidores3">🔄 Repetidores (RE3):</label>
-            <input type="number" id="repetidores3" placeholder="Cantidad de repetidores RE3">
-        </div>
-        <div class="input-field">
-            <label for="repetidores4">🔄 Repetidores (RE4):</label>
-            <input type="number" id="repetidores4" placeholder="Cantidad de repetidores RE4">
-        </div>
-        
-        <div class="input-field">
-            <label for="prolongaciones">🔄 Prolongaciones:</label>
-            <input type="number" id="prolongaciones" placeholder="Cantidad de prolongaciones">
-        </div>
-        <div id="prolongacion-details"></div>
 
-        <div class="input-field">
-            <label for="salidas">🏠 Salidas:</label>
-            <input type="number" id="salidas" placeholder="Cantidad de salidas">
-        </div>
-        <div class="input-field">
-            <label for="salida-vip">💎 VIP Salidas:</label>
-            <input type="text" id="salida-vip" placeholder="Ej: 3367 // FRANKLIN, WINSTON">
-        </div>
+        <div id="repeaterFieldsContainer" class="repeater-fields"></div>
     </div>
 
-    <div class="footer">
-        <h3>🌷🌷🌷🌷🌷🌷🌷🌷</h3>
+    <div class="button-section">
+        <button onclick="previewReport()">Previsualizar Reporte</button>
+        <button onclick="exportPDF()">Exportar PDF</button>
     </div>
 
     <script>
-        // Script para mostrar la fecha actual
-        document.getElementById("fecha").innerText = new Date().toLocaleDateString("es-ES", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
 
-        // Función para generar campos adicionales para VIPs
         function generateVIPFields(vipType) {
-            const vipCount = document.getElementById(vipType).value;
-            const vipDetailsContainer = document.getElementById(vipType + '-details');
-            vipDetailsContainer.innerHTML = ''; // Limpiar los campos anteriores
+            let vipCount = document.getElementById(`vip${vipType}Count`).value;
+            let vipContainer = document.getElementById('vipFieldsContainer');
+            vipContainer.innerHTML = ''; // Clear previous fields
 
-            for (let i = 1; i <= vipCount; i++) {
-                const vipContainer = document.createElement('div');
-                vipContainer.classList.add('vip-container');
-
-                const habitacionField = document.createElement('div');
-                habitacionField.classList.add('input-field');
-                habitacionField.innerHTML = `<label for="${vipType}-habitacion-${i}">Habitación VIP ${i}:</label>
-                                             <input type="text" id="${vipType}-habitacion-${i}" placeholder="Número de habitación">`;
-                vipContainer.appendChild(habitacionField);
-
-                const nombreField = document.createElement('div');
-                nombreField.classList.add('input-field');
-                nombreField.innerHTML = `<label for="${vipType}-nombre-${i}">Nombre VIP ${i}:</label>
-                                         <input type="text" id="${vipType}-nombre-${i}" placeholder="Nombre del huésped">`;
-                vipContainer.appendChild(nombreField);
-
-                const motivoField = document.createElement('div');
-                motivoField.classList.add('input-field');
-                motivoField.innerHTML = `<label for="${vipType}-motivo-${i}">Motivo VIP ${i}:</label>
-                                         <input type="text" id="${vipType}-motivo-${i}" placeholder="Motivo de la visita">`;
-                vipContainer.appendChild(motivoField);
-
-                vipDetailsContainer.appendChild(vipContainer);
+            for (let i = 0; i < vipCount; i++) {
+                let vipFields = document.createElement('div');
+                vipFields.classList.add('vip-container');
+                vipFields.innerHTML = `
+                    <label>Hab:</label>
+                    <input type="text" placeholder="Habitación">
+                    <label>Nombre:</label>
+                    <input type="text" placeholder="Nombre">
+                    <label>Motivo:</label>
+                    <input type="text" placeholder="Motivo">
+                `;
+                vipContainer.appendChild(vipFields);
             }
+        }
+
+        function generateRepeaterFields(repeaterType) {
+            let repeaterCount = document.getElementById(`re${repeaterType}Count`).value;
+            let repeaterContainer = document.getElementById('repeaterFieldsContainer');
+            repeaterContainer.innerHTML = ''; // Clear previous fields
+
+            for (let i = 0; i < repeaterCount; i++) {
+                let repeaterFields = document.createElement('div');
+                repeaterFields.classList.add('repeater-container');
+                repeaterFields.innerHTML = `
+                    <label>Hab:</label>
+                    <input type="text" placeholder="Habitación">
+                `;
+                repeaterContainer.appendChild(repeaterFields);
+            }
+        }
+
+        function previewReport() {
+            alert('Previsualización del reporte aún no implementada.');
+        }
+
+        function exportPDF() {
+            alert('Exportación a PDF aún no implementada.');
         }
     </script>
 </body>
 </html>
+
