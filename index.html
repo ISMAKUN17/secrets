@@ -79,6 +79,16 @@
             text-align: center;
             margin-top: 20px;
         }
+
+        .vip-details {
+            margin-left: 20px;
+            padding: 10px;
+            border-left: 2px solid #ccc;
+        }
+
+        .vip-details .input-field {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -111,20 +121,29 @@
             <label for="spc">🌟 Spc:</label>
             <input type="number" id="spc" placeholder="Cantidad de llegadas Preferred">
         </div>
+
+        <!-- VIP 1 -->
         <div class="input-field">
             <label for="vip1">💎 VIP 1:</label>
-            <input type="number" id="vip1" placeholder="Cantidad de llegadas VIP 1">
+            <input type="number" id="vip1" placeholder="Cantidad de llegadas VIP 1" oninput="generateVIPFields('vip1')">
         </div>
+        <div id="vip1-details" class="vip-details"></div>
+
+        <!-- VIP 2 -->
         <div class="input-field">
             <label for="vip2">💎 VIP 2:</label>
-            <input type="number" id="vip2" placeholder="Cantidad de llegadas VIP 2">
+            <input type="number" id="vip2" placeholder="Cantidad de llegadas VIP 2" oninput="generateVIPFields('vip2')">
         </div>
+        <div id="vip2-details" class="vip-details"></div>
+
+        <!-- VIP 3 -->
         <div class="input-field">
             <label for="vip3">💎 VIP 3:</label>
-            <input type="number" id="vip3" placeholder="Cantidad de llegadas VIP 3">
+            <input type="number" id="vip3" placeholder="Cantidad de llegadas VIP 3" oninput="generateVIPFields('vip3')">
         </div>
-        <div id="vip3-details"></div>
+        <div id="vip3-details" class="vip-details"></div>
 
+        <!-- Repetidores -->
         <div class="input-field">
             <label for="repetidores2">🔄 Repetidores (RE2):</label>
             <input type="number" id="repetidores2" placeholder="Cantidad de repetidores RE2">
@@ -152,100 +171,6 @@
             <label for="salida-vip">💎 VIP Salidas:</label>
             <input type="text" id="salida-vip" placeholder="Ej: 3367 // FRANKLIN, WINSTON">
         </div>
-
-        <div class="input-field">
-            <label for="cambios">🔄 Cambios:</label>
-            <input type="number" id="cambios" placeholder="Cantidad de cambios">
-        </div>
-        <div id="cambio-details"></div>
-    </div>
-
-    <div class="section">
-        <h3>Eventos del Día</h3>
-        <div class="input-field">
-            <label for="restaurantes">🍽️ Restaurantes Cerrados:</label>
-            <input type="text" id="restaurantes" placeholder="Ej: Restaurante 1, Restaurante 2">
-        </div>
-        <div class="input-field">
-            <label for="noche-tematica">🎉 Noche Temática:</label>
-            <input type="text" id="noche-tematica" placeholder="Ej: Noche Americana">
-        </div>
-        <div class="input-field">
-            <label for="restaurante-cerrado">🌟 Restaurante cerrado lado Dreams:</label>
-            <input type="text" id="restaurante-cerrado" placeholder="Ej: Pendiente">
-        </div>
-        <div class="input-field">
-            <label for="show">🎭 Show del Día:</label>
-            <input type="text" id="show" placeholder="Ej: The Greatest Show">
-        </div>
-        <div class="input-field">
-            <label for="trago">🍹 Trago del Día:</label>
-            <input type="text" id="trago" placeholder="Ej: Choco Banana">
-        </div>
-        <div class="input-field">
-            <label for="evento-especial">💃 Evento Especial:</label>
-            <input type="text" id="evento-especial" placeholder="Ej: Lección de Merengue">
-        </div>
-    </div>
-
-    <div class="section">
-        <h3>Desglose de Servicios</h3>
-        <div class="input-field">
-            <label for="cena-romantica">🌹 Cena Romántica:</label>
-            <input type="number" id="cena-romantica" placeholder="Cantidad de cenas románticas">
-        </div>
-        <div class="input-field">
-            <label for="oasis">🏝️ Oasis:</label>
-            <input type="number" id="oasis" placeholder="Cantidad de oasis">
-        </div>
-        <div class="input-field">
-            <label for="pagando-cena">Pagando:</label>
-            <input type="number" id="pagando-cena" placeholder="Ej: 8">
-        </div>
-        <div class="input-field">
-            <label for="cortesias-cena">Cortesía:</label>
-            <input type="number" id="cortesias-cena" placeholder="Ej: 1">
-        </div>
-        <div class="input-field">
-            <label for="propiedad-cena">Propiedad:</label>
-            <input type="number" id="propiedad-cena" placeholder="Ej: 0">
-        </div>
-    </div>
-
-    <div class="section">
-        <h3>💰 VENTAS DEL DÍA</h3>
-        <div class="input-field">
-            <label for="upsell">Upsell:</label>
-            <input type="number" id="upsell" placeholder="0.00">
-        </div>
-        <div class="input-field">
-            <label for="cenars">Cenars:</label>
-            <input type="number" id="cenars" placeholder="0.00">
-        </div>
-        <div class="input-field">
-            <label for="oasisR">OasisR:</label>
-            <input type="number" id="oasisR" placeholder="0.00">
-        </div>
-        <div class="input-field">
-            <label for="balisR">BalisR:</label>
-            <input type="number" id="balisR" placeholder="0.00">
-        </div>
-        <div class="input-field">
-            <label for="latser">Latser:</label>
-            <input type="number" id="latser" placeholder="0.00">
-        </div>
-        <div class="input-field">
-            <label for="rertau">Rertau:</label>
-            <input type="number" id="rertau" placeholder="0.00">
-        </div>
-        <div class="input-field">
-            <label for="baliR">baliR:</label>
-            <input type="number" id="baliR" placeholder="0.00">
-        </div>
-        <div class="input-field">
-            <label for="total">Total:</label>
-            <input type="number" id="total" placeholder="0.00">
-        </div>
     </div>
 
     <div class="footer">
@@ -259,6 +184,38 @@
             month: "long",
             day: "numeric"
         });
+
+        // Función para generar campos adicionales para VIPs
+        function generateVIPFields(vipType) {
+            const vipCount = document.getElementById(vipType).value;
+            const vipDetailsContainer = document.getElementById(vipType + '-details');
+            vipDetailsContainer.innerHTML = ''; // Limpiar los campos anteriores
+
+            for (let i = 1; i <= vipCount; i++) {
+                const vipContainer = document.createElement('div');
+                vipContainer.classList.add('vip-container');
+
+                const habitacionField = document.createElement('div');
+                habitacionField.classList.add('input-field');
+                habitacionField.innerHTML = `<label for="${vipType}-habitacion-${i}">Habitación VIP ${i}:</label>
+                                             <input type="text" id="${vipType}-habitacion-${i}" placeholder="Número de habitación">`;
+                vipContainer.appendChild(habitacionField);
+
+                const nombreField = document.createElement('div');
+                nombreField.classList.add('input-field');
+                nombreField.innerHTML = `<label for="${vipType}-nombre-${i}">Nombre VIP ${i}:</label>
+                                         <input type="text" id="${vipType}-nombre-${i}" placeholder="Nombre del huésped">`;
+                vipContainer.appendChild(nombreField);
+
+                const motivoField = document.createElement('div');
+                motivoField.classList.add('input-field');
+                motivoField.innerHTML = `<label for="${vipType}-motivo-${i}">Motivo VIP ${i}:</label>
+                                         <input type="text" id="${vipType}-motivo-${i}" placeholder="Motivo de la visita">`;
+                vipContainer.appendChild(motivoField);
+
+                vipDetailsContainer.appendChild(vipContainer);
+            }
+        }
     </script>
 </body>
 </html>
