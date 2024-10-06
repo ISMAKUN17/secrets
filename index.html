@@ -4,262 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte Diario</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Estilos generales */
         body {
             font-family: 'Poppins', sans-serif;
-            margin: 20px;
+            margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
         }
-        h1 {
+        header {
             text-align: center;
-            font-size: 36px;
-        }
-        .section-title {
-            font-size: 24px;
-            margin-top: 20px;
-            color: #4caf50;
-        }
-        .field-label {
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .input-field {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-        .input-container {
             margin-bottom: 20px;
         }
+        .message {
+            font-size: 24px;
+            color: #2c3e50;
+            margin: 20px 0;
+            background-color: #eafaf1;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 36px;
+            margin: 0;
+            color: #333;
+        }
+        h2 {
+            font-size: 18px;
+            font-style: italic;
+            color: #555;
+        }
+        .informacion {
+            margin-bottom: 20px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            font-size: 20px;
+            color: #2980b9;
+            margin: 10px 0;
+        }
+        .campo {
+            margin: 5px 0;
+        }
         footer {
-            margin-top: 40px;
-        }
-        .button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4caf50;
-            color: white;
-            cursor: pointer;
-        }
-        .button:hover {
-            background-color: #45a049;
-        }
-        .vip-container, .repeater-container, .extension-container {
-            margin-bottom: 10px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #777;
+            background-color: #eafaf1;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
 
-    <!-- Título principal -->
+<header>
+    <div class="message">🌟 ¡Bienvenido al reporte diario! 🌟</div>
     <h1>Trabajo del Día</h1>
-    <p style="font-size:14px; font-style:italic;" id="currentDate"></p>
+    <h2>Fecha: <span id="fecha"></span></h2>
+</header>
 
-    <!-- Saludo inicial -->
-    <div class="input-container">
-        <p style="font-size:18px;">¡BUENOS DÍAS! 🌷🌷🌷🌷🌷🌷🌷🌷</p>
-        <p style="font-size:18px;">✨ Para hoy tenemos:✨</p>
+<div class="saludo">¡BUENOS DÍAS! 🌷🌷🌷<br>✨ Para hoy tenemos:✨</div>
+
+<div class="informacion">
+    <div class="section-title">Información General</div>
+    <div class="campo">🌟 Ocupación: <input type="text" placeholder="Ocupación" /></div>
+    <div class="campo">🌹 HAB PREFERRED OCUPADAS: <input type="text" placeholder="Habitaciones Preferidas" /></div>
+</div>
+
+<div class="informacion">
+    <div class="section-title">Llegadas y Salidas</div>
+    <div id="arrival-section">
+        <div class="campo">🚪 Llegadas: <input type="text" placeholder="Llegadas" /></div>
+        <div class="campo">🚪 Salidas: <input type="text" placeholder="Salidas" /></div>
     </div>
+</div>
 
-    <!-- Sección: Información General -->
-    <div class="input-container">
-        <h2 class="section-title">🌟 Información General</h2>
-        <label class="field-label">Ocupación:</label>
-        <input type="text" id="ocupacion" class="input-field" placeholder="Porcentaje de ocupación" /><br><br>
-
-        <label class="field-label">HAB PREFERRED OCUPADAS:</label>
-        <input type="text" id="habPreferidas" class="input-field" placeholder="Número de habitaciones ocupadas" /><br><br>
-
-        <label class="field-label">Llegadas:</label>
-        <input type="text" id="llegadas" class="input-field" placeholder="Llegadas programadas" /><br><br>
+<div class="informacion">
+    <div class="section-title">Prolongaciones</div>
+    <div id="prolongation-section">
+        <div class="campo">🔄 Prolongaciones: <input type="text" placeholder="Habitación" /></div>
+        <div class="campo">Cambio no requerido: <input type="checkbox" /></div>
     </div>
+</div>
 
-    <!-- Sección: VIPs -->
-    <div class="input-container">
-        <h2 class="section-title">💎 VIPs</h2>
-        <div id="vipFieldsContainer"></div>
-        <button class="button" onclick="addVIPField()">Agregar VIP</button>
-    </div>
+<div class="informacion">
+    <div class="section-title">Cambios Programados</div>
+    <div class="campo">Cambios Programados: <input type="text" placeholder="Ejemplo: 3457 - 3380 // CAMBIO POR RUIDO" /></div>
+</div>
 
-    <!-- Sección: Repetidores -->
-    <div class="input-container">
-        <h2 class="section-title">🔄 Repetidores</h2>
-        <div id="repeaterFieldsContainer"></div>
-        <button class="button" onclick="addRepeaterField()">Agregar Repetidor</button>
-    </div>
+<div class="informacion">
+    <div class="section-title">Eventos del Día</div>
+    <div class="campo">Restaurantes Cerrados: <input type="text" placeholder="Ejemplo: Restaurante A" /></div>
+    <div class="campo">Otros Eventos: <input type="text" placeholder="Ejemplo: Evento B" /></div>
+</div>
 
-    <!-- Sección: Prolongaciones -->
-    <div class="input-container">
-        <h2 class="section-title">🔄 Prolongaciones</h2>
-        <label class="field-label">Número de prolongaciones:</label>
-        <input type="number" id="extensionCount" class="input-field" placeholder="Cantidad de prolongaciones" oninput="generateExtensionFields()" /><br><br>
+<div class="informacion">
+    <div class="section-title">Ventas del Día</div>
+    <div class="campo">Upsell: <input type="text" placeholder="0.00$ USD" /></div>
+    <div class="campo">Cenars: <input type="text" placeholder="0.00$ USD" /></div>
+    <div class="campo">OasisR: <input type="text" placeholder="0.00$ USD" /></div>
+    <div class="campo">BalisR: <input type="text" placeholder="0.00$ USD" /></div>
+    <div class="campo">Latser: <input type="text" placeholder="0.00$ USD" /></div>
+    <div class="campo">Rertau: <input type="text" placeholder="0.00$ USD" /></div>
+    <div class="campo">baliR: <input type="text" placeholder="0.00$ USD" /></div>
+    <div class="campo">Total: <input type="text" placeholder="0.00$ USD" /></div>
+</div>
 
-        <!-- Campos dinámicos de prolongaciones -->
-        <div id="extensionFieldsContainer"></div>
-    </div>
+<footer>
+    🌷🌷🌷 ¡Gracias por su atención! 🌷🌷🌷
+</footer>
 
-    <!-- Sección: Salidas esperadas -->
-    <div class="input-container">
-        <h2 class="section-title">🚪 Salidas esperadas</h2>
-        <label class="field-label">3367 // FRANKLIN, WINSTON</label><br><br>
-        <label class="field-label">3457 - 3380 // CAMBIO POR RUIDO</label><br><br>
-    </div>
+<script>
+    // Script para mostrar la fecha actual
+    const today = new Date();
+    document.getElementById('fecha').innerText = today.toLocaleDateString('es-ES');
+</script>
 
-    <!-- Sección: Eventos del día -->
-    <div class="input-container">
-        <h2 class="section-title">🎉 Eventos del Día</h2>
-        <label class="field-label">Restaurantes cerrados:</label>
-        <input type="text" class="input-field" placeholder="Restaurantes cerrados" /><br><br>
-
-        <label class="field-label">Otros eventos:</label>
-        <input type="text" class="input-field" placeholder="Descripción de otros eventos" /><br><br>
-    </div>
-
-    <!-- Sección: Ventas -->
-    <div class="input-container">
-        <h2 class="section-title">💰 Ventas del Día</h2>
-        <label class="field-label">Upsell:</label>
-        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
-
-        <label class="field-label">Cenars:</label>
-        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
-
-        <label class="field-label">OasisR:</label>
-        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
-
-        <label class="field-label">BalisR:</label>
-        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
-
-        <label class="field-label">Latser:</label>
-        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
-
-        <label class="field-label">Rertau:</label>
-        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
-
-        <label class="field-label">Total:</label>
-        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
-    </div>
-
-    <!-- Botón para generar reporte -->
-    <button class="button" onclick="generateReport()">Generar Reporte</button>
-
-    <!-- Pie de página -->
-    <footer>
-        <p style="text-align:center;">🌷🌷🌷🌷🌷🌷🌷🌷</p>
-    </footer>
-
-    <script>
-        // Función para agregar fecha automáticamente
-        document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
-
-        // Funciones para agregar campos de VIPs
-        function addVIPField() {
-            const container = document.getElementById('vipFieldsContainer');
-            const fieldDiv = document.createElement('div');
-            fieldDiv.classList.add('vip-container');
-            fieldDiv.innerHTML = `
-                <label class="field-label">VIP - Habitación:</label>
-                <input type="text" class="input-field" placeholder="Número de habitación" />
-                <label class="field-label">Nombre:</label>
-                <input type="text" class="input-field" placeholder="Nombre" />
-                <label class="field-label">Motivo:</label>
-                <input type="text" class="input-field" placeholder="Motivo" />
-            `;
-            container.appendChild(fieldDiv);
-        }
-
-        // Funciones para agregar campos de Repetidores
-        function addRepeaterField() {
-            const container = document.getElementById('repeaterFieldsContainer');
-            const fieldDiv = document.createElement('div');
-            fieldDiv.classList.add('repeater-container');
-            fieldDiv.innerHTML = `
-                <label class="field-label">Repetidor - Habitación:</label>
-                <input type="text" class="input-field" placeholder="Número de habitación" />
-            `;
-            container.appendChild(fieldDiv);
-        }
-
-        // Función para generar campos de prolongaciones
-        function generateExtensionFields() {
-            const container = document.getElementById('extensionFieldsContainer');
-            const count = document.getElementById('extensionCount').value;
-            container.innerHTML = ''; // Limpiar los campos generados previamente
-            for (let i = 1; i <= count; i++) {
-                const fieldDiv = document.createElement('div');
-                fieldDiv.classList.add('extension-container');
-                fieldDiv.innerHTML = `
-                    <label class="field-label">Prolongación ${i} - Habitación:</label>
-                    <input type="text" class="input-field" placeholder="Número de habitación" />
-                `;
-                container.appendChild(fieldDiv);
-            }
-        }
-
-        // Función para generar el reporte
-        function generateReport() {
-            const ocupacion = document.getElementById('ocupacion').value;
-            const habPreferidas = document.getElementById('habPreferidas').value;
-            const llegadas = document.getElementById('llegadas').value;
-
-            let vipData = [];
-            const vipFields = document.querySelectorAll('.vip-container');
-            vipFields.forEach((field) => {
-                const room = field.querySelector('input[placeholder="Número de habitación"]').value;
-                const name = field.querySelector('input[placeholder="Nombre"]').value;
-                const reason = field.querySelector('input[placeholder="Motivo"]').value;
-                vipData.push(`Habitación: ${room}, Nombre: ${name}, Motivo: ${reason}`);
-            });
-
-            let repeaterData = [];
-            const repeaterFields = document.querySelectorAll('.repeater-container');
-            repeaterFields.forEach((field) => {
-                const room = field.querySelector('input[placeholder="Número de habitación"]').value;
-                repeaterData.push(`Habitación: ${room}`);
-            });
-
-            let extensionData = [];
-            const extensionFields = document.querySelectorAll('.extension-container');
-            extensionFields.forEach((field) => {
-                const room = field.querySelector('input[placeholder="Número de habitación"]').value;
-                extensionData.push(`Habitación: ${room}`);
-            });
-
-            const report = `
-                Trabajo del Día - ${new Date().toLocaleDateString()}
-                🌟 Información General
-                Ocupación: ${ocupacion}
-                HAB PREFERRED OCUPADAS: ${habPreferidas}
-                Llegadas: ${llegadas}
-                
-                💎 VIPs:
-                ${vipData.join('\n')}
-                
-                🔄 Repetidores:
-                ${repeaterData.join('\n')}
-                
-                🔄 Prolongaciones:
-                ${extensionData.join('\n')}
-                
-                🚪 Salidas esperadas
-                3367 // FRANKLIN, WINSTON
-                3457 - 3380 // CAMBIO POR RUIDO
-                
-                🎉 Eventos del Día
-                [Descripción de eventos]
-                
-                💰 Ventas del Día
-                [Detalles de ventas]
-            `;
-
-            console.log(report);
-            alert("Reporte generado, revisa la consola para más detalles.");
-        }
-    </script>
 </body>
 </html>
