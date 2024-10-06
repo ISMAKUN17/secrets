@@ -44,12 +44,12 @@
             border-radius: 5px;
             border: 1px solid #cbd5e0;
         }
-        .vip-section, .repeater-section {
+        .vip-section, .repeater-section, .extra-section {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
         }
-        .vip-container, .repeater-container {
+        .vip-container, .repeater-container, .extension-container {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -59,7 +59,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             margin-bottom: 10px;
         }
-        .vip-fields, .repeater-fields {
+        .vip-fields, .repeater-fields, .extension-fields {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
@@ -83,6 +83,25 @@
         button:hover {
             background-color: #285e61;
         }
+        .table-section {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #2c7a7b;
+            color: white;
+        }
+        td {
+            background-color: #f9fafb;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +114,7 @@
         <p>✨ Para hoy tenemos:✨</p>
     </div>
 
+    <!-- Información General -->
     <div class="section">
         <label class="field-label">🌟 Ocupación:</label>
         <input type="number" step="0.01" min="0" max="100" class="input-field" placeholder="Porcentaje" />%<br><br>
@@ -107,7 +127,10 @@
 
         <label class="field-label">🌟 Spc:</label>
         <input type="number" min="0" class="input-field" placeholder="Cantidad" /><br><br>
+    </div>
 
+    <!-- VIPs -->
+    <div class="section">
         <div class="vip-section">
             <label class="field-label">💎 VIP 1:</label>
             <input type="number" min="0" id="vip1Count" class="input-field" placeholder="Cantidad" onchange="generateVIPFields(1)" /><br><br>
@@ -120,7 +143,10 @@
         </div>
 
         <div id="vipFieldsContainer" class="vip-fields"></div>
+    </div>
 
+    <!-- Repetidores -->
+    <div class="section">
         <div class="repeater-section">
             <label class="field-label">🔄 Repetidores (RE2):</label>
             <input type="number" min="0" id="re2Count" class="input-field" placeholder="Cantidad" onchange="generateRepeaterFields(2)" /><br><br>
@@ -135,58 +161,145 @@
         <div id="repeaterFieldsContainer" class="repeater-fields"></div>
     </div>
 
-    <div class="button-section">
-        <button onclick="previewReport()">Previsualizar Reporte</button>
-        <button onclick="exportPDF()">Exportar PDF</button>
+    <!-- Prolongaciones -->
+    <div class="section">
+        <label class="field-label">🔄 Prolongaciones:</label>
+        <input type="number" min="0" id="extensionCount" class="input-field" placeholder="Cantidad" onchange="generateExtensionFields()" /><br><br>
+
+        <div id="extensionFieldsContainer" class="extension-fields"></div>
     </div>
 
+    <!-- Salidas esperadas -->
+    <div class="section">
+        <h3>Salidas esperadas</h3>
+        <table class="table-section">
+            <thead>
+                <tr>
+                    <th>Habitación</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>3367</td>
+                    <td>FRANKLIN, WINSTON</td>
+                </tr>
+                <!-- Agregar más filas según sea necesario -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Cambios programados -->
+    <div class="section">
+        <h3>Cambios programados</h3>
+        <table class="table-section">
+            <thead>
+                <tr>
+                    <th>Habitación Original</th>
+                    <th>Habitación Nueva</th>
+                    <th>Motivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>3457</td>
+                    <td>3380</td>
+                    <td>Cambio por ruido</td>
+                </tr>
+                <!-- Agregar más filas según sea necesario -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Eventos del día -->
+    <div class="section">
+        <h3>Eventos del día</h3>
+        <input type="text" class="input-field" placeholder="Detalles del evento" /><br><br>
+    </div>
+
+    <!-- Ventas del día -->
+    <div class="section">
+        <h3>Informe de ventas</h3>
+        <label class="field-label">Upsell:</label>
+        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
+
+        <label class="field-label">Cenars:</label>
+        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
+
+        <label class="field-label">OasisR:</label>
+        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
+
+        <label class="field-label">BalisR:</label>
+        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
+
+        <label class="field-label">Latser:</label>
+        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
+
+        <label class="field-label">Rertau:</label>
+        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
+
+        <label class="field-label">Total:</label>
+        <input type="text" class="input-field" placeholder="0.00$ USD" /><br><br>
+    </div>
+
+    <!-- Pie de página -->
+    <footer>
+        <p style="text-align:center;">🌷🌷🌷🌷🌷🌷🌷🌷</p>
+    </footer>
+
     <script>
-        // Set current date
+        // Función para agregar fecha automáticamente
         document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
 
-        function generateVIPFields(vipType) {
-            let vipCount = document.getElementById(`vip${vipType}Count`).value;
-            let vipContainer = document.getElementById('vipFieldsContainer');
-            vipContainer.innerHTML = ''; // Clear previous fields
-
-            for (let i = 0; i < vipCount; i++) {
-                let vipFields = document.createElement('div');
-                vipFields.classList.add('vip-container');
-                vipFields.innerHTML = `
-                    <label>Hab:</label>
-                    <input type="text" placeholder="Habitación" class="input-field">
-                    <label>Nombre:</label>
-                    <input type="text" placeholder="Nombre" class="input-field">
-                    <label>Motivo:</label>
-                    <input type="text" placeholder="Motivo" class="input-field">
+        // Funciones para generar campos dinámicos para VIPs
+        function generateVIPFields(vipLevel) {
+            const container = document.getElementById('vipFieldsContainer');
+            container.innerHTML = ''; // Limpiar los campos generados previamente
+            for (let i = 1; i <= vipLevel; i++) {
+                const fieldDiv = document.createElement('div');
+                fieldDiv.classList.add('vip-container');
+                fieldDiv.innerHTML = `
+                    <label class="field-label">VIP ${i} - Habitación:</label>
+                    <input type="text" class="input-field" placeholder="Número de habitación" />
+                    <label class="field-label">Nombre:</label>
+                    <input type="text" class="input-field" placeholder="Nombre" />
+                    <label class="field-label">Motivo:</label>
+                    <input type="text" class="input-field" placeholder="Motivo" />
                 `;
-                vipContainer.appendChild(vipFields);
+                container.appendChild(fieldDiv);
             }
         }
 
-        function generateRepeaterFields(repeaterType) {
-            let repeaterCount = document.getElementById(`re${repeaterType}Count`).value;
-            let repeaterContainer = document.getElementById('repeaterFieldsContainer');
-            repeaterContainer.innerHTML = ''; // Clear previous fields
-
-            for (let i = 0; i < repeaterCount; i++) {
-                let repeaterFields = document.createElement('div');
-                repeaterFields.classList.add('repeater-container');
-                repeaterFields.innerHTML = `
-                    <label>Hab:</label>
-                    <input type="text" placeholder="Habitación" class="input-field">
+        // Funciones para generar campos dinámicos para Repetidores
+        function generateRepeaterFields(repeaterLevel) {
+            const container = document.getElementById('repeaterFieldsContainer');
+            container.innerHTML = ''; // Limpiar los campos generados previamente
+            for (let i = 1; i <= repeaterLevel; i++) {
+                const fieldDiv = document.createElement('div');
+                fieldDiv.classList.add('repeater-container');
+                fieldDiv.innerHTML = `
+                    <label class="field-label">Repetidor ${i} - Habitación:</label>
+                    <input type="text" class="input-field" placeholder="Número de habitación" />
                 `;
-                repeaterContainer.appendChild(repeaterFields);
+                container.appendChild(fieldDiv);
             }
         }
 
-        function previewReport() {
-            alert('Previsualización del reporte aún no implementada.');
-        }
-
-        function exportPDF() {
-            alert('Exportación a PDF aún no implementada.');
+        // Funciones para generar campos dinámicos para Prolongaciones
+        function generateExtensionFields() {
+            const container = document.getElementById('extensionFieldsContainer');
+            container.innerHTML = ''; // Limpiar los campos generados previamente
+            for (let i = 1; i <= document.getElementById('extensionCount').value; i++) {
+                const fieldDiv = document.createElement('div');
+                fieldDiv.classList.add('extension-container');
+                fieldDiv.innerHTML = `
+                    <label class="field-label">Prolongación ${i} - Habitación:</label>
+                    <input type="text" class="input-field" placeholder="Número de habitación" />
+                `;
+                container.appendChild(fieldDiv);
+            }
         }
     </script>
 </body>
 </html>
+
