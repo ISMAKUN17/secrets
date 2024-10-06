@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Diario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+
+        .reporte {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: calc(100% - 20px);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close {
+            cursor: pointer;
+            float: right;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="reporte">
+        <h2>Generador de Reporte Diario</h2>
+
+        <label for="ocupacion">Total de Ocupación: </label>
+        <input type="number" id="ocupacion" placeholder="Total de Ocupación" oninput="calcularTotal()">
+
+        <label for="habitaciones">Habitaciones Preferidas: </label>
+        <input type="number" id="habitaciones" placeholder="Habitaciones Preferidas" oninput="calcularTotal()">
+
+        <label for="llegadas">Número de Llegadas: </label>
+        <input type="number" id="llegadas" placeholder="Número de Llegadas" oninput="calcularTotal()">
+
+        <label for="repetidores">Repetidores (RE4): </label>
+        <input type="number" id="repetidores" placeholder="N/A" oninput="calcularTotal()">
+
+        <label for="salidas">Salidas: </label>
+        <input type="number" id="salidas" placeholder="27" oninput="calcularTotal()">
+
+        <label for="cenars">Cena Romántica: </label>
+        <input type="number" id="cenars" placeholder="9" oninput="calcularTotal()">
+
+        <label for="oasisr">Oasis: </label>
+        <input type="number" id="oasisr" placeholder="0" oninput="calcularTotal()">
+
+        <label for="restaurantes">Restaurantes Cerrados: </label>
+        <input type="text" id="restaurantes" placeholder="BORDEAUX y OLIO" oninput="calcularTotal()">
+
+        <label for="tematica">Noche Temática: </label>
+        <input type="text" id="tematica" placeholder="Noche Americana" oninput="calcularTotal()">
+
+        <label for="show">Show del Día: </label>
+        <input type="text" id="show" placeholder="The Greatest Show" oninput="calcularTotal()">
+
+        <label for="trago">Trago del Día: </label>
+        <input type="text" id="trago" placeholder="Choco Banana" oninput="calcularTotal()">
+
+        <label for="total">Ventas del Día: </label>
+        <input type="text" id="total" value="$0.00" disabled>
+
+        <button onclick="previsualizarReporte()">Previsualizar Reporte</button>
+        <button onclick="exportarPDF()">Exportar PDF</button>
+    </div>
+
+    <!-- Popup para Previsualizar Reporte -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <span class="close" onclick="cerrarPopup()">&times;</span>
+            <h2>Previsualización del Reporte</h2>
+            <div id="contenido-popup"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        function calcularTotal() {
+            const upsell = parseFloat(document.getElementById('upsell').value) || 0;
+            const cenars = parseFloat(document.getElementById('cenars').value) || 0;
+            const oasisr = parseFloat(document.getElementById('oasisr').value) || 0;
+            const balisr = parseFloat(document.getElementById('balisr').value) || 0;
+            const latser = parseFloat(document.getElementById('latser').value) || 0;
+            const total = upsell + cenars + oasisr + balisr + latser;
+
+            document.getElementById('total').value = "$" + total.toFixed(2);
+        }
+
+        function previsualizarReporte() {
+            const popup = document.getElementById('popup');
+            const contenido = document.getElementById('contenido-popup');
+
+            contenido.innerHTML = `
+                <h2>Reporte Diario</h2>
+                <p>🌟 Ocupación: ${document.getElementById('ocupacion').value}%</p>
+                <p>🌹 HAB PREFERRED OCUPADAS: ${document.getElementById('habitaciones').value}</p>
+                <p>🚪 Llegadas: ${document.getElementById('llegadas').value}</p>
+                <p>🔄 Repetidores (RE4): ${document.getElementById('repetidores').value}</p>
+                <p>🏠 Salidas: ${document.getElementById('salidas').value}</p>
+                <p>🌹 Cena Romántica: ${document.getElementById('cenars').value}</p>
+                <p>🏝️ Oasis: ${document.getElementById('oasisr').value}</p>
+                <p>🍽️ Restaurantes Cerrados: ${document.getElementById('restaurantes').value}</p>
+                <p>🎉 Noche Temática: ${document.getElementById('tematica').value}</p>
+                <p>🎭 Show del Día: ${document.getElementById('show').value}</p>
+                <p>🍹 Trago del Día: ${document.getElementById('trago').value}</p>
+                <p>💰 VENTAS DEL DÍA: ${document.getElementById('total').value}</p>
+            `;
+
+            popup.style.display = 'flex';
+        }
+
+        function cerrarPopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'none';
+        }
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+
+            // Crear un elemento temporal para capturar el contenido
+            const contenido = document.querySelector('.reporte');
+            html2canvas(contenido).then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                // Ajustar el tamaño del PDF
+                const imgWidth = 210; // Ancho A4
+                const pageHeight = 295; // Alto A4
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                pdf.save('reporte_diario.pdf');
+            });
+        }
+    </script>
+</body>
+</html>
