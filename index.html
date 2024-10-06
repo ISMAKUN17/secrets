@@ -8,39 +8,80 @@
         body {
             font-family: 'Poppins', sans-serif;
             margin: 20px;
+            background-color: #f4f6f9;
+            color: #333;
         }
         h1 {
             text-align: center;
-            font-size: 2.5em;
+            font-size: 3em;
             margin-bottom: 10px;
+            color: #2c7a7b;
+            font-weight: bold;
+            text-transform: uppercase;
         }
         .date {
             text-align: right;
             font-style: italic;
             font-size: 1.2em;
+            color: #2c5282;
         }
         .section {
             margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .field-label {
             font-weight: bold;
+            color: #2c7a7b;
+            margin-right: 10px;
+        }
+        .input-field {
+            padding: 8px;
+            margin: 5px 0;
+            width: 60%;
+            border-radius: 5px;
+            border: 1px solid #cbd5e0;
         }
         .vip-section, .repeater-section {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 20px;
         }
         .vip-container, .repeater-container {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 10px;
+            background-color: #edf2f7;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
         }
         .vip-fields, .repeater-fields {
             display: flex;
-            gap: 5px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .button-section {
-            margin-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            background-color: #2c7a7b;
+            color: white;
+            margin-right: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #285e61;
         }
     </style>
 </head>
@@ -50,45 +91,45 @@
     <p class="date">Fecha: <span id="currentDate"></span></p>
 
     <div class="section">
-        <p>¡BUENOS DÍAS! 🌷🌷🌷🌷🌷🌷🌷🌷</p>
+        <p><strong>¡BUENOS DÍAS! 🌷🌷🌷🌷🌷🌷🌷🌷</strong></p>
         <p>✨ Para hoy tenemos:✨</p>
     </div>
 
     <div class="section">
         <label class="field-label">🌟 Ocupación:</label>
-        <input type="number" step="0.01" min="0" max="100" placeholder="Porcentaje" />%<br><br>
+        <input type="number" step="0.01" min="0" max="100" class="input-field" placeholder="Porcentaje" />%<br><br>
 
         <label class="field-label">🌹 HAB PREFERRED OCUPADAS:</label>
-        <input type="number" min="0" placeholder="Cantidad" /><br><br>
+        <input type="number" min="0" class="input-field" placeholder="Cantidad" /><br><br>
 
         <label class="field-label">🚪 Llegadas:</label>
-        <input type="number" min="0" placeholder="Cantidad" /><br><br>
+        <input type="number" min="0" class="input-field" placeholder="Cantidad" /><br><br>
 
         <label class="field-label">🌟 Spc:</label>
-        <input type="number" min="0" placeholder="Cantidad" /><br><br>
+        <input type="number" min="0" class="input-field" placeholder="Cantidad" /><br><br>
 
         <div class="vip-section">
             <label class="field-label">💎 VIP 1:</label>
-            <input type="number" min="0" id="vip1Count" placeholder="Cantidad" onchange="generateVIPFields(1)" /><br><br>
+            <input type="number" min="0" id="vip1Count" class="input-field" placeholder="Cantidad" onchange="generateVIPFields(1)" /><br><br>
 
             <label class="field-label">💎 VIP 2:</label>
-            <input type="number" min="0" id="vip2Count" placeholder="Cantidad" onchange="generateVIPFields(2)" /><br><br>
+            <input type="number" min="0" id="vip2Count" class="input-field" placeholder="Cantidad" onchange="generateVIPFields(2)" /><br><br>
 
             <label class="field-label">💎 VIP 3:</label>
-            <input type="number" min="0" id="vip3Count" placeholder="Cantidad" onchange="generateVIPFields(3)" /><br><br>
+            <input type="number" min="0" id="vip3Count" class="input-field" placeholder="Cantidad" onchange="generateVIPFields(3)" /><br><br>
         </div>
 
         <div id="vipFieldsContainer" class="vip-fields"></div>
 
         <div class="repeater-section">
             <label class="field-label">🔄 Repetidores (RE2):</label>
-            <input type="number" min="0" id="re2Count" placeholder="Cantidad" onchange="generateRepeaterFields(2)" /><br><br>
+            <input type="number" min="0" id="re2Count" class="input-field" placeholder="Cantidad" onchange="generateRepeaterFields(2)" /><br><br>
 
             <label class="field-label">🔄 Repetidores (RE3):</label>
-            <input type="number" min="0" id="re3Count" placeholder="Cantidad" onchange="generateRepeaterFields(3)" /><br><br>
+            <input type="number" min="0" id="re3Count" class="input-field" placeholder="Cantidad" onchange="generateRepeaterFields(3)" /><br><br>
 
             <label class="field-label">🔄 Repetidores (RE4):</label>
-            <input type="number" min="0" id="re4Count" placeholder="Cantidad" onchange="generateRepeaterFields(4)" /><br><br>
+            <input type="number" min="0" id="re4Count" class="input-field" placeholder="Cantidad" onchange="generateRepeaterFields(4)" /><br><br>
         </div>
 
         <div id="repeaterFieldsContainer" class="repeater-fields"></div>
@@ -113,11 +154,11 @@
                 vipFields.classList.add('vip-container');
                 vipFields.innerHTML = `
                     <label>Hab:</label>
-                    <input type="text" placeholder="Habitación">
+                    <input type="text" placeholder="Habitación" class="input-field">
                     <label>Nombre:</label>
-                    <input type="text" placeholder="Nombre">
+                    <input type="text" placeholder="Nombre" class="input-field">
                     <label>Motivo:</label>
-                    <input type="text" placeholder="Motivo">
+                    <input type="text" placeholder="Motivo" class="input-field">
                 `;
                 vipContainer.appendChild(vipFields);
             }
@@ -133,7 +174,7 @@
                 repeaterFields.classList.add('repeater-container');
                 repeaterFields.innerHTML = `
                     <label>Hab:</label>
-                    <input type="text" placeholder="Habitación">
+                    <input type="text" placeholder="Habitación" class="input-field">
                 `;
                 repeaterContainer.appendChild(repeaterFields);
             }
@@ -149,4 +190,3 @@
     </script>
 </body>
 </html>
-
