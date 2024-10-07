@@ -3,152 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte Diario</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Generador de Documento</title>
     <style>
+        /* Estilo global */
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f9f9f9;
+            padding: 0;
+            background-color: #e4e7eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
         }
-        header {
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
             text-align: center;
-            margin-bottom: 20px;
         }
-        .message {
-            font-size: 24px;
-            color: #2c3e50;
-            margin: 20px 0;
-            background-color: #eafaf1;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+
         h1 {
-            font-size: 36px;
-            margin: 0;
-            color: #333;
-        }
-        h2 {
-            font-size: 18px;
-            font-style: italic;
-            color: #555;
-        }
-        .informacion {
+            font-size: 2em;
             margin-bottom: 20px;
-            background: #fff;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #333;
+            font-weight: 700;
+            text-transform: uppercase;
         }
-        .section-title {
-            font-size: 20px;
-            color: #2980b9;
-            margin: 10px 0;
+
+        label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            text-align: left;
+            color: #555;
+            display: block;
         }
-        .campo {
-            margin: 5px 0;
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            outline: none;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
         }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 18px;
-            color: #777;
-            background-color: #eafaf1;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+        input:focus {
+            border-color: #0072ff;
+            background-color: #fff;
         }
+
         button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #2980b9;
+            width: 100%;
+            padding: 15px;
+            background-color: #0072ff;
             color: white;
+            font-size: 18px;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
         button:hover {
-            background-color: #1f6d99;
+            background-color: #005bb5;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            background-color: #004494;
+            transform: translateY(1px);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        /* Estilo para el texto informativo */
+        .info-text {
+            font-size: 14px;
+            color: #777;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo de los errores */
+        .error {
+            color: #d9534f;
+            font-size: 14px;
+            margin-top: -15px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="message">🌟 ¡Bienvenido al Trabajo del Dia! 🌟</div>
-    <h1>Trabajo del Día</h1>
-    <h2>Fecha: <span id="fecha"></span></h2>
-</header>
+<div class="container">
+    <h1>Generar Documento</h1>
 
-<div class="saludo">¡BUENOS DÍAS! 🌷🌷🌷<br>✨ Para hoy tenemos:✨</div>
-
-<div class="informacion">
-    <div class="section-title">Información General</div>
-    <div class="campo">🌟 Ocupación: <input type="text" placeholder="Ocupación" /></div>
-    <div class="campo">🌹 HAB PREFERRED OCUPADAS: <input type="text" placeholder="Habitaciones Preferidas" /></div>
-</div>
-
-<div class="informacion">
-    <div class="section-title">Llegadas y Salidas</div>
-    <div id="arrival-section">
-        <div class="campo">🚪 Llegadas: <input type="text" placeholder="Llegadas" /></div>
-        <div class="campo">🚪 Salidas: <input type="text" placeholder="Salidas" /></div>
+    <!-- Formulario -->
+    <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+        <div id="nombreError" class="error"></div>
     </div>
-</div>
 
-<div class="informacion">
-    <div class="section-title">Prolongaciones</div>
-    <div id="prolongation-section">
-        <div class="campo">🔄 Prolongaciones: <input type="text" placeholder="Habitación" /></div>
-        <div class="campo">Cambio no requerido: <input type="checkbox" /></div>
+    <div class="form-group">
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" placeholder="Ingresa tu correo">
+        <div id="emailError" class="error"></div>
     </div>
-    <button id="add-prolongation">Agregar Prolongación</button>
+
+    <div class="form-group">
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha">
+        <div id="fechaError" class="error"></div>
+    </div>
+
+    <button id="generarBtn">Generar Documento</button>
+
+    <p class="info-text">Recibirás el documento en formato PDF con los datos que ingresaste.</p>
 </div>
 
-<div class="informacion">
-    <div class="section-title">Cambios Programados</div>
-    <div class="campo">Cambios Programados: <input type="text" placeholder="Ejemplo: 3457 - 3380 // CAMBIO POR RUIDO" /></div>
-</div>
-
-<div class="informacion">
-    <div class="section-title">Eventos del Día</div>
-    <div class="campo">Restaurantes Cerrados: <input type="text" placeholder="Ejemplo: Restaurante A" /></div>
-    <div class="campo">Otros Eventos: <input type="text" placeholder="Ejemplo: Evento B" /></div>
-</div>
-
-<div class="informacion">
-    <div class="section-title">Ventas del Día</div>
-    <div class="campo">Upsell: <input type="text" placeholder="0.00$ USD" /></div>
-    <div class="campo">Cenars: <input type="text" placeholder="0.00$ USD" /></div>
-    <div class="campo">OasisR: <input type="text" placeholder="0.00$ USD" /></div>
-    <div class="campo">BalisR: <input type="text" placeholder="0.00$ USD" /></div>
-    <div class="campo">Latser: <input type="text" placeholder="0.00$ USD" /></div>
-    <div class="campo">Rertau: <input type="text" placeholder="0.00$ USD" /></div>
-    <div class="campo">baliR: <input type="text" placeholder="0.00$ USD" /></div>
-    <div class="campo">Total: <input type="text" placeholder="0.00$ USD" /></div>
-</div>
-
-<footer>
-    🌷🌷🌷 ¡Gracias por su atención! 🌷🌷🌷
-</footer>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script>
-    // Script para mostrar la fecha actual
-    const today = new Date();
-    document.getElementById('fecha').innerText = today.toLocaleDateString('es-ES');
+    document.getElementById('generarBtn').addEventListener('click', generarDocumento);
 
-    // Función para agregar nuevas prolongaciones
-    document.getElementById('add-prolongation').addEventListener('click', function() {
-        const prolongationSection = document.getElementById('prolongation-section');
-        const newProlongation = document.createElement('div');
-        newProlongation.classList.add('campo');
-        newProlongation.innerHTML = `
-            🔄 Prolongación: <input type="text" placeholder="Habitación" />
-        `;
-        prolongationSection.appendChild(newProlongation);
-    });
+    async function generarDocumento() {
+        const nombre = document.getElementById('nombre').value;
+        const email = document.getElementById('email').value;
+        const fecha = document.getElementById('fecha').value;
+
+        // Limpieza de mensajes de error
+        document.getElementById('nombreError').textContent = '';
+        document.getElementById('emailError').textContent = '';
+        document.getElementById('fechaError').textContent = '';
+
+        let valid = true;
+
+        // Validación de los campos
+        if (!nombre) {
+            document.getElementById('nombreError').textContent = 'Por favor ingresa tu nombre.';
+            valid = false;
+        }
+
+        if (!email) {
+            document.getElementById('emailError').textContent = 'Por favor ingresa tu correo electrónico.';
+            valid = false;
+        }
+
+        if (!fecha) {
+            document.getElementById('fechaError').textContent = 'Por favor selecciona una fecha.';
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        // Si los campos son válidos, crear el documento PDF
+        const { PDFDocument, rgb } = PDFLib;
+
+        const pdfDoc = await PDFDocument.create();
+        const page = pdfDoc.addPage([600, 400]);
+        const { width, height } = page.getSize();
+
+        // Establecer la fuente del documento
+        const font = await pdfDoc.embedFont(PDFDocument.Font.Helvetica);
+
+        // Agregar texto al documento PDF
+        page.drawText(`Nombre: ${nombre}`, { x: 50, y: height - 50, font, size: 14 });
+        page.drawText(`Correo: ${email}`, { x: 50, y: height - 80, font, size: 14 });
+        page.drawText(`Fecha: ${fecha}`, { x: 50, y: height - 110, font, size: 14 });
+
+        const pdfBytes = await pdfDoc.save();
+
+        // Crear un enlace de descarga
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
+        link.download = 'documento_generado.pdf';
+        link.click();
+    }
 </script>
 
 </body>
