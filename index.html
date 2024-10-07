@@ -130,14 +130,33 @@
 
     <button id="generarBtn">Generar Documento</button>
 
-    <p class="info-text">Recibirás el documento en formato PDF con los datos que ingresaste.</p>
+    <p class="info-text">Recibirás el documento en formato .txt con los datos que ingresaste.</p>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script>
-    document.getElementById('generarBtn').addEventListener('click', generarDocumento);
+    // Función para avanzar al siguiente campo con la tecla Enter
+    function avanzarConEnter(event, siguienteElemento) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Evitar el comportamiento predeterminado (enviar formulario)
+            siguienteElemento.focus();
+        }
+    }
 
-    async function generarDocumento() {
+    // Asignar evento de "Enter" a cada campo
+    document.getElementById('nombre').addEventListener('keydown', function(event) {
+        avanzarConEnter(event, document.getElementById('email'));
+    });
+
+    document.getElementById('email').addEventListener('keydown', function(event) {
+        avanzarConEnter(event, document.getElementById('fecha'));
+    });
+
+    document.getElementById('fecha').addEventListener('keydown', function(event) {
+        avanzarConEnter(event, document.getElementById('generarBtn'));
+    });
+
+    // Función para generar el documento .txt
+    document.getElementById('generarBtn').addEventListener('click', function() {
         const nombre = document.getElementById('nombre').value;
         const email = document.getElementById('email').value;
         const fecha = document.getElementById('fecha').value;
@@ -167,31 +186,18 @@
 
         if (!valid) return;
 
-        // Si los campos son válidos, crear el documento PDF
-        const { PDFDocument } = PDFLib;
-
-        const pdfDoc = await PDFDocument.create();
-        const page = pdfDoc.addPage([600, 400]);
-        const { width, height } = page.getSize();
-
-        // Establecer la fuente del documento
-        const font = await pdfDoc.embedFont(PDFDocument.Font.Helvetica);
-
-        // Agregar texto al documento PDF
-        page.drawText(`Nombre: ${nombre}`, { x: 50, y: height - 50, font, size: 14 });
-        page.drawText(`Correo: ${email}`, { x: 50, y: height - 80, font, size: 14 });
-        page.drawText(`Fecha: ${fecha}`, { x: 50, y: height - 110, font, size: 14 });
-
-        const pdfBytes = await pdfDoc.save();
+        // Si los campos son válidos, crear el documento .txt
+        const contenido = `Nombre: ${nombre}\nCorreo: ${email}\nFecha: ${fecha}`;
+        const blob = new Blob([contenido], { type: 'text/plain' });
 
         // Crear un enlace de descarga
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
-        link.download = 'documento_generado.pdf';
-        document.body.appendChild(link); // Añadir el enlace al cuerpo del documento
-        link.click(); // Hacer click en el enlace para iniciar la descarga
-        document.body.removeChild(link); // Eliminar el enlace después de hacer click
-    }
+        const enlace = document.createElement('a');
+        enlace.href = URL.createObjectURL(blob);
+        enlace.download = 'documento_generado.txt';
+        document.body.appendChild(enlace); // Añadir el enlace al cuerpo del documento
+        enlace.click(); // Hacer click en el enlace para iniciar la descarga
+        document.body.removeChild(enlace); // Eliminar el enlace después de hacer click
+    });
 </script>
 
 </body>
