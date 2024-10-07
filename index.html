@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Documento</title>
+    <title>Generador de Documento Word</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.5/pizzip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.3/docxtemplater.min.js"></script>
     <style>
         /* Estilo global */
         body {
@@ -87,7 +89,6 @@
             margin-bottom: 15px;
         }
 
-        /* Estilo para el texto informativo */
         .info-text {
             font-size: 14px;
             color: #777;
@@ -95,7 +96,6 @@
             margin-bottom: 20px;
         }
 
-        /* Estilo de los errores */
         .error {
             color: #d9534f;
             font-size: 14px;
@@ -107,7 +107,7 @@
 <body>
 
 <div class="container">
-    <h1>Generar Documento</h1>
+    <h1>Generar Documento Word</h1>
 
     <!-- Formulario -->
     <div class="form-group">
@@ -128,9 +128,9 @@
         <div id="fechaError" class="error"></div>
     </div>
 
-    <button id="generarBtn">Generar Documento</button>
+    <button id="generarBtn">Generar Documento Word</button>
 
-    <p class="info-text">Recibirás el documento en formato .txt con los datos que ingresaste.</p>
+    <p class="info-text">Recibirás el documento en formato .docx con los datos que ingresaste.</p>
 </div>
 
 <script>
@@ -155,7 +155,7 @@
         avanzarConEnter(event, document.getElementById('generarBtn'));
     });
 
-    // Función para generar el documento .txt con formato bonito
+    // Función para generar el documento .docx
     document.getElementById('generarBtn').addEventListener('click', function() {
         const nombre = document.getElementById('nombre').value;
         const email = document.getElementById('email').value;
@@ -186,33 +186,54 @@
 
         if (!valid) return;
 
-        // Si los campos son válidos, crear el documento .txt con formato bonito
-        const contenido = `
-        =========================================
-                    INFORMACIÓN DE USUARIO
-        =========================================
+        // Si los campos son válidos, crear el documento .docx
+        const docData = {
+            nombre: nombre,
+            email: email,
+            fecha: fecha
+        };
 
-        Nombre Completo: ${nombre}
-        Correo Electrónico: ${email}
-        Fecha de Registro: ${fecha}
+        // Crear un archivo DOCX usando docxtemplater
+        const zip = new PizZip();
+        const doc = new docxtemplater(zip);
 
-        =========================================
-            ¡Gracias por ingresar tus datos!
-        =========================================
+        // Crear la estructura de un documento Word en blanco
+        const template = `
+            <html xmlns:w="urn:schemas-microsoft-com:office:word">
+                <head>
+                    <meta charset="utf-8">
+                    <title>Documento de Usuario</title>
+                </head>
+                <body>
+                    <h1>Información del Usuario</h1>
+                    <p><strong>Nombre Completo:</strong> {{nombre}}</p>
+                    <p><strong>Correo Electrónico:</strong> {{email}}</p>
+                    <p><strong>Fecha de Registro:</strong> {{fecha}}</p>
+                    <hr>
+                    <footer>Documento generado automáticamente</footer>
+                </body>
+            </html>
         `;
 
-        const blob = new Blob([contenido], { type: 'text/plain' });
+        // Insertar los datos en la plantilla
+        doc.setData(docData);
 
-        // Crear un enlace de descarga
+        // Generar el documento
+        try {
+            doc.render();
+        } catch (error) {
+            console.error("Error al generar el documento: ", error);
+            return;
+        }
+
+        // Generar el archivo Word
+        const out = doc.getZip().generate({ type: 'blob' });
         const enlace = document.createElement('a');
-        enlace.href = URL.createObjectURL(blob);
-        enlace.download = 'documento_generado.txt';
-        document.body.appendChild(enlace); // Añadir el enlace al cuerpo del documento
-        enlace.click(); // Hacer click en el enlace para iniciar la descarga
-        document.body.removeChild(enlace); // Eliminar el enlace después de hacer click
+        enlace.href = URL.createObjectURL(out);
+        enlace.download = 'documento_usuario.docx';
+        enlace.click();
     });
 </script>
 
 </body>
 </html>
-
