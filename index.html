@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generar Documento Word</title>
+    <title>Generador de Documento</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.5/pizzip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.3/docxtemplater.min.js"></script>
     <style>
@@ -29,12 +29,12 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 40px;
             width: 100%;
-            max-width: 800px;
-            display: none; /* Ocultamos al inicio */
+            max-width: 900px;
+            display: none;
         }
 
         .active {
-            display: block; /* Solo se muestra la sección activa */
+            display: block;
         }
 
         h1 {
@@ -58,14 +58,6 @@
             background-color: #f9f9f9;
             font-size: 16px;
             color: #333;
-            transition: 0.3s ease;
-        }
-
-        input[type="text"]:focus, input[type="number"]:focus {
-            outline: none;
-            border-color: #6c5ce7;
-            background-color: #fff;
-            box-shadow: 0 0 8px rgba(108, 92, 247, 0.5);
         }
 
         .dynamic-fields div {
@@ -95,12 +87,6 @@
 
         button:hover {
             background-color: #5a4ed9;
-            transform: translateY(-2px);
-        }
-
-        button:active {
-            background-color: #4a3bcf;
-            transform: translateY(2px);
         }
 
         .info-text {
@@ -127,25 +113,12 @@
             background: #ddd;
             margin: 40px 0;
         }
-
-        .form-group input, button {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s forwards;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
     </style>
 </head>
 <body>
 
 <div class="container active" id="section1">
-    <h1>Trabajo del Dia</h1>
+    <h1>Generar Documento</h1>
     <!-- Sección 1: Información General -->
     <div class="form-group">
         <input type="text" id="ocupacion" placeholder="Ocupación">
@@ -249,15 +222,96 @@
     <button id="nextBtn3">Siguiente</button>
 </div>
 
+<div class="container" id="section4">
+    <h1>Información de Trabajo</h1>
+    <!-- Sección 4: Información de Trabajo -->
+    <div class="form-group">
+        <input type="text" id="cambios" placeholder="Cambios">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="prolongaciones" placeholder="Prolongaciones">
+    </div>
+
+    <button id="prevBtn3">Volver</button>
+    <button id="nextBtn4">Siguiente</button>
+</div>
+
+<div class="container" id="section5">
+    <h1>Información de Eventos</h1>
+    <!-- Sección 5: Información de Eventos -->
+    <div class="form-group">
+        <input type="text" id="show" placeholder="Show de la Noche">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="trago" placeholder="Trago del Día">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="evento" placeholder="Evento Especial del Día">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="nocheTematica" placeholder="Noche Temática">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="restaurante1" placeholder="Restaurante Cerrados Secrets">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="restaurante2" placeholder="Restaurante Cerrados Dreams">
+    </div>
+
+    <button id="prevBtn4">Volver</button>
+    <button id="nextBtn5">Siguiente</button>
+</div>
+
+<div class="container" id="section6">
+    <h1>Ventas del Día</h1>
+    <!-- Sección 6: Ventas del Día -->
+    <div class="form-group">
+        <input type="number" id="upsell" placeholder="Upsell">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="cenars" placeholder="Cenars">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="oasisr" placeholder="Oasisr">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="balisr" placeholder="Balisr">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="latser" placeholder="Latser">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="rertau" placeholder="Rertau">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="total" placeholder="Total" readonly>
+    </div>
+
+    <button id="prevBtn5">Volver</button>
+    <button id="generateDoc">Generar Documento</button>
+</div>
+
 <script>
     // Funciones de navegación entre secciones
     function showSection(sectionId) {
         const sections = document.querySelectorAll('.container');
         sections.forEach(section => section.classList.remove('active'));
-
         document.getElementById(sectionId).classList.add('active');
     }
 
+    // Funciones para avanzar y retroceder entre secciones
     document.getElementById('nextBtn1').onclick = function() {
         showSection('section2');
     }
@@ -274,12 +328,34 @@
         showSection('section2');
     }
 
+    document.getElementById('nextBtn3').onclick = function() {
+        showSection('section4');
+    }
+
+    document.getElementById('prevBtn3').onclick = function() {
+        showSection('section3');
+    }
+
+    document.getElementById('nextBtn4').onclick = function() {
+        showSection('section5');
+    }
+
+    document.getElementById('prevBtn4').onclick = function() {
+        showSection('section4');
+    }
+
+    document.getElementById('nextBtn5').onclick = function() {
+        showSection('section6');
+    }
+
+    document.getElementById('prevBtn5').onclick = function() {
+        showSection('section5');
+    }
+
     // Funciones para generar campos dinámicos de VIP
     function generarCamposVIP(vipNumber) {
         const numVIP = document.getElementById(`vip${vipNumber}`).value;
         const dynamicVIPFields = document.getElementById(`dynamicVIPFields`);
-
-        // Limpiar los campos previos
         dynamicVIPFields.innerHTML = '';
 
         if (numVIP > 0) {
@@ -300,8 +376,6 @@
     function generarCamposRE(reNumber) {
         const numRE = document.getElementById(`re${reNumber}`).value;
         const dynamicREFields = document.getElementById(`dynamicREFields`);
-
-        // Limpiar los campos previos
         dynamicREFields.innerHTML = '';
 
         if (numRE > 0) {
@@ -316,6 +390,12 @@
                 dynamicREFields.appendChild(reDiv);
             }
         }
+    }
+
+    // Generar documento (ejemplo básico)
+    document.getElementById('generateDoc').onclick = function() {
+        alert('Generando documento...');
+        // Aquí deberías implementar la generación del archivo DOCX con los datos ingresados.
     }
 </script>
 
