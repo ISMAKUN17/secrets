@@ -7,7 +7,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.5/pizzip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.3/docxtemplater.min.js"></script>
     <style>
-        /* Estilos globales */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -31,6 +30,11 @@
             padding: 40px;
             width: 100%;
             max-width: 800px;
+            display: none; /* Ocultamos al inicio */
+        }
+
+        .active {
+            display: block; /* Solo se muestra la sección activa */
         }
 
         h1 {
@@ -124,26 +128,10 @@
             margin: 40px 0;
         }
 
-        /* Animaciones */
         .form-group input, button {
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.8s forwards;
-        }
-
-        .form-group:nth-child(1) input,
-        .form-group:nth-child(2) input,
-        .form-group:nth-child(3) input {
-            animation-delay: 0.2s;
-        }
-
-        .form-group:nth-child(4) input,
-        .form-group:nth-child(5) input {
-            animation-delay: 0.4s;
-        }
-
-        button {
-            animation-delay: 0.6s;
         }
 
         @keyframes fadeInUp {
@@ -157,9 +145,8 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container active" id="section1">
     <h1>Generar Documento Word</h1>
-
     <!-- Sección 1: Información General -->
     <div class="form-group">
         <input type="text" id="ocupacion" placeholder="Ingresa la ocupación">
@@ -171,8 +158,11 @@
         <div id="habitacionesError" class="error"></div>
     </div>
 
-    <hr> <!-- Separador -->
+    <button id="nextBtn1">Siguiente</button>
+</div>
 
+<div class="container" id="section2">
+    <h1>Llegadas Esperadas</h1>
     <!-- Sección 2: Llegadas Esperadas -->
     <div class="form-group">
         <input type="number" id="numLlegadas" min="1" placeholder="Ingresa el número de llegadas">
@@ -184,6 +174,12 @@
         <div id="spcError" class="error"></div>
     </div>
 
+    <button id="prevBtn1">Volver</button>
+    <button id="nextBtn2">Siguiente</button>
+</div>
+
+<div class="container" id="section3">
+    <h1>Campos Dinámicos</h1>
     <!-- Campos Dinámicos para VIP y RE -->
     <div class="form-group vip-container">
         <input type="number" id="vip1" placeholder="Número VIP 1" onchange="generarCamposVIP(1)">
@@ -212,12 +208,66 @@
     <div id="dynamicVIPFields" class="dynamic-fields"></div>
     <div id="dynamicREFields" class="dynamic-fields"></div>
 
+    <button id="prevBtn2">Volver</button>
     <button id="generarBtn">Generar Documento Word</button>
-
-    <p class="info-text">Recibirás el documento en formato .docx con los datos que ingresaste.</p>
 </div>
 
 <script>
+    // Función para cambiar de sección
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.container');
+        sections.forEach(section => section.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Función de validación para cada sección
+    function validateSection1() {
+        const ocupacion = document.getElementById('ocupacion').value;
+        const habitaciones = document.getElementById('habitaciones').value;
+
+        if (!ocupacion || !habitaciones) {
+            if (!ocupacion) document.getElementById('ocupacionError').textContent = 'Por favor ingresa la ocupación.';
+            if (!habitaciones) document.getElementById('habitacionesError').textContent = 'Por favor ingresa las habitaciones ocupadas preferidas.';
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateSection2() {
+        const numLlegadas = document.getElementById('numLlegadas').value;
+        const spc = document.getElementById('spc').value;
+
+        if (!numLlegadas || !spc) {
+            if (!numLlegadas) document.getElementById('numLlegadasError').textContent = 'Por favor ingresa el número de llegadas.';
+            if (!spc) document.getElementById('spcError').textContent = 'Por favor ingresa el SPC.';
+            return false;
+        }
+
+        return true;
+    }
+
+    // Funciones de navegación entre secciones
+    document.getElementById('nextBtn1').onclick = function() {
+        if (validateSection1()) {
+            showSection('section2');
+        }
+    }
+
+    document.getElementById('prevBtn1').onclick = function() {
+        showSection('section1');
+    }
+
+    document.getElementById('nextBtn2').onclick = function() {
+        if (validateSection2()) {
+            showSection('section3');
+        }
+    }
+
+    document.getElementById('prevBtn2').onclick = function() {
+        showSection('section2');
+    }
+
     // Función para generar campos dinámicos de VIP
     function generarCamposVIP(vipNumber) {
         const numVIP = document.getElementById(`vip${vipNumber}`).value;
