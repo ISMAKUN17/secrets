@@ -117,6 +117,150 @@
 </head>
 <body>
 
+<div class="container" id="section1">
+    <h1>Información General</h1>
+    <!-- Sección 1: Información General -->
+    <div class="form-group">
+        <input type="text" id="ocupacion" placeholder="Ocupación">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="hab_ocupadas" placeholder="Habitaciones Ocupadas">
+    </div>
+
+    <button id="nextBtn1">Siguiente</button>
+</div>
+
+<div class="container" id="section2">
+    <h1>Llegadas Esperadas</h1>
+    <!-- Sección 2: Llegadas Esperadas -->
+    <div class="form-group">
+        <input type="number" id="llegadas" placeholder="Número de Llegadas">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="spc" placeholder="SPC">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="vip1" placeholder="VIP1" oninput="generarCamposVIP(1)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="vip2" placeholder="VIP2" oninput="generarCamposVIP(2)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="vip3" placeholder="VIP3" oninput="generarCamposVIP(3)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re2" placeholder="RE2" oninput="generarCamposRE(2)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re3" placeholder="RE3" oninput="generarCamposRE(3)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re4" placeholder="RE4" oninput="generarCamposRE(4)">
+    </div>
+
+    <div id="dynamicVIPFields" class="dynamic-fields"></div>
+    <div id="dynamicREFields" class="dynamic-fields"></div>
+
+    <button id="prevBtn1">Volver</button>
+    <button id="nextBtn2">Siguiente</button>
+</div>
+
+<div class="container" id="section3">
+    <h1>Salidas Esperadas</h1>
+    <!-- Sección 3: Salidas Esperadas -->
+    <div class="form-group">
+        <input type="number" id="salidas" placeholder="Número de Salidas">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="spc_salidas" placeholder="SPC">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="vip1_salidas" placeholder="VIP1" oninput="generarCamposVIP(1)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="vip2_salidas" placeholder="VIP2" oninput="generarCamposVIP(2)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="vip3_salidas" placeholder="VIP3" oninput="generarCamposVIP(3)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re2_salidas" placeholder="RE2" oninput="generarCamposRE(2)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re3_salidas" placeholder="RE3" oninput="generarCamposRE(3)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re4_salidas" placeholder="RE4" oninput="generarCamposRE(4)">
+    </div>
+
+    <div id="dynamicVIPFieldsSalida" class="dynamic-fields"></div>
+    <div id="dynamicREFieldsSalida" class="dynamic-fields"></div>
+
+    <button id="prevBtn2">Volver</button>
+    <button id="nextBtn3">Siguiente</button>
+</div>
+
+<div class="container" id="section4">
+    <h1>Información de Trabajo</h1>
+    <!-- Sección 4: Información de Trabajo -->
+    <div class="form-group">
+        <input type="text" id="cambios" placeholder="Cambios">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="prolongaciones" placeholder="Prolongaciones">
+    </div>
+
+    <button id="prevBtn3">Volver</button>
+    <button id="nextBtn4">Siguiente</button>
+</div>
+
+<div class="container" id="section5">
+    <h1>Información de Eventos</h1>
+    <!-- Sección 5: Información de Eventos -->
+    <div class="form-group">
+        <input type="text" id="show" placeholder="Show de la Noche">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="trago" placeholder="Trago del Día">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="evento" placeholder="Evento Especial del Día">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="nocheTematica" placeholder="Noche Temática">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="restaurante1" placeholder="Restaurante Cerrados Secrets">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="restaurante2" placeholder="Restaurante Cerrados Dreams">
+    </div>
+
+    <button id="prevBtn4">Volver</button>
+    <button id="nextBtn5">Siguiente</button>
+</div>
+
 <div class="container" id="section6">
     <h1>Ventas del Día</h1>
     <!-- Sección 6: Ventas del Día -->
@@ -195,11 +339,57 @@
     document.getElementById('latser').addEventListener('input', onInputChange);
     document.getElementById('rertau').addEventListener('input', onInputChange);
 
-    // Función para generar el documento (aquí agregarías la lógica para generar el documento)
-    document.getElementById('generateDoc').onclick = function() {
-        alert('Generando documento...');
-        // Implementar la lógica para generar el documento DOCX o lo que sea necesario
+    // Función para mostrar la siguiente sección
+    function mostrarSeccion(id) {
+        document.querySelectorAll('.container').forEach(function(container) {
+            container.classList.remove('active');
+        });
+        document.getElementById(id).classList.add('active');
     }
+
+    // Manejo de botones de navegación entre secciones
+    document.getElementById('nextBtn1').onclick = function() {
+        mostrarSeccion('section2');
+    }
+
+    document.getElementById('nextBtn2').onclick = function() {
+        mostrarSeccion('section3');
+    }
+
+    document.getElementById('nextBtn3').onclick = function() {
+        mostrarSeccion('section4');
+    }
+
+    document.getElementById('nextBtn4').onclick = function() {
+        mostrarSeccion('section5');
+    }
+
+    document.getElementById('nextBtn5').onclick = function() {
+        mostrarSeccion('section6');
+    }
+
+    document.getElementById('prevBtn1').onclick = function() {
+        mostrarSeccion('section1');
+    }
+
+    document.getElementById('prevBtn2').onclick = function() {
+        mostrarSeccion('section2');
+    }
+
+    document.getElementById('prevBtn3').onclick = function() {
+        mostrarSeccion('section3');
+    }
+
+    document.getElementById('prevBtn4').onclick = function() {
+        mostrarSeccion('section4');
+    }
+
+    document.getElementById('prevBtn5').onclick = function() {
+        mostrarSeccion('section5');
+    }
+
+    // Inicializar la primera sección al cargar la página
+    mostrarSeccion('section1');
 </script>
 
 </body>
