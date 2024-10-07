@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Documento Word</title>
+    <title>Generar Documento Word</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.5/pizzip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.3/docxtemplater.min.js"></script>
     <style>
@@ -109,23 +109,32 @@
 <div class="container">
     <h1>Generar Documento Word</h1>
 
-    <!-- Formulario -->
+    <!-- Sección 1: Información General -->
     <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" placeholder="Ingresa tu nombre">
-        <div id="nombreError" class="error"></div>
+        <label for="ocupacion">Ocupación:</label>
+        <input type="text" id="ocupacion" placeholder="Ingresa la ocupación">
+        <div id="ocupacionError" class="error"></div>
     </div>
 
     <div class="form-group">
-        <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" placeholder="Ingresa tu correo">
-        <div id="emailError" class="error"></div>
+        <label for="habitaciones">Habitaciones ocupadas preferidas:</label>
+        <input type="text" id="habitaciones" placeholder="Ingresa las habitaciones ocupadas preferidas">
+        <div id="habitacionesError" class="error"></div>
+    </div>
+
+    <hr> <!-- Separador -->
+
+    <!-- Sección 2: Llegadas Esperadas -->
+    <div class="form-group">
+        <label for="nombreLlegada">Nombre de la llegada esperada:</label>
+        <input type="text" id="nombreLlegada" placeholder="Ingresa el nombre">
+        <div id="nombreLlegadaError" class="error"></div>
     </div>
 
     <div class="form-group">
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha">
-        <div id="fechaError" class="error"></div>
+        <label for="fechaLlegada">Fecha de llegada:</label>
+        <input type="date" id="fechaLlegada">
+        <div id="fechaLlegadaError" class="error"></div>
     </div>
 
     <button id="generarBtn">Generar Documento Word</button>
@@ -143,44 +152,55 @@
     }
 
     // Asignar evento de "Enter" a cada campo
-    document.getElementById('nombre').addEventListener('keydown', function(event) {
-        avanzarConEnter(event, document.getElementById('email'));
+    document.getElementById('ocupacion').addEventListener('keydown', function(event) {
+        avanzarConEnter(event, document.getElementById('habitaciones'));
     });
 
-    document.getElementById('email').addEventListener('keydown', function(event) {
-        avanzarConEnter(event, document.getElementById('fecha'));
+    document.getElementById('habitaciones').addEventListener('keydown', function(event) {
+        avanzarConEnter(event, document.getElementById('nombreLlegada'));
     });
 
-    document.getElementById('fecha').addEventListener('keydown', function(event) {
+    document.getElementById('nombreLlegada').addEventListener('keydown', function(event) {
+        avanzarConEnter(event, document.getElementById('fechaLlegada'));
+    });
+
+    document.getElementById('fechaLlegada').addEventListener('keydown', function(event) {
         avanzarConEnter(event, document.getElementById('generarBtn'));
     });
 
     // Función para generar el documento .docx
     document.getElementById('generarBtn').addEventListener('click', function() {
-        const nombre = document.getElementById('nombre').value;
-        const email = document.getElementById('email').value;
-        const fecha = document.getElementById('fecha').value;
+        const ocupacion = document.getElementById('ocupacion').value;
+        const habitaciones = document.getElementById('habitaciones').value;
+        const nombreLlegada = document.getElementById('nombreLlegada').value;
+        const fechaLlegada = document.getElementById('fechaLlegada').value;
 
         // Limpieza de mensajes de error
-        document.getElementById('nombreError').textContent = '';
-        document.getElementById('emailError').textContent = '';
-        document.getElementById('fechaError').textContent = '';
+        document.getElementById('ocupacionError').textContent = '';
+        document.getElementById('habitacionesError').textContent = '';
+        document.getElementById('nombreLlegadaError').textContent = '';
+        document.getElementById('fechaLlegadaError').textContent = '';
 
         let valid = true;
 
         // Validación de los campos
-        if (!nombre) {
-            document.getElementById('nombreError').textContent = 'Por favor ingresa tu nombre.';
+        if (!ocupacion) {
+            document.getElementById('ocupacionError').textContent = 'Por favor ingresa la ocupación.';
             valid = false;
         }
 
-        if (!email) {
-            document.getElementById('emailError').textContent = 'Por favor ingresa tu correo electrónico.';
+        if (!habitaciones) {
+            document.getElementById('habitacionesError').textContent = 'Por favor ingresa las habitaciones ocupadas preferidas.';
             valid = false;
         }
 
-        if (!fecha) {
-            document.getElementById('fechaError').textContent = 'Por favor selecciona una fecha.';
+        if (!nombreLlegada) {
+            document.getElementById('nombreLlegadaError').textContent = 'Por favor ingresa el nombre de la llegada esperada.';
+            valid = false;
+        }
+
+        if (!fechaLlegada) {
+            document.getElementById('fechaLlegadaError').textContent = 'Por favor selecciona la fecha de llegada.';
             valid = false;
         }
 
@@ -188,9 +208,10 @@
 
         // Si los campos son válidos, crear el documento .docx
         const docData = {
-            nombre: nombre,
-            email: email,
-            fecha: fecha
+            ocupacion: ocupacion,
+            habitaciones: habitaciones,
+            nombreLlegada: nombreLlegada,
+            fechaLlegada: fechaLlegada
         };
 
         // Crear un archivo DOCX usando docxtemplater
@@ -205,10 +226,16 @@
                     <title>Documento de Usuario</title>
                 </head>
                 <body>
-                    <h1>Información del Usuario</h1>
-                    <p><strong>Nombre Completo:</strong> {{nombre}}</p>
-                    <p><strong>Correo Electrónico:</strong> {{email}}</p>
-                    <p><strong>Fecha de Registro:</strong> {{fecha}}</p>
+                    <h1>Información General</h1>
+                    <p><strong>Ocupación:</strong> {{ocupacion}}</p>
+                    <p><strong>Habitaciones ocupadas preferidas:</strong> {{habitaciones}}</p>
+
+                    <hr> <!-- Separador -->
+
+                    <h1>Llegadas Esperadas</h1>
+                    <p><strong>Nombre de la llegada esperada:</strong> {{nombreLlegada}}</p>
+                    <p><strong>Fecha de llegada:</strong> {{fechaLlegada}}</p>
+
                     <hr>
                     <footer>Documento generado automáticamente</footer>
                 </body>
