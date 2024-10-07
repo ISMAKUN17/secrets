@@ -107,8 +107,20 @@
             margin-bottom: 15px;
         }
 
-        .dynamic-fields input {
-            margin-bottom: 10px;
+        /* Estilo para los campos dinámicos de VIP y RE */
+        .dynamic-fields div {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .dynamic-fields div label {
+            flex: 1;
+        }
+
+        .dynamic-fields div input {
+            flex: 2;
         }
     </style>
 </head>
@@ -199,14 +211,16 @@
                 const vipField = document.createElement('div');
                 vipField.id = `${vipNumber}Fields`;
                 vipField.innerHTML = `
-                    <label for="nombreVIP${vipNumber}_${i}">Nombre VIP ${vipNumber} ${i}:</label>
-                    <input type="text" id="nombreVIP${vipNumber}_${i}" placeholder="Nombre VIP ${vipNumber} ${i}">
-                    
-                    <label for="edadVIP${vipNumber}_${i}">Edad VIP ${vipNumber} ${i}:</label>
-                    <input type="text" id="edadVIP${vipNumber}_${i}" placeholder="Edad VIP ${vipNumber} ${i}">
-                    
-                    <label for="preferenciaVIP${vipNumber}_${i}">Preferencia VIP ${vipNumber} ${i}:</label>
-                    <input type="text" id="preferenciaVIP${vipNumber}_${i}" placeholder="Preferencia VIP ${vipNumber} ${i}">
+                    <div id="vip${vipNumber}_${i}Fields" class="dynamic-row">
+                        <label for="nombreVIP${vipNumber}_${i}">Nombre VIP ${vipNumber} ${i}:</label>
+                        <input type="text" id="nombreVIP${vipNumber}_${i}" placeholder="Nombre VIP ${vipNumber} ${i}">
+                        
+                        <label for="edadVIP${vipNumber}_${i}">Edad VIP ${vipNumber} ${i}:</label>
+                        <input type="text" id="edadVIP${vipNumber}_${i}" placeholder="Edad VIP ${vipNumber} ${i}">
+                        
+                        <label for="preferenciaVIP${vipNumber}_${i}">Preferencia VIP ${vipNumber} ${i}:</label>
+                        <input type="text" id="preferenciaVIP${vipNumber}_${i}" placeholder="Preferencia VIP ${vipNumber} ${i}">
+                    </div>
                 `;
                 dynamicVIPFields.appendChild(vipField);
             }
@@ -227,14 +241,16 @@
                 const reField = document.createElement('div');
                 reField.id = `${reNumber}Fields`;
                 reField.innerHTML = `
-                    <label for="nombreRE${reNumber}_${i}">Nombre RE ${reNumber} ${i}:</label>
-                    <input type="text" id="nombreRE${reNumber}_${i}" placeholder="Nombre RE ${reNumber} ${i}">
-                    
-                    <label for="edadRE${reNumber}_${i}">Edad RE ${reNumber} ${i}:</label>
-                    <input type="text" id="edadRE${reNumber}_${i}" placeholder="Edad RE ${reNumber} ${i}">
-                    
-                    <label for="preferenciaRE${reNumber}_${i}">Preferencia RE ${reNumber} ${i}:</label>
-                    <input type="text" id="preferenciaRE${reNumber}_${i}" placeholder="Preferencia RE ${reNumber} ${i}">
+                    <div id="re${reNumber}_${i}Fields" class="dynamic-row">
+                        <label for="nombreRE${reNumber}_${i}">Nombre RE ${reNumber} ${i}:</label>
+                        <input type="text" id="nombreRE${reNumber}_${i}" placeholder="Nombre RE ${reNumber} ${i}">
+                        
+                        <label for="edadRE${reNumber}_${i}">Edad RE ${reNumber} ${i}:</label>
+                        <input type="text" id="edadRE${reNumber}_${i}" placeholder="Edad RE ${reNumber} ${i}">
+                        
+                        <label for="preferenciaRE${reNumber}_${i}">Preferencia RE ${reNumber} ${i}:</label>
+                        <input type="text" id="preferenciaRE${reNumber}_${i}" placeholder="Preferencia RE ${reNumber} ${i}">
+                    </div>
                 `;
                 dynamicREFields.appendChild(reField);
             }
