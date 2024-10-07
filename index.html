@@ -7,113 +7,150 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.5/pizzip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.3/docxtemplater.min.js"></script>
     <style>
-        /* Estilo global */
-        body {
-            font-family: 'Arial', sans-serif;
+        /* Estilos globales */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #e4e7eb;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f4f8, #e2eafc);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(to right, #00c6ff, #0072ff);
+            padding: 20px;
         }
 
         .container {
             background-color: white;
-            padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
             width: 100%;
-            max-width: 600px;
-            text-align: center;
+            max-width: 800px;
         }
 
         h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #333;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            outline: none;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease;
-        }
-
-        input:focus {
-            border-color: #0072ff;
-            background-color: #fff;
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background-color: #0072ff;
-            color: white;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        button:hover {
-            background-color: #005bb5;
-            transform: translateY(-2px);
-        }
-
-        button:active {
-            background-color: #004494;
-            transform: translateY(1px);
+            text-align: center;
+            font-size: 2.5em;
+            color: #4f5d73;
+            margin-bottom: 30px;
+            font-weight: 600;
         }
 
         .form-group {
-            margin-bottom: 15px;
-        }
-
-        .info-text {
-            font-size: 14px;
-            color: #777;
-            margin-top: 10px;
             margin-bottom: 20px;
         }
 
-        .error {
-            color: #d9534f;
-            font-size: 14px;
-            margin-top: -15px;
-            margin-bottom: 15px;
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            font-size: 16px;
+            color: #333;
+            transition: 0.3s ease;
         }
 
-        .dynamic-fields {
-            margin-bottom: 15px;
+        input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            background-color: #fff;
+            box-shadow: 0 0 8px rgba(108, 92, 247, 0.5);
         }
 
-        /* Estilo para los campos dinámicos de VIP y RE */
         .dynamic-fields div {
             display: flex;
-            justify-content: space-between;
             gap: 15px;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .dynamic-fields div input {
             flex: 1;
-            margin-bottom: 0; /* Evitar márgenes inferiores innecesarios */
+            min-width: 150px;
+        }
+
+        button {
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #5a4ed9;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            background-color: #4a3bcf;
+            transform: translateY(2px);
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #888;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
         }
 
         .vip-container, .re-container {
-            margin-top: 15px;
+            margin-bottom: 30px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 40px 0;
+        }
+
+        /* Animaciones */
+        .form-group input, button {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .form-group:nth-child(1) input,
+        .form-group:nth-child(2) input,
+        .form-group:nth-child(3) input {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(4) input,
+        .form-group:nth-child(5) input {
+            animation-delay: 0.4s;
+        }
+
+        button {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
     </style>
@@ -219,17 +256,15 @@
         const numRE = document.getElementById(`re${reNumber}`).value;
         const dynamicREFields = document.getElementById(`dynamicREFields_${reNumber}`);
 
-        // Limpiar los campos dinámicos previos para este RE
         let existingFields = document.querySelectorAll(`#re${reNumber}Fields`);
         existingFields.forEach(field => field.remove());
 
         if (numRE > 0) {
-            // Crear el contenedor para los campos RE si no existe
             let reContainer = document.getElementById(`dynamicREFields_${reNumber}`);
             if (!reContainer) {
                 reContainer = document.createElement('div');
                 reContainer.id = `dynamicREFields_${reNumber}`;
-                document.querySelector('.re-container').after(reContainer); // Insertamos después de la caja correspondiente
+                document.querySelector('.re-container').after(reContainer);
             }
 
             for (let i = 1; i <= numRE; i++) {
@@ -246,123 +281,6 @@
             }
         }
     }
-
-    // Función para generar el documento Word
-    document.getElementById('generarBtn').addEventListener('click', function() {
-        const ocupacion = document.getElementById('ocupacion').value;
-        const habitaciones = document.getElementById('habitaciones').value;
-        const numLlegadas = document.getElementById('numLlegadas').value;
-        const spc = document.getElementById('spc').value;
-
-        // Validar campos
-        let valid = true;
-        if (!ocupacion) {
-            document.getElementById('ocupacionError').textContent = 'Por favor ingresa la ocupación.';
-            valid = false;
-        }
-
-        if (!habitaciones) {
-            document.getElementById('habitacionesError').textContent = 'Por favor ingresa las habitaciones ocupadas preferidas.';
-            valid = false;
-        }
-
-        if (!numLlegadas) {
-            document.getElementById('numLlegadasError').textContent = 'Por favor ingresa el número de llegadas.';
-            valid = false;
-        }
-
-        if (!spc) {
-            document.getElementById('spcError').textContent = 'Por favor ingresa el SPC.';
-            valid = false;
-        }
-
-        if (!valid) return;
-
-        // Recopilar los datos de los campos dinámicos VIP y RE
-        let vipValues = [];
-        let reValues = [];
-
-        for (let vipNum = 1; vipNum <= 3; vipNum++) {
-            const numVIP = document.getElementById(`vip${vipNum}`).value;
-            for (let i = 1; i <= numVIP; i++) {
-                const habitacionVIP = document.getElementById(`habitacionVIP${vipNum}_${i}`).value;
-                const nombreVIP = document.getElementById(`nombreVIP${vipNum}_${i}`).value;
-                const motivoVIP = document.getElementById(`motivoVIP${vipNum}_${i}`).value;
-                vipValues.push({ habitacion: habitacionVIP, nombre: nombreVIP, motivo: motivoVIP });
-            }
-        }
-
-        for (let reNum = 2; reNum <= 4; reNum++) {
-            const numRE = document.getElementById(`re${reNum}`).value;
-            for (let i = 1; i <= numRE; i++) {
-                const habitacionRE = document.getElementById(`habitacionRE${reNum}_${i}`).value;
-                const nombreRE = document.getElementById(`nombreRE${reNum}_${i}`).value;
-                const motivoRE = document.getElementById(`motivoRE${reNum}_${i}`).value;
-                reValues.push({ habitacion: habitacionRE, nombre: nombreRE, motivo: motivoRE });
-            }
-        }
-
-        // Crear los datos del documento
-        const docData = {
-            ocupacion: ocupacion,
-            habitaciones: habitaciones,
-            numLlegadas: numLlegadas,
-            spc: spc,
-            vipValues: vipValues,
-            reValues: reValues
-        };
-
-        // Crear un archivo DOCX usando docxtemplater
-        const zip = new PizZip();
-        const doc = new docxtemplater(zip);
-
-        // Crear la plantilla para el documento
-        const template = `
-            <html xmlns:w="urn:schemas-microsoft-com:office:word">
-                <head>
-                    <meta charset="utf-8">
-                    <title>Documento de Llegadas</title>
-                </head>
-                <body>
-                    <h1>Información General</h1>
-                    <p><strong>Ocupación:</strong> {{ocupacion}}</p>
-                    <p><strong>Habitaciones ocupadas preferidas:</strong> {{habitaciones}}</p>
-
-                    <hr> <!-- Separador -->
-
-                    <h1>Llegadas Esperadas</h1>
-                    <p><strong>Número de llegadas:</strong> {{numLlegadas}}</p>
-                    <p><strong>SPC:</strong> {{spc}}</p>
-
-                    <h2>Detalles de VIPs</h2>
-                    {{#vipValues}}<p><strong>Habitación:</strong> {{habitacion}} - Nombre: {{nombre}} - Motivo: {{motivo}}</p>{{/vipValues}}
-
-                    <h2>Detalles de REs</h2>
-                    {{#reValues}}<p><strong>Habitación:</strong> {{habitacion}} - Nombre: {{nombre}} - Motivo: {{motivo}}</p>{{/reValues}}
-
-                    <footer>Documento generado automáticamente</footer>
-                </body>
-            </html>
-        `;
-
-        // Insertar los datos en la plantilla
-        doc.setData(docData);
-
-        // Generar el documento
-        try {
-            doc.render();
-        } catch (error) {
-            console.error("Error al generar el documento: ", error);
-            return;
-        }
-
-        // Generar el archivo Word
-        const out = doc.getZip().generate({ type: 'blob' });
-        const enlace = document.createElement('a');
-        enlace.href = URL.createObjectURL(out);
-        enlace.download = 'documento_llegadas.docx';
-        enlace.click();
-    });
 </script>
 
 </body>
