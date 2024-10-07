@@ -204,9 +204,9 @@
                 vipField.id = `${vipNumber}Fields`;
                 vipField.innerHTML = `
                     <div id="vip${vipNumber}_${i}Fields" class="dynamic-row">
+                        <input type="text" id="habitacionVIP${vipNumber}_${i}" placeholder="Habitación VIP ${vipNumber} ${i}">
                         <input type="text" id="nombreVIP${vipNumber}_${i}" placeholder="Nombre VIP ${vipNumber} ${i}">
-                        <input type="text" id="edadVIP${vipNumber}_${i}" placeholder="Edad VIP ${vipNumber} ${i}">
-                        <input type="text" id="preferenciaVIP${vipNumber}_${i}" placeholder="Preferencia VIP ${vipNumber} ${i}">
+                        <input type="text" id="motivoVIP${vipNumber}_${i}" placeholder="Motivo VIP ${vipNumber} ${i}">
                     </div>
                 `;
                 vipContainer.appendChild(vipField);
@@ -237,9 +237,9 @@
                 reField.id = `${reNumber}Fields`;
                 reField.innerHTML = `
                     <div id="re${reNumber}_${i}Fields" class="dynamic-row">
+                        <input type="text" id="habitacionRE${reNumber}_${i}" placeholder="Habitación RE ${reNumber} ${i}">
                         <input type="text" id="nombreRE${reNumber}_${i}" placeholder="Nombre RE ${reNumber} ${i}">
-                        <input type="text" id="edadRE${reNumber}_${i}" placeholder="Edad RE ${reNumber} ${i}">
-                        <input type="text" id="preferenciaRE${reNumber}_${i}" placeholder="Preferencia RE ${reNumber} ${i}">
+                        <input type="text" id="motivoRE${reNumber}_${i}" placeholder="Motivo RE ${reNumber} ${i}">
                     </div>
                 `;
                 reContainer.appendChild(reField);
@@ -282,4 +282,88 @@
         let vipValues = [];
         let reValues = [];
 
-       
+        for (let vipNum = 1; vipNum <= 3; vipNum++) {
+            const numVIP = document.getElementById(`vip${vipNum}`).value;
+            for (let i = 1; i <= numVIP; i++) {
+                const habitacionVIP = document.getElementById(`habitacionVIP${vipNum}_${i}`).value;
+                const nombreVIP = document.getElementById(`nombreVIP${vipNum}_${i}`).value;
+                const motivoVIP = document.getElementById(`motivoVIP${vipNum}_${i}`).value;
+                vipValues.push({ habitacion: habitacionVIP, nombre: nombreVIP, motivo: motivoVIP });
+            }
+        }
+
+        for (let reNum = 2; reNum <= 4; reNum++) {
+            const numRE = document.getElementById(`re${reNum}`).value;
+            for (let i = 1; i <= numRE; i++) {
+                const habitacionRE = document.getElementById(`habitacionRE${reNum}_${i}`).value;
+                const nombreRE = document.getElementById(`nombreRE${reNum}_${i}`).value;
+                const motivoRE = document.getElementById(`motivoRE${reNum}_${i}`).value;
+                reValues.push({ habitacion: habitacionRE, nombre: nombreRE, motivo: motivoRE });
+            }
+        }
+
+        // Crear los datos del documento
+        const docData = {
+            ocupacion: ocupacion,
+            habitaciones: habitaciones,
+            numLlegadas: numLlegadas,
+            spc: spc,
+            vipValues: vipValues,
+            reValues: reValues
+        };
+
+        // Crear un archivo DOCX usando docxtemplater
+        const zip = new PizZip();
+        const doc = new docxtemplater(zip);
+
+        // Crear la plantilla para el documento
+        const template = `
+            <html xmlns:w="urn:schemas-microsoft-com:office:word">
+                <head>
+                    <meta charset="utf-8">
+                    <title>Documento de Llegadas</title>
+                </head>
+                <body>
+                    <h1>Información General</h1>
+                    <p><strong>Ocupación:</strong> {{ocupacion}}</p>
+                    <p><strong>Habitaciones ocupadas preferidas:</strong> {{habitaciones}}</p>
+
+                    <hr> <!-- Separador -->
+
+                    <h1>Llegadas Esperadas</h1>
+                    <p><strong>Número de llegadas:</strong> {{numLlegadas}}</p>
+                    <p><strong>SPC:</strong> {{spc}}</p>
+
+                    <h2>Detalles de VIPs</h2>
+                    {{#vipValues}}<p><strong>Habitación:</strong> {{habitacion}} - Nombre: {{nombre}} - Motivo: {{motivo}}</p>{{/vipValues}}
+
+                    <h2>Detalles de REs</h2>
+                    {{#reValues}}<p><strong>Habitación:</strong> {{habitacion}} - Nombre: {{nombre}} - Motivo: {{motivo}}</p>{{/reValues}}
+
+                    <footer>Documento generado automáticamente</footer>
+                </body>
+            </html>
+        `;
+
+        // Insertar los datos en la plantilla
+        doc.setData(docData);
+
+        // Generar el documento
+        try {
+            doc.render();
+        } catch (error) {
+            console.error("Error al generar el documento: ", error);
+            return;
+        }
+
+        // Generar el archivo Word
+        const out = doc.getZip().generate({ type: 'blob' });
+        const enlace = document.createElement('a');
+        enlace.href = URL.createObjectURL(out);
+        enlace.download = 'documento_llegadas.docx';
+        enlace.click();
+    });
+</script>
+
+</body>
+</html>
