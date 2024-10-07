@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Documentos</title>
+    <title>Generador de Documento</title>
     <style>
         /* Estilo global */
         body {
@@ -168,7 +168,7 @@
         if (!valid) return;
 
         // Si los campos son válidos, crear el documento PDF
-        const { PDFDocument, rgb } = PDFLib;
+        const { PDFDocument } = PDFLib;
 
         const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage([600, 400]);
@@ -188,7 +188,9 @@
         const link = document.createElement('a');
         link.href = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
         link.download = 'documento_generado.pdf';
-        link.click();
+        document.body.appendChild(link); // Añadir el enlace al cuerpo del documento
+        link.click(); // Hacer click en el enlace para iniciar la descarga
+        document.body.removeChild(link); // Eliminar el enlace después de hacer click
     }
 </script>
 
