@@ -117,186 +117,35 @@
 </head>
 <body>
 
-<div class="container active" id="section1">
-    <h1>Generar Documento</h1>
-    <!-- Sección 1: Información General -->
-    <div class="form-group">
-        <input type="text" id="ocupacion" placeholder="Ocupación">
-        <div id="ocupacionError" class="error"></div>
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="habitaciones" placeholder="Habitaciones Ocupadas">
-        <div id="habitacionesError" class="error"></div>
-    </div>
-
-    <button id="nextBtn1">Siguiente</button>
-</div>
-
-<div class="container" id="section2">
-    <h1>Llegadas Esperadas</h1>
-    <!-- Sección 2: Llegadas Esperadas -->
-    <div class="form-group">
-        <input type="number" id="numLlegadas" min="1" placeholder="Número de Llegadas">
-        <div id="numLlegadasError" class="error"></div>
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="spcLlegadas" placeholder="SPC">
-        <div id="spcLlegadasError" class="error"></div>
-    </div>
-
-    <!-- Campos Dinámicos VIP y RE -->
-    <div class="form-group">
-        <input type="number" id="vip1" placeholder="VIP1 (Número)" onchange="generarCamposVIP(1)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="vip2" placeholder="VIP2 (Número)" onchange="generarCamposVIP(2)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="vip3" placeholder="VIP3 (Número)" onchange="generarCamposVIP(3)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="re2" placeholder="RE2 (Número)" onchange="generarCamposRE(2)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="re3" placeholder="RE3 (Número)" onchange="generarCamposRE(3)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="re4" placeholder="RE4 (Número)" onchange="generarCamposRE(4)">
-    </div>
-
-    <div id="dynamicVIPFields" class="dynamic-fields"></div>
-    <div id="dynamicREFields" class="dynamic-fields"></div>
-
-    <button id="prevBtn1">Volver</button>
-    <button id="nextBtn2">Siguiente</button>
-</div>
-
-<div class="container" id="section3">
-    <h1>Salidas Esperadas</h1>
-    <!-- Sección 3: Salidas Esperadas -->
-    <div class="form-group">
-        <input type="number" id="salidas" min="1" placeholder="Número de Salidas">
-        <div id="salidasError" class="error"></div>
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="spcSalidas" placeholder="SPC">
-        <div id="spcSalidasError" class="error"></div>
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="vip1Salidas" placeholder="VIP1 Salidas (Número)" onchange="generarCamposVIP(1)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="vip2Salidas" placeholder="VIP2 Salidas (Número)" onchange="generarCamposVIP(2)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="vip3Salidas" placeholder="VIP3 Salidas (Número)" onchange="generarCamposVIP(3)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="re2Salidas" placeholder="RE2 Salidas (Número)" onchange="generarCamposRE(2)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="re3Salidas" placeholder="RE3 Salidas (Número)" onchange="generarCamposRE(3)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="re4Salidas" placeholder="RE4 Salidas (Número)" onchange="generarCamposRE(4)">
-    </div>
-
-    <div id="dynamicVIPFieldsSalidas" class="dynamic-fields"></div>
-    <div id="dynamicREFieldsSalidas" class="dynamic-fields"></div>
-
-    <button id="prevBtn2">Volver</button>
-    <button id="nextBtn3">Siguiente</button>
-</div>
-
-<div class="container" id="section4">
-    <h1>Información de Trabajo</h1>
-    <!-- Sección 4: Información de Trabajo -->
-    <div class="form-group">
-        <input type="text" id="cambios" placeholder="Cambios">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="prolongaciones" placeholder="Prolongaciones">
-    </div>
-
-    <button id="prevBtn3">Volver</button>
-    <button id="nextBtn4">Siguiente</button>
-</div>
-
-<div class="container" id="section5">
-    <h1>Información de Eventos</h1>
-    <!-- Sección 5: Información de Eventos -->
-    <div class="form-group">
-        <input type="text" id="show" placeholder="Show de la Noche">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="trago" placeholder="Trago del Día">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="evento" placeholder="Evento Especial del Día">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="nocheTematica" placeholder="Noche Temática">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="restaurante1" placeholder="Restaurante Cerrados Secrets">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="restaurante2" placeholder="Restaurante Cerrados Dreams">
-    </div>
-
-    <button id="prevBtn4">Volver</button>
-    <button id="nextBtn5">Siguiente</button>
-</div>
-
 <div class="container" id="section6">
     <h1>Ventas del Día</h1>
     <!-- Sección 6: Ventas del Día -->
     <div class="form-group">
-        <input type="number" id="upsell" placeholder="Upsell">
+        <input type="text" id="upsell" placeholder="Upsell" oninput="calcularTotal()">
     </div>
 
     <div class="form-group">
-        <input type="number" id="cenars" placeholder="Cenars">
+        <input type="text" id="cenars" placeholder="Cenars" oninput="calcularTotal()">
     </div>
 
     <div class="form-group">
-        <input type="number" id="oasisr" placeholder="Oasisr">
+        <input type="text" id="oasisr" placeholder="Oasisr" oninput="calcularTotal()">
     </div>
 
     <div class="form-group">
-        <input type="number" id="balisr" placeholder="Balisr">
+        <input type="text" id="balisr" placeholder="Balisr" oninput="calcularTotal()">
     </div>
 
     <div class="form-group">
-        <input type="number" id="latser" placeholder="Latser">
+        <input type="text" id="latser" placeholder="Latser" oninput="calcularTotal()">
     </div>
 
     <div class="form-group">
-        <input type="number" id="rertau" placeholder="Rertau">
+        <input type="text" id="rertau" placeholder="Rertau" oninput="calcularTotal()">
     </div>
 
     <div class="form-group">
-        <input type="number" id="total" placeholder="Total" readonly>
+        <input type="text" id="total" placeholder="Total" readonly>
     </div>
 
     <button id="prevBtn5">Volver</button>
@@ -304,98 +153,52 @@
 </div>
 
 <script>
-    // Funciones de navegación entre secciones
-    function showSection(sectionId) {
-        const sections = document.querySelectorAll('.container');
-        sections.forEach(section => section.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
+    // Función para formatear los números a USD
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+        }).format(value);
     }
 
-    // Funciones para avanzar y retroceder entre secciones
-    document.getElementById('nextBtn1').onclick = function() {
-        showSection('section2');
+    // Función para calcular el total de las ventas
+    function calcularTotal() {
+        let upsell = parseFloat(document.getElementById('upsell').value.replace('$', '').replace(',', '') || 0);
+        let cenars = parseFloat(document.getElementById('cenars').value.replace('$', '').replace(',', '') || 0);
+        let oasisr = parseFloat(document.getElementById('oasisr').value.replace('$', '').replace(',', '') || 0);
+        let balisr = parseFloat(document.getElementById('balisr').value.replace('$', '').replace(',', '') || 0);
+        let latser = parseFloat(document.getElementById('latser').value.replace('$', '').replace(',', '') || 0);
+        let rertau = parseFloat(document.getElementById('rertau').value.replace('$', '').replace(',', '') || 0);
+
+        // Sumar todas las ventas
+        let total = upsell + cenars + oasisr + balisr + latser + rertau;
+
+        // Mostrar el total formateado
+        document.getElementById('total').value = formatCurrency(total);
     }
 
-    document.getElementById('prevBtn1').onclick = function() {
-        showSection('section1');
-    }
-
-    document.getElementById('nextBtn2').onclick = function() {
-        showSection('section3');
-    }
-
-    document.getElementById('prevBtn2').onclick = function() {
-        showSection('section2');
-    }
-
-    document.getElementById('nextBtn3').onclick = function() {
-        showSection('section4');
-    }
-
-    document.getElementById('prevBtn3').onclick = function() {
-        showSection('section3');
-    }
-
-    document.getElementById('nextBtn4').onclick = function() {
-        showSection('section5');
-    }
-
-    document.getElementById('prevBtn4').onclick = function() {
-        showSection('section4');
-    }
-
-    document.getElementById('nextBtn5').onclick = function() {
-        showSection('section6');
-    }
-
-    document.getElementById('prevBtn5').onclick = function() {
-        showSection('section5');
-    }
-
-    // Funciones para generar campos dinámicos de VIP
-    function generarCamposVIP(vipNumber) {
-        const numVIP = document.getElementById(`vip${vipNumber}`).value;
-        const dynamicVIPFields = document.getElementById(`dynamicVIPFields`);
-        dynamicVIPFields.innerHTML = '';
-
-        if (numVIP > 0) {
-            for (let i = 1; i <= numVIP; i++) {
-                const vipDiv = document.createElement('div');
-                vipDiv.classList.add('form-group');
-                vipDiv.innerHTML = `
-                    <input type="text" placeholder="Habitación VIP${vipNumber} ${i}" />
-                    <input type="text" placeholder="Nombre VIP${vipNumber} ${i}" />
-                    <input type="text" placeholder="Motivo VIP${vipNumber} ${i}" />
-                `;
-                dynamicVIPFields.appendChild(vipDiv);
-            }
+    // Función para manejar el cambio de valores
+    function onInputChange(event) {
+        let value = event.target.value;
+        // Formatear el valor como moneda
+        value = value.replace(/\D/g, ''); // Solo números
+        if (value !== '') {
+            event.target.value = formatCurrency(parseFloat(value) / 100);
         }
     }
 
-    // Funciones para generar campos dinámicos de RE
-    function generarCamposRE(reNumber) {
-        const numRE = document.getElementById(`re${reNumber}`).value;
-        const dynamicREFields = document.getElementById(`dynamicREFields`);
-        dynamicREFields.innerHTML = '';
+    // Event listeners para los campos de ventas
+    document.getElementById('upsell').addEventListener('input', onInputChange);
+    document.getElementById('cenars').addEventListener('input', onInputChange);
+    document.getElementById('oasisr').addEventListener('input', onInputChange);
+    document.getElementById('balisr').addEventListener('input', onInputChange);
+    document.getElementById('latser').addEventListener('input', onInputChange);
+    document.getElementById('rertau').addEventListener('input', onInputChange);
 
-        if (numRE > 0) {
-            for (let i = 1; i <= numRE; i++) {
-                const reDiv = document.createElement('div');
-                reDiv.classList.add('form-group');
-                reDiv.innerHTML = `
-                    <input type="text" placeholder="Habitación RE${reNumber} ${i}" />
-                    <input type="text" placeholder="Nombre RE${reNumber} ${i}" />
-                    <input type="text" placeholder="Motivo RE${reNumber} ${i}" />
-                `;
-                dynamicREFields.appendChild(reDiv);
-            }
-        }
-    }
-
-    // Generar documento (ejemplo básico)
+    // Función para generar el documento (aquí agregarías la lógica para generar el documento)
     document.getElementById('generateDoc').onclick = function() {
         alert('Generando documento...');
-        // Aquí deberías implementar la generación del archivo DOCX con los datos ingresados.
+        // Implementar la lógica para generar el documento DOCX o lo que sea necesario
     }
 </script>
 
