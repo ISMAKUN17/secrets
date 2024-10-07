@@ -38,14 +38,6 @@
             text-transform: uppercase;
         }
 
-        label {
-            font-size: 16px;
-            margin-bottom: 8px;
-            text-align: left;
-            color: #555;
-            display: block;
-        }
-
         input {
             width: 100%;
             padding: 12px;
@@ -115,12 +107,9 @@
             margin-bottom: 15px;
         }
 
-        .dynamic-fields div label {
-            flex: 1;
-        }
-
         .dynamic-fields div input {
-            flex: 2;
+            flex: 1;
+            margin-bottom: 0; /* Evitar márgenes inferiores innecesarios */
         }
 
         .vip-container, .re-container {
@@ -136,13 +125,11 @@
 
     <!-- Sección 1: Información General -->
     <div class="form-group">
-        <label for="ocupacion">Ocupación:</label>
         <input type="text" id="ocupacion" placeholder="Ingresa la ocupación">
         <div id="ocupacionError" class="error"></div>
     </div>
 
     <div class="form-group">
-        <label for="habitaciones">Habitaciones ocupadas preferidas:</label>
         <input type="text" id="habitaciones" placeholder="Ingresa las habitaciones ocupadas preferidas">
         <div id="habitacionesError" class="error"></div>
     </div>
@@ -151,46 +138,38 @@
 
     <!-- Sección 2: Llegadas Esperadas -->
     <div class="form-group">
-        <label for="numLlegadas">Número de llegadas:</label>
         <input type="number" id="numLlegadas" min="1" placeholder="Ingresa el número de llegadas">
         <div id="numLlegadasError" class="error"></div>
     </div>
 
     <div class="form-group">
-        <label for="spc">SPC:</label>
         <input type="text" id="spc" placeholder="Ingresa el SPC">
         <div id="spcError" class="error"></div>
     </div>
 
     <!-- Campos Dinámicos para VIP y RE -->
     <div class="form-group vip-container">
-        <label for="vip1">VIP 1:</label>
-        <input type="number" id="vip1" placeholder="Ingresa el número para VIP 1" onchange="generarCamposVIP(1)">
+        <input type="number" id="vip1" placeholder="Número VIP 1" onchange="generarCamposVIP(1)">
     </div>
 
     <div class="form-group vip-container">
-        <label for="vip2">VIP 2:</label>
-        <input type="number" id="vip2" placeholder="Ingresa el número para VIP 2" onchange="generarCamposVIP(2)">
+        <input type="number" id="vip2" placeholder="Número VIP 2" onchange="generarCamposVIP(2)">
     </div>
 
     <div class="form-group vip-container">
-        <label for="vip3">VIP 3:</label>
-        <input type="number" id="vip3" placeholder="Ingresa el número para VIP 3" onchange="generarCamposVIP(3)">
+        <input type="number" id="vip3" placeholder="Número VIP 3" onchange="generarCamposVIP(3)">
     </div>
 
     <div class="form-group re-container">
-        <label for="re2">RE 2:</label>
-        <input type="number" id="re2" placeholder="Ingresa el número para RE 2" onchange="generarCamposRE(2)">
+        <input type="number" id="re2" placeholder="Número RE 2" onchange="generarCamposRE(2)">
     </div>
 
     <div class="form-group re-container">
-        <label for="re3">RE 3:</label>
-        <input type="number" id="re3" placeholder="Ingresa el número para RE 3" onchange="generarCamposRE(3)">
+        <input type="number" id="re3" placeholder="Número RE 3" onchange="generarCamposRE(3)">
     </div>
 
     <div class="form-group re-container">
-        <label for="re4">RE 4:</label>
-        <input type="number" id="re4" placeholder="Ingresa el número para RE 4" onchange="generarCamposRE(4)">
+        <input type="number" id="re4" placeholder="Número RE 4" onchange="generarCamposRE(4)">
     </div>
 
     <div id="dynamicVIPFields" class="dynamic-fields"></div>
@@ -225,13 +204,8 @@
                 vipField.id = `${vipNumber}Fields`;
                 vipField.innerHTML = `
                     <div id="vip${vipNumber}_${i}Fields" class="dynamic-row">
-                        <label for="nombreVIP${vipNumber}_${i}">Nombre VIP ${vipNumber} ${i}:</label>
                         <input type="text" id="nombreVIP${vipNumber}_${i}" placeholder="Nombre VIP ${vipNumber} ${i}">
-                        
-                        <label for="edadVIP${vipNumber}_${i}">Edad VIP ${vipNumber} ${i}:</label>
                         <input type="text" id="edadVIP${vipNumber}_${i}" placeholder="Edad VIP ${vipNumber} ${i}">
-                        
-                        <label for="preferenciaVIP${vipNumber}_${i}">Preferencia VIP ${vipNumber} ${i}:</label>
                         <input type="text" id="preferenciaVIP${vipNumber}_${i}" placeholder="Preferencia VIP ${vipNumber} ${i}">
                     </div>
                 `;
@@ -263,13 +237,8 @@
                 reField.id = `${reNumber}Fields`;
                 reField.innerHTML = `
                     <div id="re${reNumber}_${i}Fields" class="dynamic-row">
-                        <label for="nombreRE${reNumber}_${i}">Nombre RE ${reNumber} ${i}:</label>
                         <input type="text" id="nombreRE${reNumber}_${i}" placeholder="Nombre RE ${reNumber} ${i}">
-                        
-                        <label for="edadRE${reNumber}_${i}">Edad RE ${reNumber} ${i}:</label>
                         <input type="text" id="edadRE${reNumber}_${i}" placeholder="Edad RE ${reNumber} ${i}">
-                        
-                        <label for="preferenciaRE${reNumber}_${i}">Preferencia RE ${reNumber} ${i}:</label>
                         <input type="text" id="preferenciaRE${reNumber}_${i}" placeholder="Preferencia RE ${reNumber} ${i}">
                     </div>
                 `;
@@ -313,88 +282,4 @@
         let vipValues = [];
         let reValues = [];
 
-        for (let vipNum = 1; vipNum <= 3; vipNum++) {
-            const numVIP = document.getElementById(`vip${vipNum}`).value;
-            for (let i = 1; i <= numVIP; i++) {
-                const nombreVIP = document.getElementById(`nombreVIP${vipNum}_${i}`).value;
-                const edadVIP = document.getElementById(`edadVIP${vipNum}_${i}`).value;
-                const preferenciaVIP = document.getElementById(`preferenciaVIP${vipNum}_${i}`).value;
-                vipValues.push({ nombre: nombreVIP, edad: edadVIP, preferencia: preferenciaVIP });
-            }
-        }
-
-        for (let reNum = 2; reNum <= 4; reNum++) {
-            const numRE = document.getElementById(`re${reNum}`).value;
-            for (let i = 1; i <= numRE; i++) {
-                const nombreRE = document.getElementById(`nombreRE${reNum}_${i}`).value;
-                const edadRE = document.getElementById(`edadRE${reNum}_${i}`).value;
-                const preferenciaRE = document.getElementById(`preferenciaRE${reNum}_${i}`).value;
-                reValues.push({ nombre: nombreRE, edad: edadRE, preferencia: preferenciaRE });
-            }
-        }
-
-        // Crear los datos del documento
-        const docData = {
-            ocupacion: ocupacion,
-            habitaciones: habitaciones,
-            numLlegadas: numLlegadas,
-            spc: spc,
-            vipValues: vipValues,
-            reValues: reValues
-        };
-
-        // Crear un archivo DOCX usando docxtemplater
-        const zip = new PizZip();
-        const doc = new docxtemplater(zip);
-
-        // Crear la plantilla para el documento
-        const template = `
-            <html xmlns:w="urn:schemas-microsoft-com:office:word">
-                <head>
-                    <meta charset="utf-8">
-                    <title>Documento de Llegadas</title>
-                </head>
-                <body>
-                    <h1>Información General</h1>
-                    <p><strong>Ocupación:</strong> {{ocupacion}}</p>
-                    <p><strong>Habitaciones ocupadas preferidas:</strong> {{habitaciones}}</p>
-
-                    <hr> <!-- Separador -->
-
-                    <h1>Llegadas Esperadas</h1>
-                    <p><strong>Número de llegadas:</strong> {{numLlegadas}}</p>
-                    <p><strong>SPC:</strong> {{spc}}</p>
-
-                    <h2>Detalles de VIPs</h2>
-                    {{#vipValues}}<p><strong>VIP:</strong> {{nombre}} - Edad: {{edad}} - Preferencia: {{preferencia}}</p>{{/vipValues}}
-
-                    <h2>Detalles de REs</h2>
-                    {{#reValues}}<p><strong>RE:</strong> {{nombre}} - Edad: {{edad}} - Preferencia: {{preferencia}}</p>{{/reValues}}
-
-                    <footer>Documento generado automáticamente</footer>
-                </body>
-            </html>
-        `;
-
-        // Insertar los datos en la plantilla
-        doc.setData(docData);
-
-        // Generar el documento
-        try {
-            doc.render();
-        } catch (error) {
-            console.error("Error al generar el documento: ", error);
-            return;
-        }
-
-        // Generar el archivo Word
-        const out = doc.getZip().generate({ type: 'blob' });
-        const enlace = document.createElement('a');
-        enlace.href = URL.createObjectURL(out);
-        enlace.download = 'documento_llegadas.docx';
-        enlace.click();
-    });
-</script>
-
-</body>
-</html>
+       
