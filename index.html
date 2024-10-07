@@ -155,7 +155,7 @@
         avanzarConEnter(event, document.getElementById('generarBtn'));
     });
 
-    // Función para generar el documento .txt
+    // Función para generar el documento .txt con formato bonito
     document.getElementById('generarBtn').addEventListener('click', function() {
         const nombre = document.getElementById('nombre').value;
         const email = document.getElementById('email').value;
@@ -186,8 +186,21 @@
 
         if (!valid) return;
 
-        // Si los campos son válidos, crear el documento .txt
-        const contenido = `Nombre: ${nombre}\nCorreo: ${email}\nFecha: ${fecha}`;
+        // Si los campos son válidos, crear el documento .txt con formato bonito
+        const contenido = `
+        =========================================
+                    INFORMACIÓN DE USUARIO
+        =========================================
+
+        Nombre Completo: ${nombre}
+        Correo Electrónico: ${email}
+        Fecha de Registro: ${fecha}
+
+        =========================================
+            ¡Gracias por ingresar tus datos!
+        =========================================
+        `;
+
         const blob = new Blob([contenido], { type: 'text/plain' });
 
         // Crear un enlace de descarga
@@ -202,3 +215,4 @@
 
 </body>
 </html>
+
