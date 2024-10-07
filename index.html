@@ -26,7 +26,7 @@
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
             text-align: center;
         }
 
@@ -102,6 +102,14 @@
             margin-top: -15px;
             margin-bottom: 15px;
         }
+
+        .dynamic-fields {
+            margin-bottom: 15px;
+        }
+
+        .dynamic-fields input {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -126,16 +134,19 @@
 
     <!-- Sección 2: Llegadas Esperadas -->
     <div class="form-group">
-        <label for="nombreLlegada">Nombre de la llegada esperada:</label>
-        <input type="text" id="nombreLlegada" placeholder="Ingresa el nombre">
-        <div id="nombreLlegadaError" class="error"></div>
+        <label for="numLlegadas">Número de llegadas:</label>
+        <input type="number" id="numLlegadas" min="1" placeholder="Ingresa el número de llegadas" onchange="generarCamposDinamicos()">
+        <div id="numLlegadasError" class="error"></div>
     </div>
 
     <div class="form-group">
-        <label for="fechaLlegada">Fecha de llegada:</label>
-        <input type="date" id="fechaLlegada">
-        <div id="fechaLlegadaError" class="error"></div>
+        <label for="spc">SPC:</label>
+        <input type="text" id="spc" placeholder="Ingresa el SPC">
+        <div id="spcError" class="error"></div>
     </div>
+
+    <!-- Campos Dinámicos para las Llegadas -->
+    <div id="dynamicFields" class="dynamic-fields"></div>
 
     <button id="generarBtn">Generar Documento Word</button>
 
@@ -143,6 +154,32 @@
 </div>
 
 <script>
+    // Función para generar los campos dinámicos de acuerdo al número de llegadas
+    function generarCamposDinamicos() {
+        const numLlegadas = document.getElementById('numLlegadas').value;
+        const dynamicFieldsContainer = document.getElementById('dynamicFields');
+        dynamicFieldsContainer.innerHTML = '';  // Limpiar campos previos
+
+        if (numLlegadas > 0) {
+            // Generar los campos VIP y RE
+            for (let i = 1; i <= numLlegadas; i++) {
+                const vipField = document.createElement('div');
+                vipField.innerHTML = `
+                    <label for="vip${i}">VIP ${i}:</label>
+                    <input type="text" id="vip${i}" placeholder="Nombre VIP ${i}">
+                `;
+                dynamicFieldsContainer.appendChild(vipField);
+
+                const reField = document.createElement('div');
+                reField.innerHTML = `
+                    <label for="re${i}">RE ${i}:</label>
+                    <input type="text" id="re${i}" placeholder="Nombre RE ${i}">
+                `;
+                dynamicFieldsContainer.appendChild(reField);
+            }
+        }
+    }
+
     // Función para avanzar al siguiente campo con la tecla Enter
     function avanzarConEnter(event, siguienteElemento) {
         if (event.key === 'Enter') {
@@ -157,14 +194,14 @@
     });
 
     document.getElementById('habitaciones').addEventListener('keydown', function(event) {
-        avanzarConEnter(event, document.getElementById('nombreLlegada'));
+        avanzarConEnter(event, document.getElementById('numLlegadas'));
     });
 
-    document.getElementById('nombreLlegada').addEventListener('keydown', function(event) {
-        avanzarConEnter(event, document.getElementById('fechaLlegada'));
+    document.getElementById('numLlegadas').addEventListener('keydown', function(event) {
+        avanzarConEnter(event, document.getElementById('spc'));
     });
 
-    document.getElementById('fechaLlegada').addEventListener('keydown', function(event) {
+    document.getElementById('spc').addEventListener('keydown', function(event) {
         avanzarConEnter(event, document.getElementById('generarBtn'));
     });
 
@@ -172,18 +209,11 @@
     document.getElementById('generarBtn').addEventListener('click', function() {
         const ocupacion = document.getElementById('ocupacion').value;
         const habitaciones = document.getElementById('habitaciones').value;
-        const nombreLlegada = document.getElementById('nombreLlegada').value;
-        const fechaLlegada = document.getElementById('fechaLlegada').value;
+        const numLlegadas = document.getElementById('numLlegadas').value;
+        const spc = document.getElementById('spc').value;
 
-        // Limpieza de mensajes de error
-        document.getElementById('ocupacionError').textContent = '';
-        document.getElementById('habitacionesError').textContent = '';
-        document.getElementById('nombreLlegadaError').textContent = '';
-        document.getElementById('fechaLlegadaError').textContent = '';
-
+        // Validar campos
         let valid = true;
-
-        // Validación de los campos
         if (!ocupacion) {
             document.getElementById('ocupacionError').textContent = 'Por favor ingresa la ocupación.';
             valid = false;
@@ -194,36 +224,49 @@
             valid = false;
         }
 
-        if (!nombreLlegada) {
-            document.getElementById('nombreLlegadaError').textContent = 'Por favor ingresa el nombre de la llegada esperada.';
+        if (!numLlegadas) {
+            document.getElementById('numLlegadasError').textContent = 'Por favor ingresa el número de llegadas.';
             valid = false;
         }
 
-        if (!fechaLlegada) {
-            document.getElementById('fechaLlegadaError').textContent = 'Por favor selecciona la fecha de llegada.';
+        if (!spc) {
+            document.getElementById('spcError').textContent = 'Por favor ingresa el SPC.';
             valid = false;
         }
 
         if (!valid) return;
 
-        // Si los campos son válidos, crear el documento .docx
+        // Recopilar los datos de los campos dinámicos
+        const vipValues = [];
+        const reValues = [];
+
+        for (let i = 1; i <= numLlegadas; i++) {
+            const vipValue = document.getElementById(`vip${i}`).value;
+            const reValue = document.getElementById(`re${i}`).value;
+            vipValues.push(vipValue);
+            reValues.push(reValue);
+        }
+
+        // Crear los datos del documento
         const docData = {
             ocupacion: ocupacion,
             habitaciones: habitaciones,
-            nombreLlegada: nombreLlegada,
-            fechaLlegada: fechaLlegada
+            numLlegadas: numLlegadas,
+            spc: spc,
+            vipValues: vipValues,
+            reValues: reValues
         };
 
         // Crear un archivo DOCX usando docxtemplater
         const zip = new PizZip();
         const doc = new docxtemplater(zip);
 
-        // Crear la estructura de un documento Word en blanco
+        // Crear la plantilla para el documento
         const template = `
             <html xmlns:w="urn:schemas-microsoft-com:office:word">
                 <head>
                     <meta charset="utf-8">
-                    <title>Documento de Usuario</title>
+                    <title>Documento de Llegadas</title>
                 </head>
                 <body>
                     <h1>Información General</h1>
@@ -233,10 +276,13 @@
                     <hr> <!-- Separador -->
 
                     <h1>Llegadas Esperadas</h1>
-                    <p><strong>Nombre de la llegada esperada:</strong> {{nombreLlegada}}</p>
-                    <p><strong>Fecha de llegada:</strong> {{fechaLlegada}}</p>
+                    <p><strong>Número de llegadas:</strong> {{numLlegadas}}</p>
+                    <p><strong>SPC:</strong> {{spc}}</p>
 
-                    <hr>
+                    <h2>Detalles de Llegadas</h2>
+                    {{#vipValues}}<p><strong>VIP:</strong> {{.}}</p>{{/vipValues}}
+                    {{#reValues}}<p><strong>RE:</strong> {{.}}</p>{{/reValues}}
+
                     <footer>Documento generado automáticamente</footer>
                 </body>
             </html>
@@ -257,7 +303,7 @@
         const out = doc.getZip().generate({ type: 'blob' });
         const enlace = document.createElement('a');
         enlace.href = URL.createObjectURL(out);
-        enlace.download = 'documento_usuario.docx';
+        enlace.download = 'documento_llegadas.docx';
         enlace.click();
     });
 </script>
