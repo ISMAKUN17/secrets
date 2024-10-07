@@ -140,7 +140,6 @@
                 transform: translateY(0);
             }
         }
-
     </style>
 </head>
 <body>
@@ -149,12 +148,12 @@
     <h1>Generar Documento Word</h1>
     <!-- Sección 1: Información General -->
     <div class="form-group">
-        <input type="text" id="ocupacion" placeholder="Ingresa la ocupación">
+        <input type="text" id="ocupacion" placeholder="Ocupación">
         <div id="ocupacionError" class="error"></div>
     </div>
 
     <div class="form-group">
-        <input type="text" id="habitaciones" placeholder="Ingresa las habitaciones ocupadas preferidas">
+        <input type="text" id="habitaciones" placeholder="Habitaciones Ocupadas">
         <div id="habitacionesError" class="error"></div>
     </div>
 
@@ -165,93 +164,102 @@
     <h1>Llegadas Esperadas</h1>
     <!-- Sección 2: Llegadas Esperadas -->
     <div class="form-group">
-        <input type="number" id="numLlegadas" min="1" placeholder="Ingresa el número de llegadas">
+        <input type="number" id="numLlegadas" min="1" placeholder="Número de Llegadas">
         <div id="numLlegadasError" class="error"></div>
     </div>
 
     <div class="form-group">
-        <input type="text" id="spc" placeholder="Ingresa el SPC">
-        <div id="spcError" class="error"></div>
+        <input type="text" id="spcLlegadas" placeholder="SPC">
+        <div id="spcLlegadasError" class="error"></div>
     </div>
+
+    <!-- Campos Dinámicos VIP y RE -->
+    <div class="form-group">
+        <input type="number" id="vip1" placeholder="VIP1 (Número)" onchange="generarCamposVIP(1)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="vip2" placeholder="VIP2 (Número)" onchange="generarCamposVIP(2)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="vip3" placeholder="VIP3 (Número)" onchange="generarCamposVIP(3)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re2" placeholder="RE2 (Número)" onchange="generarCamposRE(2)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re3" placeholder="RE3 (Número)" onchange="generarCamposRE(3)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re4" placeholder="RE4 (Número)" onchange="generarCamposRE(4)">
+    </div>
+
+    <div id="dynamicVIPFields" class="dynamic-fields"></div>
+    <div id="dynamicREFields" class="dynamic-fields"></div>
 
     <button id="prevBtn1">Volver</button>
     <button id="nextBtn2">Siguiente</button>
 </div>
 
 <div class="container" id="section3">
-    <h1>Campos Dinámicos</h1>
-    <!-- Campos Dinámicos para VIP y RE -->
-    <div class="form-group vip-container">
-        <input type="number" id="vip1" placeholder="Número VIP 1" onchange="generarCamposVIP(1)">
+    <h1>Salidas Esperadas</h1>
+    <!-- Sección 3: Salidas Esperadas -->
+    <div class="form-group">
+        <input type="number" id="salidas" min="1" placeholder="Número de Salidas">
+        <div id="salidasError" class="error"></div>
     </div>
 
-    <div class="form-group vip-container">
-        <input type="number" id="vip2" placeholder="Número VIP 2" onchange="generarCamposVIP(2)">
+    <div class="form-group">
+        <input type="text" id="spcSalidas" placeholder="SPC">
+        <div id="spcSalidasError" class="error"></div>
     </div>
 
-    <div class="form-group vip-container">
-        <input type="number" id="vip3" placeholder="Número VIP 3" onchange="generarCamposVIP(3)">
+    <div class="form-group">
+        <input type="number" id="vip1Salidas" placeholder="VIP1 Salidas (Número)" onchange="generarCamposVIP(1)">
     </div>
 
-    <div class="form-group re-container">
-        <input type="number" id="re2" placeholder="Número RE 2" onchange="generarCamposRE(2)">
+    <div class="form-group">
+        <input type="number" id="vip2Salidas" placeholder="VIP2 Salidas (Número)" onchange="generarCamposVIP(2)">
     </div>
 
-    <div class="form-group re-container">
-        <input type="number" id="re3" placeholder="Número RE 3" onchange="generarCamposRE(3)">
+    <div class="form-group">
+        <input type="number" id="vip3Salidas" placeholder="VIP3 Salidas (Número)" onchange="generarCamposVIP(3)">
     </div>
 
-    <div class="form-group re-container">
-        <input type="number" id="re4" placeholder="Número RE 4" onchange="generarCamposRE(4)">
+    <div class="form-group">
+        <input type="number" id="re2Salidas" placeholder="RE2 Salidas (Número)" onchange="generarCamposRE(2)">
     </div>
 
-    <div id="dynamicVIPFields" class="dynamic-fields"></div>
-    <div id="dynamicREFields" class="dynamic-fields"></div>
+    <div class="form-group">
+        <input type="number" id="re3Salidas" placeholder="RE3 Salidas (Número)" onchange="generarCamposRE(3)">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="re4Salidas" placeholder="RE4 Salidas (Número)" onchange="generarCamposRE(4)">
+    </div>
+
+    <div id="dynamicVIPFieldsSalidas" class="dynamic-fields"></div>
+    <div id="dynamicREFieldsSalidas" class="dynamic-fields"></div>
 
     <button id="prevBtn2">Volver</button>
-    <button id="generarBtn">Generar Documento Word</button>
+    <button id="nextBtn3">Siguiente</button>
 </div>
 
 <script>
-    // Función para cambiar de sección
+    // Funciones de navegación entre secciones
     function showSection(sectionId) {
         const sections = document.querySelectorAll('.container');
         sections.forEach(section => section.classList.remove('active'));
+
         document.getElementById(sectionId).classList.add('active');
     }
 
-    // Función de validación para cada sección
-    function validateSection1() {
-        const ocupacion = document.getElementById('ocupacion').value;
-        const habitaciones = document.getElementById('habitaciones').value;
-
-        if (!ocupacion || !habitaciones) {
-            if (!ocupacion) document.getElementById('ocupacionError').textContent = 'Por favor ingresa la ocupación.';
-            if (!habitaciones) document.getElementById('habitacionesError').textContent = 'Por favor ingresa las habitaciones ocupadas preferidas.';
-            return false;
-        }
-
-        return true;
-    }
-
-    function validateSection2() {
-        const numLlegadas = document.getElementById('numLlegadas').value;
-        const spc = document.getElementById('spc').value;
-
-        if (!numLlegadas || !spc) {
-            if (!numLlegadas) document.getElementById('numLlegadasError').textContent = 'Por favor ingresa el número de llegadas.';
-            if (!spc) document.getElementById('spcError').textContent = 'Por favor ingresa el SPC.';
-            return false;
-        }
-
-        return true;
-    }
-
-    // Funciones de navegación entre secciones
     document.getElementById('nextBtn1').onclick = function() {
-        if (validateSection1()) {
-            showSection('section2');
-        }
+        showSection('section2');
     }
 
     document.getElementById('prevBtn1').onclick = function() {
@@ -259,75 +267,53 @@
     }
 
     document.getElementById('nextBtn2').onclick = function() {
-        if (validateSection2()) {
-            showSection('section3');
-        }
+        showSection('section3');
     }
 
     document.getElementById('prevBtn2').onclick = function() {
         showSection('section2');
     }
 
-    // Función para generar campos dinámicos de VIP
+    // Funciones para generar campos dinámicos de VIP
     function generarCamposVIP(vipNumber) {
         const numVIP = document.getElementById(`vip${vipNumber}`).value;
-        const dynamicVIPFields = document.getElementById(`dynamicVIPFields_${vipNumber}`); // Cambié el id para cada VIP
-        
-        // Limpiar los campos dinámicos previos para este VIP
-        let existingFields = document.querySelectorAll(`#vip${vipNumber}Fields`);
-        existingFields.forEach(field => field.remove());
+        const dynamicVIPFields = document.getElementById(`dynamicVIPFields`);
+
+        // Limpiar los campos previos
+        dynamicVIPFields.innerHTML = '';
 
         if (numVIP > 0) {
-            // Crear el contenedor para los campos VIP si no existe
-            let vipContainer = document.getElementById(`dynamicVIPFields_${vipNumber}`);
-            if (!vipContainer) {
-                vipContainer = document.createElement('div');
-                vipContainer.id = `dynamicVIPFields_${vipNumber}`;
-                document.querySelector('.vip-container').after(vipContainer); // Insertamos después de la caja correspondiente
-            }
-
             for (let i = 1; i <= numVIP; i++) {
-                const vipField = document.createElement('div');
-                vipField.id = `${vipNumber}Fields`;
-                vipField.innerHTML = `
-                    <div id="vip${vipNumber}_${i}Fields" class="dynamic-row">
-                        <input type="text" id="habitacionVIP${vipNumber}_${i}" placeholder="Habitación VIP ${vipNumber} ${i}">
-                        <input type="text" id="nombreVIP${vipNumber}_${i}" placeholder="Nombre VIP ${vipNumber} ${i}">
-                        <input type="text" id="motivoVIP${vipNumber}_${i}" placeholder="Motivo VIP ${vipNumber} ${i}">
-                    </div>
+                const vipDiv = document.createElement('div');
+                vipDiv.classList.add('form-group');
+                vipDiv.innerHTML = `
+                    <input type="text" placeholder="Habitación VIP${vipNumber} ${i}" />
+                    <input type="text" placeholder="Nombre VIP${vipNumber} ${i}" />
+                    <input type="text" placeholder="Motivo VIP${vipNumber} ${i}" />
                 `;
-                vipContainer.appendChild(vipField);
+                dynamicVIPFields.appendChild(vipDiv);
             }
         }
     }
 
-    // Función para generar campos dinámicos de RE
+    // Funciones para generar campos dinámicos de RE
     function generarCamposRE(reNumber) {
         const numRE = document.getElementById(`re${reNumber}`).value;
-        const dynamicREFields = document.getElementById(`dynamicREFields_${reNumber}`);
+        const dynamicREFields = document.getElementById(`dynamicREFields`);
 
-        let existingFields = document.querySelectorAll(`#re${reNumber}Fields`);
-        existingFields.forEach(field => field.remove());
+        // Limpiar los campos previos
+        dynamicREFields.innerHTML = '';
 
         if (numRE > 0) {
-            let reContainer = document.getElementById(`dynamicREFields_${reNumber}`);
-            if (!reContainer) {
-                reContainer = document.createElement('div');
-                reContainer.id = `dynamicREFields_${reNumber}`;
-                document.querySelector('.re-container').after(reContainer);
-            }
-
             for (let i = 1; i <= numRE; i++) {
-                const reField = document.createElement('div');
-                reField.id = `${reNumber}Fields`;
-                reField.innerHTML = `
-                    <div id="re${reNumber}_${i}Fields" class="dynamic-row">
-                        <input type="text" id="habitacionRE${reNumber}_${i}" placeholder="Habitación RE ${reNumber} ${i}">
-                        <input type="text" id="nombreRE${reNumber}_${i}" placeholder="Nombre RE ${reNumber} ${i}">
-                        <input type="text" id="motivoRE${reNumber}_${i}" placeholder="Motivo RE ${reNumber} ${i}">
-                    </div>
+                const reDiv = document.createElement('div');
+                reDiv.classList.add('form-group');
+                reDiv.innerHTML = `
+                    <input type="text" placeholder="Habitación RE${reNumber} ${i}" />
+                    <input type="text" placeholder="Nombre RE${reNumber} ${i}" />
+                    <input type="text" placeholder="Motivo RE${reNumber} ${i}" />
                 `;
-                reContainer.appendChild(reField);
+                dynamicREFields.appendChild(reDiv);
             }
         }
     }
