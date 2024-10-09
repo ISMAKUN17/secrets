@@ -1,396 +1,421 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Documento</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.5/pizzip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.3/docxtemplater.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f0f4f8, #e2eafc);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            width: 100%;
-            max-width: 900px;
-            display: none;
-        }
-
-        .active {
-            display: block;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2.5em;
-            color: #4f5d73;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .dynamic-fields div {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .dynamic-fields div input {
-            flex: 1;
-            min-width: 150px;
-        }
-
-        button {
-            background-color: #6c5ce7;
-            color: white;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background-color: #5a4ed9;
-        }
-
-        .info-text {
-            font-size: 14px;
-            color: #888;
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .error {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-top: -10px;
-            margin-bottom: 10px;
-        }
-
-        .vip-container, .re-container {
-            margin-bottom: 30px;
-        }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background: #ddd;
-            margin: 40px 0;
-        }
-    </style>
+<html><head><base href="https://webcreator.app/daily-work/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Work</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+  }
+  h1 {
+    text-align: center;
+    color: #4a4a4a;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
+  .date {
+    text-align: right;
+    font-style: italic;
+    color: #888;
+    margin-bottom: 20px;
+  }
+  .greeting {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #4a4a4a;
+  }
+  .section {
+    margin-bottom: 25px;
+  }
+  .subsection {
+    margin-left: 20px;
+  }
+  input[type="number"], input[type="text"] {
+    width: 120px;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .input-group label {
+    min-width: 200px;
+  }
+  .details-container {
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+  .footer {
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 30px;
+    color: #4a4a4a;
+  }
+  .sales-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .total-sales {
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  .generate-report-btn {
+    display: block;
+    width: 200px;
+    margin: 30px auto;
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+  }
+  .generate-report-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+  }
+  .generate-report-btn:active {
+    transform: scale(0.95);
+  }
+</style>
 </head>
 <body>
-
-<div class="container" id="section1">
-    <h1>Información General</h1>
-    <!-- Sección 1: Información General -->
-    <div class="form-group">
-        <input type="text" id="ocupacion" placeholder="Ocupación">
+  <div class="container">
+    <h1>Daily Work</h1>
+    <div class="date" id="currentDate"></div>
+    
+    <div class="greeting">
+      GOOD MORNING! 🌷🌷🌷🌷🌷🌷🌷🌷<br>
+      ✨ For today we have: ✨
     </div>
 
-    <div class="form-group">
-        <input type="text" id="hab_ocupadas" placeholder="Habitaciones Ocupadas">
+    <div class="section">
+      <div class="input-group">
+        <label>🌟 Occupancy:</label>
+        <input type="number" id="occupancy" min="0" max="100"> %
+      </div>
+      <div class="input-group">
+        <label>🌹 HAB PREFERRED OCUPADAS:</label>
+        <input type="number" id="preferredRooms" min="0">
+      </div>
     </div>
 
-    <button id="nextBtn1">Siguiente</button>
-</div>
-
-<div class="container" id="section2">
-    <h1>Llegadas Esperadas</h1>
-    <!-- Sección 2: Llegadas Esperadas -->
-    <div class="form-group">
-        <input type="number" id="llegadas" placeholder="Número de Llegadas">
+    <div class="section">
+      <div class="input-group">
+        <label>🚪 Arrivals:</label>
+        <input type="number" id="arrivals" min="0">
+      </div>
+      <div class="subsection">
+        <div class="input-group">
+          <label>🌟 Spc:</label>
+          <input type="number" id="spc" min="0">
+        </div>
+        <div class="input-group">
+          <label>💎 VIP 1:</label>
+          <input type="number" id="vip1" min="0">
+        </div>
+        <div class="input-group">
+          <label>💎 VIP 2:</label>
+          <input type="number" id="vip2" min="0">
+        </div>
+        <div class="input-group">
+          <label>💎 VIP 3:</label>
+          <input type="number" id="vip3" min="0">
+        </div>
+        <div id="vipDetails" class="details-container"></div>
+      </div>
+      <div class="subsection">
+        <div class="input-group">
+          <label>🔄 Repeaters (RE2):</label>
+          <input type="number" id="re2" min="0">
+        </div>
+        <div class="input-group">
+          <label>🔄 Repeaters (RE3):</label>
+          <input type="number" id="re3" min="0">
+        </div>
+        <div class="input-group">
+          <label>🔄 Repeaters (RE4):</label>
+          <input type="number" id="re4" min="0">
+        </div>
+        <div id="repeaterDetails" class="details-container"></div>
+      </div>
     </div>
 
-    <div class="form-group">
-        <input type="number" id="spc" placeholder="SPC">
+    <div class="section">
+      <div class="input-group">
+        <label>🔄 Extensions:</label>
+        <input type="number" id="extensions" min="0">
+      </div>
+      <div id="extensionDetails" class="details-container"></div>
     </div>
 
-    <div class="form-group">
-        <input type="number" id="vip1" placeholder="VIP1" oninput="generarCamposVIP(1)">
+    <div class="section">
+      <div class="input-group">
+        <label>🚪 Departures:</label>
+        <input type="number" id="departures" min="0">
+      </div>
+      <div id="departureDetails" class="details-container"></div>
     </div>
 
-    <div class="form-group">
-        <input type="number" id="vip2" placeholder="VIP2" oninput="generarCamposVIP(2)">
+    <div class="section">
+      <div class="input-group">
+        <label>🔄 Room Changes:</label>
+        <input type="number" id="roomChanges" min="0">
+      </div>
+      <div id="changeDetails" class="details-container"></div>
     </div>
 
-    <div class="form-group">
-        <input type="number" id="vip3" placeholder="VIP3" oninput="generarCamposVIP(3)">
+    <div class="section">
+      <div class="input-group">
+        <label>🍽️ Closed Restaurants:</label>
+        <input type="text" id="closedRestaurants">
+      </div>
+      <div class="input-group">
+        <label>🎉 Thematic Night:</label>
+        <input type="text" id="thematicNight">
+      </div>
+      <div class="input-group">
+        <label>🌟 Closed Restaurant at Dreams Side:</label>
+        <input type="text" id="closedDreams">
+      </div>
+      <div class="input-group">
+        <label>🎭 Show of the Day:</label>
+        <input type="text" id="showOfDay">
+      </div>
+      <div class="input-group">
+        <label>🍹 Drink of the Day:</label>
+        <input type="text" id="drinkOfDay">
+      </div>
+      <div class="input-group">
+        <label>💃 Special Event:</label>
+        <input type="text" id="specialEvent">
+      </div>
     </div>
 
-    <div class="form-group">
-        <input type="number" id="re2" placeholder="RE2" oninput="generarCamposRE(2)">
+    <div class="section">
+      <div class="input-group">
+        <label>🌹 Romantic Dinner:</label>
+        <input type="number" id="romanticDinner" min="0">
+      </div>
+      <div class="subsection">
+        <div class="input-group">
+          <label>Paying:</label>
+          <input type="number" id="romanticDinnerPaying" min="0">
+        </div>
+        <div class="input-group">
+          <label>Courtesy:</label>
+          <input type="number" id="romanticDinnerCourtesy" min="0">
+        </div>
+        <div class="input-group">
+          <label>Property:</label>
+          <input type="number" id="romanticDinnerProperty" min="0">
+        </div>
+      </div>
     </div>
 
-    <div class="form-group">
-        <input type="number" id="re3" placeholder="RE3" oninput="generarCamposRE(3)">
+    <div class="section">
+      <div class="input-group">
+        <label>🏝️ Oasis:</label>
+        <input type="number" id="oasis" min="0">
+      </div>
+      <div class="subsection">
+        <div class="input-group">
+          <label>Paying:</label>
+          <input type="number" id="oasisPaying" min="0">
+        </div>
+        <div class="input-group">
+          <label>Courtesy:</label>
+          <input type="number" id="oasisCourtesy" min="0">
+        </div>
+        <div class="input-group">
+          <label>Property:</label>
+          <input type="number" id="oasisProperty" min="0">
+        </div>
+      </div>
     </div>
 
-    <div class="form-group">
-        <input type="number" id="re4" placeholder="RE4" oninput="generarCamposRE(4)">
+    <div class="section">
+      <h3>💰 SALES OF THE DAY</h3>
+      <div class="sales-grid">
+        <div class="input-group">
+          <label>Upsell:</label>
+          <input type="number" id="upsell" min="0" step="0.01">
+        </div>
+        <div class="input-group">
+          <label>Dinners:</label>
+          <input type="number" id="dinners" min="0" step="0.01">
+        </div>
+        <div class="input-group">
+          <label>OasisR:</label>
+          <input type="number" id="oasisR" min="0" step="0.01">
+        </div>
+        <div class="input-group">
+          <label>BalisR:</label>
+          <input type="number" id="balisR" min="0" step="0.01">
+        </div>
+        <div class="input-group">
+          <label>Latser:</label>
+          <input type="number" id="latser" min="0" step="0.01">
+        </div>
+        <div class="input-group">
+          <label>Rertau:</label>
+          <input type="number" id="rertau" min="0" step="0.01">
+        </div>
+        <div class="input-group">
+          <label>BaliR:</label>
+          <input type="number" id="baliR" min="0" step="0.01">
+        </div>
+      </div>
+      <div class="total-sales">
+        Total: <span id="totalSales">0.00</span> USD
+      </div>
     </div>
 
-    <div id="dynamicVIPFields" class="dynamic-fields"></div>
-    <div id="dynamicREFields" class="dynamic-fields"></div>
-
-    <button id="prevBtn1">Volver</button>
-    <button id="nextBtn2">Siguiente</button>
-</div>
-
-<div class="container" id="section3">
-    <h1>Salidas Esperadas</h1>
-    <!-- Sección 3: Salidas Esperadas -->
-    <div class="form-group">
-        <input type="number" id="salidas" placeholder="Número de Salidas">
+    <div class="section">
+      <button id="generateReport" class="generate-report-btn">Generate Report</button>
     </div>
 
-    <div class="form-group">
-        <input type="number" id="spc_salidas" placeholder="SPC">
+    <div class="footer">
+      🌷🌷🌷🌷🌷🌷🌷🌷
     </div>
+  </div>
 
-    <div class="form-group">
-        <input type="number" id="vip1_salidas" placeholder="VIP1" oninput="generarCamposVIP(1)">
-    </div>
+  <script>
+    document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
 
-    <div class="form-group">
-        <input type="number" id="vip2_salidas" placeholder="VIP2" oninput="generarCamposVIP(2)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="vip3_salidas" placeholder="VIP3" oninput="generarCamposVIP(3)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="re2_salidas" placeholder="RE2" oninput="generarCamposRE(2)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="re3_salidas" placeholder="RE3" oninput="generarCamposRE(3)">
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="re4_salidas" placeholder="RE4" oninput="generarCamposRE(4)">
-    </div>
-
-    <div id="dynamicVIPFieldsSalida" class="dynamic-fields"></div>
-    <div id="dynamicREFieldsSalida" class="dynamic-fields"></div>
-
-    <button id="prevBtn2">Volver</button>
-    <button id="nextBtn3">Siguiente</button>
-</div>
-
-<div class="container" id="section4">
-    <h1>Información de Trabajo</h1>
-    <!-- Sección 4: Información de Trabajo -->
-    <div class="form-group">
-        <input type="text" id="cambios" placeholder="Cambios">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="prolongaciones" placeholder="Prolongaciones">
-    </div>
-
-    <button id="prevBtn3">Volver</button>
-    <button id="nextBtn4">Siguiente</button>
-</div>
-
-<div class="container" id="section5">
-    <h1>Información de Eventos</h1>
-    <!-- Sección 5: Información de Eventos -->
-    <div class="form-group">
-        <input type="text" id="show" placeholder="Show de la Noche">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="trago" placeholder="Trago del Día">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="evento" placeholder="Evento Especial del Día">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="noche" placeholder="Noche Temática">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="secrets" placeholder="Restaurante Cerrados Secrets">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="dreams" placeholder="Restaurante Cerrados Dreams">
-    </div>
-
-    <button id="prevBtn4">Volver</button>
-    <button id="nextBtn5">Siguiente</button>
-</div>
-
-<div class="container" id="section6">
-    <h1>Ventas del Día</h1>
-    <!-- Sección 6: Ventas del Día -->
-    <div class="form-group">
-        <input type="text" id="upsell" placeholder="Upsell" oninput="calcularTotal()">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="cenars" placeholder="Cenars" oninput="calcularTotal()">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="oasisr" placeholder="Oasisr" oninput="calcularTotal()">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="balisr" placeholder="Balisr" oninput="calcularTotal()">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="latser" placeholder="Latser" oninput="calcularTotal()">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="rertau" placeholder="Rertau" oninput="calcularTotal()">
-    </div>
-
-    <div class="form-group">
-        <input type="text" id="total" placeholder="Total" readonly>
-    </div>
-
-    <button id="prevBtn5">Volver</button>
-    <button id="generateDoc">Generar Documento</button>
-</div>
-
-<script>
-    // Función para formatear los números a USD
-    function formatCurrency(value) {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        }).format(value);
+    function updateDetails(id, detailsId, includeReason = true) {
+      const count = parseInt(document.getElementById(id).value) || 0;
+      let html = '';
+      for (let i = 0; i < count; i++) {
+        html += `
+          <div class="input-group">
+            <input type="text" placeholder="Room">
+            <input type="text" placeholder="Name">
+            ${includeReason ? '<input type="text" placeholder="Reason">' : ''}
+          </div>
+        `;
+      }
+      document.getElementById(detailsId).innerHTML = html;
     }
 
-    // Función para calcular el total de las ventas
-    function calcularTotal() {
-        let upsell = parseFloat(document.getElementById('upsell').value.replace('$', '').replace(',', '') || 0);
-        let cenars = parseFloat(document.getElementById('cenars').value.replace('$', '').replace(',', '') || 0);
-        let oasisr = parseFloat(document.getElementById('oasisr').value.replace('$', '').replace(',', '') || 0);
-        let balisr = parseFloat(document.getElementById('balisr').value.replace('$', '').replace(',', '') || 0);
-        let latser = parseFloat(document.getElementById('latser').value.replace('$', '').replace(',', '') || 0);
-        let rertau = parseFloat(document.getElementById('rertau').value.replace('$', '').replace(',', '') || 0);
-
-        // Sumar todas las ventas
-        let total = upsell + cenars + oasisr + balisr + latser + rertau;
-
-        // Mostrar el total formateado
-        document.getElementById('total').value = formatCurrency(total);
+    function updateExtensionDetails() {
+      const count = parseInt(document.getElementById('extensions').value) || 0;
+      let html = '';
+      for (let i = 0; i < count; i++) {
+        html += `
+          <div class="input-group">
+            <input type="text" class="current-room" placeholder="Current Room">
+            <input type="text" class="new-room" placeholder="New Room">
+            <span class="change-status"></span>
+          </div>
+        `;
+      }
+      document.getElementById('extensionDetails').innerHTML = html;
+      updateChangeStatus();
     }
 
-    // Función para manejar el cambio de valores
-    function onInputChange(event) {
-        let value = event.target.value;
-        // Formatear el valor como moneda
-        value = value.replace(/\D/g, ''); // Solo números
-        if (value !== '') {
-            event.target.value = formatCurrency(parseFloat(value) / 100);
+    function updateChangeStatus() {
+      const extensions = document.querySelectorAll('#extensionDetails .input-group');
+      extensions.forEach(group => {
+        const current = group.querySelector('.current-room').value;
+        const newRoom = group.querySelector('.new-room').value;
+        const status = group.querySelector('.change-status');
+        if (current === newRoom && current !== '') {
+          status.innerHTML = '<i>(No change required)</i>';
+        } else {
+          status.innerHTML = '';
         }
+      });
     }
 
-    // Event listeners para los campos de ventas
-    document.getElementById('upsell').addEventListener('input', onInputChange);
-    document.getElementById('cenars').addEventListener('input', onInputChange);
-    document.getElementById('oasisr').addEventListener('input', onInputChange);
-    document.getElementById('balisr').addEventListener('input', onInputChange);
-    document.getElementById('latser').addEventListener('input', onInputChange);
-    document.getElementById('rertau').addEventListener('input', onInputChange);
-
-    // Función para mostrar la siguiente sección
-    function mostrarSeccion(id) {
-        document.querySelectorAll('.container').forEach(function(container) {
-            container.classList.remove('active');
-        });
-        document.getElementById(id).classList.add('active');
+    function updateChangeDetails() {
+      const count = parseInt(document.getElementById('roomChanges').value) || 0;
+      let html = '';
+      for (let i = 0; i < count; i++) {
+        html += `
+          <div class="input-group">
+            <input type="text" placeholder="Current Room">
+            <input type="text" placeholder="New Room">
+            <input type="text" placeholder="Reason">
+          </div>
+        `;
+      }
+      document.getElementById('changeDetails').innerHTML = html;
     }
 
-    // Manejo de botones de navegación entre secciones
-    document.getElementById('nextBtn1').onclick = function() {
-        mostrarSeccion('section2');
+    function updateTotalSales() {
+      const salesInputs = ['upsell', 'dinners', 'oasisR', 'balisR', 'latser', 'rertau', 'baliR'];
+      const total = salesInputs.reduce((sum, id) => {
+        return sum + (parseFloat(document.getElementById(id).value) || 0);
+      }, 0);
+      document.getElementById('totalSales').innerText = total.toFixed(2);
     }
 
-    document.getElementById('nextBtn2').onclick = function() {
-        mostrarSeccion('section3');
+    function generateReport() {
+      const inputs = document.querySelectorAll('input');
+      let reportData = {};
+      
+      inputs.forEach(input => {
+        if (input.id) {
+          reportData[input.id] = input.value;
+        }
+      });
+
+      let csvContent = "data:text/csv;charset=utf-8,";
+      Object.keys(reportData).forEach(key => {
+        csvContent += key + "," + reportData[key] + "\n";
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "daily_work_report.csv");
+      document.body.appendChild(link);
+      link.click();
     }
 
-    document.getElementById('nextBtn3').onclick = function() {
-        mostrarSeccion('section4');
-    }
+    ['vip1', 'vip2', 'vip3'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => updateDetails(id, 'vipDetails'));
+    });
 
-    document.getElementById('nextBtn4').onclick = function() {
-        mostrarSeccion('section5');
-    }
+    ['re2', 're3', 're4'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => updateDetails(id, 'repeaterDetails'));
+    });
 
-    document.getElementById('nextBtn5').onclick = function() {
-        mostrarSeccion('section6');
-    }
+    document.getElementById('extensions').addEventListener('input', updateExtensionDetails);
+    document.getElementById('extensionDetails').addEventListener('input', updateChangeStatus);
+    document.getElementById('departures').addEventListener('input', () => updateDetails('departures', 'departureDetails', false));
+    document.getElementById('roomChanges').addEventListener('input', updateChangeDetails);
 
-    document.getElementById('prevBtn1').onclick = function() {
-        mostrarSeccion('section1');
-    }
+    ['upsell', 'dinners', 'oasisR', 'balisR', 'latser', 'rertau', 'baliR'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateTotalSales);
+    });
 
-    document.getElementById('prevBtn2').onclick = function() {
-        mostrarSeccion('section2');
-    }
-
-    document.getElementById('prevBtn3').onclick = function() {
-        mostrarSeccion('section3');
-    }
-
-    document.getElementById('prevBtn4').onclick = function() {
-        mostrarSeccion('section4');
-    }
-
-    document.getElementById('prevBtn5').onclick = function() {
-        mostrarSeccion('section5');
-    }
-
-    // Inicializar la primera sección al cargar la página
-    mostrarSeccion('section1');
-</script>
-
+    document.getElementById('generateReport').addEventListener('click', generateReport);
+  </script>
 </body>
 </html>
