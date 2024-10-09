@@ -1,0 +1,260 @@
+<html><head><base href="data:text/csv;charset=utf-8,occupancy,69%250ApreferredRooms,278%250Aarrivals,5%250Aspc,24%250Avip1,1%250Avip2,1%250Avip3,1%250Are2,1%250Are3,1%250Are4,1%250Aextensions,2%250Adepartures,2%250AroomChanges,1%250AclosedRestaurants,DFDSF%250AthematicNight,SDFSDFS%250AclosedDreams,SDFDFDS%250AshowOfDay,SDFSDF%250AdrinkOfDay,SDFSDF%250AspecialEvent,SDFSDF%250AromanticDinner,5%250AromanticDinnerPaying,4%250AromanticDinnerCourtesy,4%250AromanticDinnerProperty,2%250Aoasis,41%250AoasisPaying,5%250AoasisCourtesy,5%250AoasisProperty,55%250Aupsell,45353%250Adinners,34534%250AoasisR,345345%250AbalisR,345%250Alatser,345345%250Arertau,345%250AbaliR,3453%250AguestName,%250AtotalArrivals,3%250AtotalSales,774720.00%250A">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Work Report Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+  }
+  h1 {
+    color: #4a4a4a;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .section {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+  }
+  .section:last-child {
+    border-bottom: none;
+  }
+  h2 {
+    color: #6a5acd;
+    margin-bottom: 15px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  .item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #4a4a4a;
+  }
+  .item span {
+    color: #6a5acd;
+    font-weight: bold;
+  }
+  @media (max-width: 600px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Daily Work Report Summary</h1>
+    
+    <div class="section">
+      <h2>General Information</h2>
+      <div class="grid">
+        <div class="item">
+          <strong>Occupancy:</strong>
+          <span>69%</span>
+        </div>
+        <div class="item">
+          <strong>Preferred Rooms Occupied:</strong>
+          <span>278</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Arrivals and Departures</h2>
+      <div class="grid">
+        <div class="item">
+          <strong>Arrivals:</strong>
+          <span>5</span>
+        </div>
+        <div class="item">
+          <strong>Total Arrivals:</strong>
+          <span>3</span>
+        </div>
+        <div class="item">
+          <strong>Departures:</strong>
+          <span>2</span>
+        </div>
+        <div class="item">
+          <strong>Extensions:</strong>
+          <span>2</span>
+        </div>
+        <div class="item">
+          <strong>Room Changes:</strong>
+          <span>1</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Guest Types</h2>
+      <div class="grid">
+        <div class="item">
+          <strong>SPC:</strong>
+          <span>24</span>
+        </div>
+        <div class="item">
+          <strong>VIP 1:</strong>
+          <span>1</span>
+        </div>
+        <div class="item">
+          <strong>VIP 2:</strong>
+          <span>1</span>
+        </div>
+        <div class="item">
+          <strong>VIP 3:</strong>
+          <span>1</span>
+        </div>
+        <div class="item">
+          <strong>RE2:</strong>
+          <span>1</span>
+        </div>
+        <div class="item">
+          <strong>RE3:</strong>
+          <span>1</span>
+        </div>
+        <div class="item">
+          <strong>RE4:</strong>
+          <span>1</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Daily Activities</h2>
+      <div class="grid">
+        <div class="item">
+          <strong>Closed Restaurants:</strong>
+          <span>DFDSF</span>
+        </div>
+        <div class="item">
+          <strong>Thematic Night:</strong>
+          <span>SDFSDFS</span>
+        </div>
+        <div class="item">
+          <strong>Closed at Dreams Side:</strong>
+          <span>SDFDFDS</span>
+        </div>
+        <div class="item">
+          <strong>Show of the Day:</strong>
+          <span>SDFSDF</span>
+        </div>
+        <div class="item">
+          <strong>Drink of the Day:</strong>
+          <span>SDFSDF</span>
+        </div>
+        <div class="item">
+          <strong>Special Event:</strong>
+          <span>SDFSDF</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Special Services</h2>
+      <div class="grid">
+        <div class="item">
+          <strong>Romantic Dinner (Total):</strong>
+          <span>5</span>
+        </div>
+        <div class="item">
+          <strong>Romantic Dinner (Paying):</strong>
+          <span>4</span>
+        </div>
+        <div class="item">
+          <strong>Romantic Dinner (Courtesy):</strong>
+          <span>4</span>
+        </div>
+        <div class="item">
+          <strong>Romantic Dinner (Property):</strong>
+          <span>2</span>
+        </div>
+        <div class="item">
+          <strong>Oasis (Total):</strong>
+          <span>41</span>
+        </div>
+        <div class="item">
+          <strong>Oasis (Paying):</strong>
+          <span>5</span>
+        </div>
+        <div class="item">
+          <strong>Oasis (Courtesy):</strong>
+          <span>5</span>
+        </div>
+        <div class="item">
+          <strong>Oasis (Property):</strong>
+          <span>55</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Sales of the Day</h2>
+      <div class="grid">
+        <div class="item">
+          <strong>Upsell:</strong>
+          <span>$45,353</span>
+        </div>
+        <div class="item">
+          <strong>Dinners:</strong>
+          <span>$34,534</span>
+        </div>
+        <div class="item">
+          <strong>OasisR:</strong>
+          <span>$345,345</span>
+        </div>
+        <div class="item">
+          <strong>BalisR:</strong>
+          <span>$345</span>
+        </div>
+        <div class="item">
+          <strong>Latser:</strong>
+          <span>$345,345</span>
+        </div>
+        <div class="item">
+          <strong>Rertau:</strong>
+          <span>$345</span>
+        </div>
+        <div class="item">
+          <strong>BaliR:</strong>
+          <span>$3,453</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Total Sales</h2>
+      <div class="grid">
+        <div class="item">
+          <strong>Total Sales:</strong>
+          <span>$774,720.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
