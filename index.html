@@ -104,6 +104,8 @@
             const lines = text.split("\n");
 
             lines.forEach(line => {
+                console.log("Procesando línea:", line);  // Para depuración en consola
+
                 // Ajuste de expresión regular para formato de WhatsApp
                 const match = line.match(/^(\d{1,2}\/\d{1,2}\/\d{2,4}),? (\d{1,2}:\d{2}) - (.*?): (.*)$/);
                 if (match) {
@@ -127,6 +129,8 @@
                     messageDiv.appendChild(messageContent);
                     messageDiv.appendChild(timestamp);
                     messageContainer.appendChild(messageDiv);
+                } else {
+                    console.warn("Línea no coincide con el formato:", line);
                 }
             });
         }
