@@ -1,448 +1,135 @@
-<html><head><base href="https://webcreator.app/daily-work/">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Work</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-    margin: 0;
-    padding: 20px;
-    color: #333;
-  }
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-  }
-  h1 {
-    text-align: center;
-    color: #4a4a4a;
-    font-size: 2.5em;
-    margin-bottom: 10px;
-  }
-  .date {
-    text-align: right;
-    font-style: italic;
-    color: #888;
-    margin-bottom: 20px;
-  }
-  .greeting {
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    color: #4a4a4a;
-  }
-  .section {
-    margin-bottom: 25px;
-  }
-  .subsection {
-    margin-left: 20px;
-  }
-  input[type="number"], input[type="text"] {
-    width: 120px;
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  .input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  .input-group label {
-    min-width: 200px;
-  }
-  .details-container {
-    margin-left: 20px;
-    margin-top: 10px;
-  }
-  .footer {
-    text-align: center;
-    font-size: 1.5em;
-    margin-top: 30px;
-    color: #4a4a4a;
-  }
-  .sales-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  .total-sales {
-    font-weight: bold;
-    margin-top: 15px;
-  }
-  .generate-report-btn {
-    display: block;
-    width: 200px;
-    margin: 30px auto;
-    padding: 12px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
-  }
-  .generate-report-btn:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
-  }
-  .generate-report-btn:active {
-    transform: scale(0.95);
-  }
-  @media (max-width: 768px) {
-    .container {
-      padding: 15px;
-    }
-    
-    h1 {
-      font-size: 2em;
-    }
-    
-    .input-group {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    
-    .input-group label {
-      min-width: auto;
-      margin-bottom: 5px;
-    }
-    
-    input[type="number"], input[type="text"] {
-      width: 100%;
-    }
-    
-    .sales-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de Mensajes de WhatsApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e5ddd5;
+            margin: 0;
+        }
+        #app {
+            width: 90%;
+            max-width: 600px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+        #header {
+            background-color: #075e54;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            text-align: center;
+        }
+        #message-container {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #ece5dd;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+        .message.sent {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .message.received {
+            background-color: #ffffff;
+            align-self: flex-start;
+            text-align: left;
+        }
+        #file-input {
+            display: none;
+        }
+        .button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #25d366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            text-align: center;
+        }
+        .timestamp {
+            font-size: 12px;
+            color: gray;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Daily Work</h1>
-    <div class="date" id="currentDate"></div>
-    
-    <div class="greeting">
-      GOOD MORNING! 🌷🌷🌷🌷🌷🌷🌷🌷<br>
-      ✨ For today we have: ✨
+    <div id="app">
+        <div id="header">Visualizador de Mensajes de WhatsApp</div>
+        <div id="message-container"></div>
+        <label class="button" for="file-input">Cargar archivo .txt</label>
+        <input type="file" id="file-input" accept=".txt">
     </div>
 
-    <div class="section">
-      <div class="input-group">
-        <label>🌟 Occupancy:</label>
-        <input type="number" id="occupancy" min="0" max="100"> %
-      </div>
-      <div class="input-group">
-        <label>🌹 HAB PREFERRED OCUPADAS:</label>
-        <input type="number" id="preferredRooms" min="0">
-      </div>
-    </div>
+    <script>
+        const fileInput = document.getElementById("file-input");
+        const messageContainer = document.getElementById("message-container");
 
-    <div class="section">
-      <div class="input-group">
-        <label>🚪 Arrivals:</label>
-        <input type="number" id="arrivals" min="0">
-      </div>
-      <div class="subsection">
-        <div class="input-group">
-          <label>🌟 Spc:</label>
-          <input type="number" id="spc" min="0">
-        </div>
-        <div class="input-group">
-          <label>💎 VIP 1:</label>
-          <input type="number" id="vip1" min="0">
-        </div>
-        <div class="input-group">
-          <label>💎 VIP 2:</label>
-          <input type="number" id="vip2" min="0">
-        </div>
-        <div class="input-group">
-          <label>💎 VIP 3:</label>
-          <input type="number" id="vip3" min="0">
-        </div>
-        <div id="vipDetails" class="details-container"></div>
-      </div>
-      <div class="subsection">
-        <div class="input-group">
-          <label>🔄 Repeaters (RE2):</label>
-          <input type="number" id="re2" min="0">
-        </div>
-        <div class="input-group">
-          <label>🔄 Repeaters (RE3):</label>
-          <input type="number" id="re3" min="0">
-        </div>
-        <div class="input-group">
-          <label>🔄 Repeaters (RE4):</label>
-          <input type="number" id="re4" min="0">
-        </div>
-        <div id="repeaterDetails" class="details-container"></div>
-      </div>
-    </div>
+        fileInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const text = e.target.result;
+                    displayMessages(text);
+                };
+                reader.readAsText(file);
+            }
+        });
 
-    <div class="section">
-      <div class="input-group">
-        <label>🔄 Extensions:</label>
-        <input type="number" id="extensions" min="0">
-      </div>
-      <div id="extensionDetails" class="details-container"></div>
-    </div>
+        function displayMessages(text) {
+            messageContainer.innerHTML = ""; // Limpiar mensajes previos
+            const lines = text.split("\n");
 
-    <div class="section">
-      <div class="input-group">
-        <label>🚪 Departures:</label>
-        <input type="number" id="departures" min="0">
-      </div>
-      <div id="departureDetails" class="details-container"></div>
-    </div>
+            lines.forEach(line => {
+                // Ajuste de expresión regular para formato de WhatsApp
+                const match = line.match(/^(\d{1,2}\/\d{1,2}\/\d{2,4}),? (\d{1,2}:\d{2}) - (.*?): (.*)$/);
+                if (match) {
+                    const [, date, time, sender, message] = match;
+                    const messageDiv = document.createElement("div");
+                    messageDiv.classList.add("message");
+                    messageDiv.classList.add(sender === "Yo" ? "sent" : "received");
 
-    <div class="section">
-      <div class="input-group">
-        <label>🔄 Room Changes:</label>
-        <input type="number" id="roomChanges" min="0">
-      </div>
-      <div id="changeDetails" class="details-container"></div>
-    </div>
+                    const senderSpan = document.createElement("span");
+                    senderSpan.textContent = `${sender}: `;
+                    senderSpan.style.fontWeight = "bold";
 
-    <div class="section">
-      <div class="input-group">
-        <label>🍽️ Closed Restaurants:</label>
-        <input type="text" id="closedRestaurants">
-      </div>
-      <div class="input-group">
-        <label>🎉 Thematic Night:</label>
-        <input type="text" id="thematicNight">
-      </div>
-      <div class="input-group">
-        <label>🌟 Closed Restaurant at Dreams Side:</label>
-        <input type="text" id="closedDreams">
-      </div>
-      <div class="input-group">
-        <label>🎭 Show of the Day:</label>
-        <input type="text" id="showOfDay">
-      </div>
-      <div class="input-group">
-        <label>🍹 Drink of the Day:</label>
-        <input type="text" id="drinkOfDay">
-      </div>
-      <div class="input-group">
-        <label>💃 Special Event:</label>
-        <input type="text" id="specialEvent">
-      </div>
-    </div>
+                    const messageContent = document.createElement("span");
+                    messageContent.textContent = message;
 
-    <div class="section">
-      <div class="input-group">
-        <label>🌹 Romantic Dinner:</label>
-        <input type="number" id="romanticDinner" min="0">
-      </div>
-      <div class="subsection">
-        <div class="input-group">
-          <label>Paying:</label>
-          <input type="number" id="romanticDinnerPaying" min="0">
-        </div>
-        <div class="input-group">
-          <label>Courtesy:</label>
-          <input type="number" id="romanticDinnerCourtesy" min="0">
-        </div>
-        <div class="input-group">
-          <label>Property:</label>
-          <input type="number" id="romanticDinnerProperty" min="0">
-        </div>
-      </div>
-    </div>
+                    const timestamp = document.createElement("div");
+                    timestamp.classList.add("timestamp");
+                    timestamp.textContent = `${date} ${time}`;
 
-    <div class="section">
-      <div class="input-group">
-        <label>🏝️ Oasis:</label>
-        <input type="number" id="oasis" min="0">
-      </div>
-      <div class="subsection">
-        <div class="input-group">
-          <label>Paying:</label>
-          <input type="number" id="oasisPaying" min="0">
-        </div>
-        <div class="input-group">
-          <label>Courtesy:</label>
-          <input type="number" id="oasisCourtesy" min="0">
-        </div>
-        <div class="input-group">
-          <label>Property:</label>
-          <input type="number" id="oasisProperty" min="0">
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>💰 SALES OF THE DAY</h3>
-      <div class="sales-grid">
-        <div class="input-group">
-          <label>Upsell:</label>
-          <input type="number" id="upsell" min="0" step="0.01">
-        </div>
-        <div class="input-group">
-          <label>Dinners:</label>
-          <input type="number" id="dinners" min="0" step="0.01">
-        </div>
-        <div class="input-group">
-          <label>OasisR:</label>
-          <input type="number" id="oasisR" min="0" step="0.01">
-        </div>
-        <div class="input-group">
-          <label>BalisR:</label>
-          <input type="number" id="balisR" min="0" step="0.01">
-        </div>
-        <div class="input-group">
-          <label>Latser:</label>
-          <input type="number" id="latser" min="0" step="0.01">
-        </div>
-        <div class="input-group">
-          <label>Rertau:</label>
-          <input type="number" id="rertau" min="0" step="0.01">
-        </div>
-        <div class="input-group">
-          <label>BaliR:</label>
-          <input type="number" id="baliR" min="0" step="0.01">
-        </div>
-      </div>
-      <div class="total-sales">
-        Total: <span id="totalSales">0.00</span> USD
-      </div>
-    </div>
-
-    <div class="section">
-      <button id="generateReport" class="generate-report-btn">Generate Report</button>
-    </div>
-
-    <div class="footer">
-      🌷🌷🌷🌷🌷🌷🌷🌷
-    </div>
-  </div>
-
-  <script>
-    document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-
-    function updateDetails(id, detailsId, includeReason = true) {
-      const count = parseInt(document.getElementById(id).value) || 0;
-      let html = '';
-      for (let i = 0; i < count; i++) {
-        html += `
-          <div class="input-group">
-            <input type="text" placeholder="Room">
-            <input type="text" placeholder="Name">
-            ${includeReason ? '<input type="text" placeholder="Reason">' : ''}
-          </div>
-        `;
-      }
-      document.getElementById(detailsId).innerHTML = html;
-    }
-
-    function updateExtensionDetails() {
-      const count = parseInt(document.getElementById('extensions').value) || 0;
-      let html = '';
-      for (let i = 0; i < count; i++) {
-        html += `
-          <div class="input-group">
-            <input type="text" class="current-room" placeholder="Current Room">
-            <input type="text" class="new-room" placeholder="New Room">
-            <span class="change-status"></span>
-          </div>
-        `;
-      }
-      document.getElementById('extensionDetails').innerHTML = html;
-      updateChangeStatus();
-    }
-
-    function updateChangeStatus() {
-      const extensions = document.querySelectorAll('#extensionDetails .input-group');
-      extensions.forEach(group => {
-        const current = group.querySelector('.current-room').value;
-        const newRoom = group.querySelector('.new-room').value;
-        const status = group.querySelector('.change-status');
-        if (current === newRoom && current !== '') {
-          status.innerHTML = '<i>(No change required)</i>';
-        } else {
-          status.innerHTML = '';
+                    messageDiv.appendChild(senderSpan);
+                    messageDiv.appendChild(messageContent);
+                    messageDiv.appendChild(timestamp);
+                    messageContainer.appendChild(messageDiv);
+                }
+            });
         }
-      });
-    }
-
-    function updateChangeDetails() {
-      const count = parseInt(document.getElementById('roomChanges').value) || 0;
-      let html = '';
-      for (let i = 0; i < count; i++) {
-        html += `
-          <div class="input-group">
-            <input type="text" placeholder="Current Room">
-            <input type="text" placeholder="New Room">
-            <input type="text" placeholder="Reason">
-          </div>
-        `;
-      }
-      document.getElementById('changeDetails').innerHTML = html;
-    }
-
-    function updateTotalSales() {
-      const salesInputs = ['upsell', 'dinners', 'oasisR', 'balisR', 'latser', 'rertau', 'baliR'];
-      const total = salesInputs.reduce((sum, id) => {
-        return sum + (parseFloat(document.getElementById(id).value) || 0);
-      }, 0);
-      document.getElementById('totalSales').innerText = total.toFixed(2);
-    }
-
-    function generateReport() {
-      const inputs = document.querySelectorAll('input');
-      let reportData = {};
-      
-      inputs.forEach(input => {
-        if (input.id) {
-          reportData[input.id] = input.value;
-        }
-      });
-
-      let csvContent = "data:text/csv;charset=utf-8,";
-      Object.keys(reportData).forEach(key => {
-        csvContent += key + "," + reportData[key] + "\n";
-      });
-
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "daily_work_report.csv");
-      document.body.appendChild(link);
-      link.click();
-    }
-
-    ['vip1', 'vip2', 'vip3'].forEach(id => {
-      document.getElementById(id).addEventListener('input', () => updateDetails(id, 'vipDetails'));
-    });
-
-    ['re2', 're3', 're4'].forEach(id => {
-      document.getElementById(id).addEventListener('input', () => updateDetails(id, 'repeaterDetails'));
-    });
-
-    document.getElementById('extensions').addEventListener('input', updateExtensionDetails);
-    document.getElementById('extensionDetails').addEventListener('input', updateChangeStatus);
-    document.getElementById('departures').addEventListener('input', () => updateDetails('departures', 'departureDetails', false));
-    document.getElementById('roomChanges').addEventListener('input', updateChangeDetails);
-
-    ['upsell', 'dinners', 'oasisR', 'balisR', 'latser', 'rertau', 'baliR'].forEach(id => {
-      document.getElementById(id).addEventListener('input', updateTotalSales);
-    });
-
-    document.getElementById('generateReport').addEventListener('click', generateReport);
-  </script>
+    </script>
 </body>
 </html>
