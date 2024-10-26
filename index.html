@@ -32,13 +32,44 @@
             font-size: 20px;
             text-align: center;
         }
-        #message-container, #file-content {
+        #message-container {
             flex-grow: 1;
             padding: 15px;
             overflow-y: auto;
-            background-color: #ece5dd;
-            margin: 10px;
+            background-color: #e5ddd5;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            max-width: 80%;
+            margin: 5px 0;
+            padding: 8px 12px;
             border-radius: 8px;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.4;
+            display: inline-block;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        .message.sent {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+            border-radius: 8px 8px 0 8px;
+        }
+        .message.received {
+            background-color: #ffffff;
+            align-self: flex-start;
+            border-radius: 8px 8px 8px 0;
+        }
+        .timestamp {
+            font-size: 10px;
+            color: gray;
+            margin-top: 4px;
+            text-align: right;
+        }
+        #file-input {
+            display: none;
         }
         .button {
             padding: 10px;
@@ -51,15 +82,11 @@
             margin: 10px;
             text-align: center;
         }
-        #file-input {
-            display: none;
-        }
     </style>
 </head>
 <body>
     <div id="app">
         <div id="header">Visualizador de Mensajes de WhatsApp</div>
-        <div id="file-content">Contenido del archivo se mostrará aquí...</div>
         <div id="message-container"></div>
         <label class="button" for="file-input">Cargar archivo .txt</label>
         <input type="file" id="file-input" accept=".txt">
@@ -67,7 +94,6 @@
 
     <script>
         const fileInput = document.getElementById("file-input");
-        const fileContentDiv = document.getElementById("file-content");
         const messageContainer = document.getElementById("message-container");
 
         fileInput.addEventListener("change", (event) => {
@@ -76,11 +102,6 @@
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const text = e.target.result;
-
-                    // Mostrar el contenido completo del archivo en "file-content"
-                    fileContentDiv.textContent = text;
-
-                    // Llamar a la función para visualizar mensajes con formato
                     displayMessages(text);
                 };
                 reader.readAsText(file);
@@ -100,18 +121,13 @@
                     messageDiv.classList.add("message");
                     messageDiv.classList.add(sender === "Yo" ? "sent" : "received");
 
-                    const senderSpan = document.createElement("span");
-                    senderSpan.textContent = `${sender}: `;
-                    senderSpan.style.fontWeight = "bold";
-
                     const messageContent = document.createElement("span");
                     messageContent.textContent = message;
 
                     const timestamp = document.createElement("div");
                     timestamp.classList.add("timestamp");
-                    timestamp.textContent = `${date} ${time}`;
+                    timestamp.textContent = `${time} - ${date}`;
 
-                    messageDiv.appendChild(senderSpan);
                     messageDiv.appendChild(messageContent);
                     messageDiv.appendChild(timestamp);
                     messageContainer.appendChild(messageDiv);
