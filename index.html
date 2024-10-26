@@ -32,30 +32,13 @@
             font-size: 20px;
             text-align: center;
         }
-        #message-container {
+        #message-container, #file-content {
             flex-grow: 1;
             padding: 15px;
             overflow-y: auto;
             background-color: #ece5dd;
-        }
-        .message {
-            margin: 10px 0;
-            padding: 10px;
+            margin: 10px;
             border-radius: 8px;
-            max-width: 80%;
-        }
-        .message.sent {
-            background-color: #dcf8c6;
-            align-self: flex-end;
-            text-align: right;
-        }
-        .message.received {
-            background-color: #ffffff;
-            align-self: flex-start;
-            text-align: left;
-        }
-        #file-input {
-            display: none;
         }
         .button {
             padding: 10px;
@@ -68,16 +51,15 @@
             margin: 10px;
             text-align: center;
         }
-        .timestamp {
-            font-size: 12px;
-            color: gray;
-            margin-top: 5px;
+        #file-input {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div id="app">
         <div id="header">Visualizador de Mensajes de WhatsApp</div>
+        <div id="file-content">Contenido del archivo se mostrará aquí...</div>
         <div id="message-container"></div>
         <label class="button" for="file-input">Cargar archivo .txt</label>
         <input type="file" id="file-input" accept=".txt">
@@ -85,6 +67,7 @@
 
     <script>
         const fileInput = document.getElementById("file-input");
+        const fileContentDiv = document.getElementById("file-content");
         const messageContainer = document.getElementById("message-container");
 
         fileInput.addEventListener("change", (event) => {
@@ -93,6 +76,11 @@
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const text = e.target.result;
+
+                    // Mostrar el contenido completo del archivo en "file-content"
+                    fileContentDiv.textContent = text;
+
+                    // Llamar a la función para visualizar mensajes con formato
                     displayMessages(text);
                 };
                 reader.readAsText(file);
@@ -104,8 +92,6 @@
             const lines = text.split("\n");
 
             lines.forEach(line => {
-                console.log("Procesando línea:", line);  // Para depuración en consola
-
                 // Ajuste de expresión regular para formato de WhatsApp
                 const match = line.match(/^(\d{1,2}\/\d{1,2}\/\d{2,4}),? (\d{1,2}:\d{2}) - (.*?): (.*)$/);
                 if (match) {
@@ -129,8 +115,6 @@
                     messageDiv.appendChild(messageContent);
                     messageDiv.appendChild(timestamp);
                     messageContainer.appendChild(messageDiv);
-                } else {
-                    console.warn("Línea no coincide con el formato:", line);
                 }
             });
         }
