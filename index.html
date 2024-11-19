@@ -1,139 +1,284 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizador de Mensajes de WhatsApp</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #e5ddd5;
-            margin: 0;
-        }
-        #app {
-            width: 90%;
-            max-width: 600px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            height: 80vh;
-        }
-        #header {
-            background-color: #075e54;
-            color: white;
-            padding: 15px;
-            font-size: 20px;
-            text-align: center;
-        }
-        #message-container {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-            background-color: #e5ddd5;
-            display: flex;
-            flex-direction: column;
-        }
-        .message {
-            max-width: 80%;
-            margin: 5px 0;
-            padding: 8px 12px;
-            border-radius: 8px;
-            position: relative;
-            font-size: 14px;
-            line-height: 1.4;
-            display: inline-block;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-        .message.sent {
-            background-color: #dcf8c6;
-            align-self: flex-end;
-            border-radius: 8px 8px 0 8px;
-        }
-        .message.received {
-            background-color: #ffffff;
-            align-self: flex-start;
-            border-radius: 8px 8px 8px 0;
-        }
-        .timestamp {
-            font-size: 10px;
-            color: gray;
-            margin-top: 4px;
-            text-align: right;
-        }
-        #file-input {
-            display: none;
-        }
-        .button {
-            padding: 10px;
-            font-size: 16px;
-            background-color: #25d366;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px;
-            text-align: center;
-        }
-    </style>
+<html><head><base href="." />
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+.survey-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.rating-group {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.emoji-rating {
+    cursor: pointer;
+    font-size: 2.5rem;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 50%;
+}
+
+.emoji-rating:hover {
+    transform: scale(1.3);
+    background: rgba(107, 115, 255, 0.1);
+}
+
+.selected {
+    transform: scale(1.3);
+    background: rgba(107, 115, 255, 0.2);
+    filter: drop-shadow(0 0 8px rgba(107, 115, 255, 0.5));
+}
+
+.language-selector {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: white;
+    padding: 0.5rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 1.8rem;
+}
+
+.question-container {
+    background: rgba(248, 249, 250, 0.9);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(107, 115, 255, 0.1);
+}
+
+.question-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(107, 115, 255, 0.1);
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 0.8rem;
+    border: 2px solid rgba(107, 115, 255, 0.2);
+}
+
+.form-control:focus {
+    border-color: #6B73FF;
+    box-shadow: 0 0 0 0.25rem rgba(107, 115, 255, 0.25);
+}
+
+.btn-primary {
+    background: #6B73FF;
+    border: none;
+    padding: 1rem 2rem;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #000DFF;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(107, 115, 255, 0.3);
+}
+
+label {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.personal-info {
+    background: rgba(248, 249, 250, 0.9);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 2rem;
+}
+
+.form-select {
+    border-radius: 10px;
+    padding: 0.8rem;
+    border: 2px solid rgba(107, 115, 255, 0.2);
+}
+</style>
 </head>
 <body>
-    <div id="app">
-        <div id="header">Visualizador de Mensajes de WhatsApp</div>
-        <div id="message-container"></div>
-        <label class="button" for="file-input">Cargar archivo .txt</label>
-        <input type="file" id="file-input" accept=".txt">
+<div id="app">
+    <div class="language-selector">
+        <select class="form-select" v-model="currentLanguage">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+        </select>
     </div>
 
-    <script>
-        const fileInput = document.getElementById("file-input");
-        const messageContainer = document.getElementById("message-container");
+    <div class="survey-container">
+        <h1 class="text-center mb-4">{{ translations[currentLanguage].title }}</h1>
 
-        fileInput.addEventListener("change", (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const text = e.target.result;
-                    displayMessages(text);
-                };
-                reader.readAsText(file);
+        <div v-for="(question, index) in translations[currentLanguage].questions" 
+             :key="index" 
+             class="question-container">
+            <p class="mb-2">{{ question }}</p>
+            <div class="rating-group">
+                <span v-for="n in 5" 
+                      :key="n" 
+                      class="emoji-rating"
+                      :class="{ selected: ratings[index] === n }"
+                      @click="setRating(index, n)">
+                    {{ getEmoji(n) }}
+                </span>
+            </div>
+        </div>
+
+        <div class="personal-info mt-4">
+            <h3>{{ translations[currentLanguage].personalInfo }}</h3>
+            <div class="form-group">
+                <label>{{ translations[currentLanguage].roomNumber }}</label>
+                <input type="text" class="form-control" v-model="personalInfo.roomNumber">
+            </div>
+            <div class="form-group">
+                <label>{{ translations[currentLanguage].name }}</label>
+                <input type="text" class="form-control" v-model="personalInfo.name">
+            </div>
+            <div class="form-group">
+                <label>{{ translations[currentLanguage].email }}</label>
+                <input type="email" class="form-control" v-model="personalInfo.email">
+            </div>
+            <div class="form-group">
+                <label>{{ translations[currentLanguage].butlerName }}</label>
+                <input type="text" class="form-control" v-model="personalInfo.butlerName">
+            </div>
+        </div>
+
+        <button @click="submitSurvey" class="btn btn-primary w-100 mt-4">
+            {{ translations[currentLanguage].submit }}
+        </button>
+    </div>
+</div>
+
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        currentLanguage: 'es',
+        ratings: Array(11).fill(0),
+        personalInfo: {
+            roomNumber: '',
+            name: '',
+            email: '',
+            butlerName: ''
+        },
+        translations: {
+            es: {
+                title: 'Encuesta de Satisfacción',
+                questions: [
+                    '¿Cómo considera la actitud del mayordomo?',
+                    '¿El mayordomo le ofreció ayuda y apoyo según sus necesidades?',
+                    '¿El mayordomo atendió sus solicitudes de manera rápida?',
+                    '¿El mayordomo le ofreció sugerencias para mejorar su experiencia en Live Aqua?',
+                    '¿La actitud del mayordomo fue amable y cordial?',
+                    '¿Cómo reaccionó el mayordomo ante situaciones inesperadas?',
+                    '¿El mayordomo cumplió con sus expectativas?',
+                    '¿Cómo calificaría el nivel general del servicio proporcionado?',
+                    '¿Recomendaría este hotel a su familia y amigos?',
+                    '¿Cómo calificaría su experiencia como huésped del Aqua Club?'
+                ],
+                personalInfo: 'Información Personal',
+                roomNumber: 'Número de Habitación',
+                name: 'Nombre',
+                email: 'Correo Electrónico',
+                butlerName: 'Nombre del Mayordomo',
+                submit: 'Enviar Encuesta'
+            },
+            en: {
+                title: 'Satisfaction Survey',
+                questions: [
+                    'How do you consider the butler\'s attitude?',
+                    'Did the butler offer help and support according to your needs?',
+                    'Did the butler attend to your requests quickly?',
+                    'Did the butler offer suggestions to improve your experience at Live Aqua?',
+                    'Was the butler\'s attitude friendly and cordial?',
+                    'How did the butler react to unexpected situations?',
+                    'Did the butler meet your expectations?',
+                    'How would you rate the overall level of service provided?',
+                    'Would you recommend this hotel to your family and friends?',
+                    'How would you rate your experience as an Aqua Club guest?'
+                ],
+                personalInfo: 'Personal Information',
+                roomNumber: 'Room Number',
+                name: 'Name',
+                email: 'Email',
+                butlerName: 'Butler\'s Name',
+                submit: 'Submit Survey'
+            },
+            fr: {
+                title: 'Enquête de Satisfaction',
+                questions: [
+                    'Comment considérez-vous l\'attitude du majordome?',
+                    'Le majordome vous a-t-il offert de l\'aide selon vos besoins?',
+                    'Le majordome a-t-il répondu rapidement à vos demandes?',
+                    'Le majordome vous a-t-il offert des suggestions pour améliorer votre expérience à Live Aqua?',
+                    'L\'attitude du majordome était-elle aimable et cordiale?',
+                    'Comment le majordome a-t-il réagi aux situations inattendues?',
+                    'Le majordome a-t-il répondu à vos attentes?',
+                    'Comment évalueriez-vous le niveau général du service fourni?',
+                    'Recommanderiez-vous cet hôtel à votre famille et à vos amis?',
+                    'Comment évalueriez-vous votre expérience en tant qu\'invité Aqua Club?'
+                ],
+                personalInfo: 'Informations Personnelles',
+                roomNumber: 'Numéro de Chambre',
+                name: 'Nom',
+                email: 'Email',
+                butlerName: 'Nom du Majordome',
+                submit: 'Soumettre l\'enquête'
             }
-        });
-
-        function displayMessages(text) {
-            messageContainer.innerHTML = ""; // Limpiar mensajes previos
-            const lines = text.split("\n");
-
-            lines.forEach(line => {
-                // Ajuste de expresión regular para formato de WhatsApp
-                const match = line.match(/^(\d{1,2}\/\d{1,2}\/\d{2,4}),? (\d{1,2}:\d{2}) - (.*?): (.*)$/);
-                if (match) {
-                    const [, date, time, sender, message] = match;
-                    const messageDiv = document.createElement("div");
-                    messageDiv.classList.add("message");
-                    messageDiv.classList.add(sender === "Yo" ? "sent" : "received");
-
-                    const messageContent = document.createElement("span");
-                    messageContent.textContent = message;
-
-                    const timestamp = document.createElement("div");
-                    timestamp.classList.add("timestamp");
-                    timestamp.textContent = `${time} - ${date}`;
-
-                    messageDiv.appendChild(messageContent);
-                    messageDiv.appendChild(timestamp);
-                    messageContainer.appendChild(messageDiv);
-                }
-            });
         }
-    </script>
+    },
+    methods: {
+        getEmoji(rating) {
+            const emojis = ['😢', '😕', '😐', '😊', '😃'];
+            return emojis[rating - 1];
+        },
+        setRating(questionIndex, rating) {
+            this.$set(this.ratings, questionIndex, rating);
+        },
+        submitSurvey() {
+            // Aquí puedes implementar la lógica para enviar los datos
+            console.log('Ratings:', this.ratings);
+            console.log('Personal Info:', this.personalInfo);
+            alert('¡Gracias por completar la encuesta!');
+        }
+    }
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
