@@ -6,6 +6,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database-compat.js"></script>
 <style>
 body {
     font-family: 'Poppins', sans-serif;
@@ -128,6 +130,84 @@ label {
     padding: 0.8rem;
     border: 2px solid rgba(107, 115, 255, 0.2);
 }
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .survey-container {
+        padding: 1.5rem;
+        margin: 1rem auto;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .emoji-rating {
+        font-size: 2rem;
+    }
+
+    .rating-group {
+        gap: 0.8rem;
+    }
+
+    .language-selector {
+        position: static;
+        margin-bottom: 1rem;
+        width: 100%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .question-container {
+        padding: 1rem;
+    }
+
+    .personal-info {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 1rem 0.5rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .emoji-rating {
+        font-size: 1.5rem;
+        padding: 0.3rem;
+    }
+
+    .rating-group {
+        gap: 0.5rem;
+    }
+
+    .btn-primary {
+        padding: 0.8rem 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .survey-container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .emoji-rating {
+        font-size: 1.2rem;
+    }
+}
 </style>
 </head>
 <body>
@@ -185,6 +265,20 @@ label {
 </div>
 
 <script>
+// Initialize Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDUirwoSQgvcMZn7uLjKMAxlTA15Jkl2BM",
+  authDomain: "ismakun-bf0fa.firebaseapp.com",
+  databaseURL: "https://ismakun-bf0fa-default-rtdb.firebaseio.com",
+  projectId: "ismakun-bf0fa",
+  storageBucket: "ismakun-bf0fa.firebasestorage.app",
+  messagingSenderId: "1028877703945",
+  appId: "1:1028877703945:web:331de48acbcdf2234a51d8"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 new Vue({
     el: '#app',
     data: {
@@ -270,11 +364,52 @@ new Vue({
         setRating(questionIndex, rating) {
             this.$set(this.ratings, questionIndex, rating);
         },
-        submitSurvey() {
-            // Aquí puedes implementar la lógica para enviar los datos
-            console.log('Ratings:', this.ratings);
-            console.log('Personal Info:', this.personalInfo);
-            alert('¡Gracias por completar la encuesta!');
+        async submitSurvey() {
+            try {
+                // Create a timestamp for the survey
+                const timestamp = new Date().toISOString();
+                
+                // Create the survey data object
+                const surveyData = {
+                    timestamp: timestamp,
+                    ratings: this.ratings,
+                    personalInfo: this.personalInfo,
+                    language: this.currentLanguage
+                };
+
+                // Save to Firebase
+                await database.ref('surveys').push(surveyData);
+
+                // Show success message based on language
+                const successMessages = {
+                    es: '¡Gracias por completar la encuesta!',
+                    en: 'Thank you for completing the survey!',
+                    fr: 'Merci d\'avoir rempli le questionnaire!'
+                };
+
+                alert(successMessages[this.currentLanguage]);
+
+                // Reset form after successful submission
+                this.ratings = Array(11).fill(0);
+                this.personalInfo = {
+                    roomNumber: '',
+                    name: '',
+                    email: '',
+                    butlerName: ''
+                };
+
+            } catch (error) {
+                console.error('Error submitting survey:', error);
+                
+                // Show error message based on language
+                const errorMessages = {
+                    es: 'Error al enviar la encuesta. Por favor, inténtelo de nuevo.',
+                    en: 'Error submitting survey. Please try again.',
+                    fr: 'Erreur lors de l\'envoi de l\'enquête. Veuillez réessayer.'
+                };
+
+                alert(errorMessages[this.currentLanguage]);
+            }
         }
     }
 });
